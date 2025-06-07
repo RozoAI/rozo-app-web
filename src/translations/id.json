@@ -1,0 +1,33 @@
+{
+  "onboarding": {
+    "message": "Selamat datang di Rozo POS"
+  },
+  "settings": {
+    "about": "Tentang",
+    "app_name": "Nama Aplikasi",
+    "indonesia": "Indonesia",
+    "english": "Inggris",
+    "generale": "Umum",
+    "github": "Github",
+    "language": "Bahasa",
+    "links": "Tautan",
+    "logout": "Keluar",
+    "more": "Lebih",
+    "privacy": "Kebijakan Privasi",
+    "rate": "Nilai",
+    "share": "Bagikan",
+    "support": "Dukungan",
+    "support_us": "Dukung Kami",
+    "terms": "Syarat Layanan",
+    "theme": {
+      "dark": "Gelap",
+      "light": "Terang",
+      "system": "Sistem",
+      "title": "Tema"
+    },
+    "title": "Pengaturan",
+    "version": "Versi",
+    "website": "Situs Web"
+  },
+  "welcome": "Selamat datang di Rozo POS"
+}

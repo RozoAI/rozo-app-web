@@ -1,0 +1,51 @@
+# Dependencies
+node_modules
+
+# Build directories
+dist/
+build/
+web-build/
+
+# Native directories
+android/
+ios/
+
+# Expo directories
+.expo/
+.expo-shared/
+
+# Config files
+babel.config.js
+metro.config.js
+app.json
+eas.json
+tsconfig.json
+*.config.js
+.eslintrc.js
+
+# Test directories
+__tests__/
+coverage/
+
+# Documentation and editor configs
+docs/
+cli/
+.vscode/
+.idea/
+
+# Generated files
+*.generated.*
+*.d.ts
+expo-env.d.ts
+
+# Temporary files
+*.log
+.DS_Store
+
+# scripts
+scripts/
+
+# env.js
+src/lib/env.js
+
+
