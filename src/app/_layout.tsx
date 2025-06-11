@@ -7,21 +7,23 @@ import * as SplashScreen from 'expo-splash-screen';
 import React from 'react';
 import { useColorScheme } from 'react-native';
 import { Platform, StyleSheet } from 'react-native';
+import FlashMessage from 'react-native-flash-message';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
 
 import { GluestackUIProvider } from '@/components/gluestack-ui-provider';
 import { WebFontsLoader } from '@/components/web-fonts-loader';
 import { loadSelectedTheme } from '@/hooks';
-import { hydrateAuth } from '@/modules/auth';
-import { APIProvider } from '@/providers/api-provider';
+import { dynamicClient } from '@/modules/dynamic/dynamic-client';
+import { configureDynamicDeepLinks } from '@/modules/dynamic/dynamic-linking';
+import { AppProvider } from '@/providers/app.provider';
+import { QueryProvider } from '@/providers/query.provider';
 export { ErrorBoundary } from 'expo-router';
 
 export const unstable_settings = {
   initialRouteName: '(main)',
 };
 
-hydrateAuth();
 loadSelectedTheme();
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -32,13 +34,16 @@ SplashScreen.setOptions({
 });
 
 export default function RootLayout() {
+  // Initialize deep linking for authentication when the app starts
+  React.useEffect(() => {
+    configureDynamicDeepLinks();
+  }, []);
+
   return (
     <Providers>
       <Stack>
-        <Stack.Screen name="(main)" options={{ headerShown: false, title: 'Main' }} />
-
-        {/* <Stack.Screen name="onboarding" options={{ headerShown: false }} />
-        <Stack.Screen name="login" options={{ headerShown: false }} /> */}
+        <Stack.Screen name="(main)" options={{ headerShown: false }} />
+        <Stack.Screen name="login" options={{ headerShown: false }} />
       </Stack>
     </Providers>
   );
@@ -52,7 +57,14 @@ function Providers({ children }: { children: React.ReactNode }) {
       <GestureHandlerRootView style={styles.container} className={(colorScheme ?? 'light') as 'light' | 'dark'}>
         <KeyboardProvider>
           <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-            <APIProvider>{Platform.OS === 'web' ? <WebFontsLoader>{children}</WebFontsLoader> : children}</APIProvider>
+            <QueryProvider>
+              <AppProvider>
+                {Platform.OS === 'web' ? <WebFontsLoader>{children}</WebFontsLoader> : children}
+
+                <dynamicClient.reactNative.WebView />
+                <FlashMessage position="top" />
+              </AppProvider>
+            </QueryProvider>
           </ThemeProvider>
         </KeyboardProvider>
       </GestureHandlerRootView>

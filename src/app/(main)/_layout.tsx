@@ -1,11 +1,12 @@
 /* eslint-disable react/no-unstable-nested-components */
-import { Tabs } from 'expo-router';
+import { Tabs, useRouter } from 'expo-router';
 import { HomeIcon, Settings2Icon, ShoppingBagIcon } from 'lucide-react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/utils';
+import { useApp } from '@/providers/app.provider';
 
 const tabScreenOptions = {
   headerShown: false,
@@ -29,6 +30,7 @@ const tabScreenOptions = {
     fontWeight: '500' as const, // Type assertion for fontWeight
     marginTop: 2,
   },
+  tabBarLabelPosition: 'below-icon' as const,
   tabBarIconStyle: {
     marginBottom: -4,
   },
@@ -39,9 +41,21 @@ const tabScreenOptions = {
       {children}
     </Text>
   ),
+  sceneStyle: {
+    padding: 16,
+  },
 };
 
 export default function TabLayout() {
+  const { isAuthenticated } = useApp();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.navigate('/login');
+    }
+  }, [isAuthenticated]);
+
   return (
     <Tabs screenOptions={tabScreenOptions}>
       <Tabs.Screen

@@ -9,7 +9,7 @@ export default function OrdersPage() {
   return (
     <>
       <FocusAwareStatusBar />
-      <ScrollView className="px-4">
+      <ScrollView>
         <SafeAreaView className="flex-1">
           <Text>Orders</Text>
         </SafeAreaView>

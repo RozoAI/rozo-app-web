@@ -2,18 +2,21 @@
 import type { ConfigContext, ExpoConfig } from '@expo/config';
 import type { AppIconBadgeConfig } from 'app-icon-badge/types';
 
-import { ClientEnv, Env } from './env';
+const version = process.env.EXPO_PUBLIC_VERSION ?? '0.0.0';
+const appEnv = process.env.EXPO_PUBLIC_APP_ENV ?? 'development';
+
+const isProduction = appEnv === 'production';
 
 const appIconBadgeConfig: AppIconBadgeConfig = {
-  enabled: Env.APP_ENV !== 'production',
+  enabled: !isProduction,
   badges: [
     {
-      text: Env.APP_ENV,
+      text: appEnv,
       type: 'banner',
       color: 'white',
     },
     {
-      text: Env.VERSION.toString(),
+      text: version ?? '0.0.0',
       type: 'ribbon',
       color: 'white',
     },
@@ -22,12 +25,12 @@ const appIconBadgeConfig: AppIconBadgeConfig = {
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
-  name: Env.NAME,
-  description: `${Env.NAME} Mobile App`,
-  owner: Env.EXPO_ACCOUNT_OWNER,
-  scheme: Env.SCHEME,
-  slug: 'rozoai-pos',
-  version: Env.VERSION.toString(),
+  name: process.env.EXPO_PUBLIC_APP_NAME ?? 'rozoai-pos',
+  description: `${process.env.EXPO_PUBLIC_APP_NAME ?? 'rozoai-pos'} Mobile App`,
+  owner: process.env.EXPO_PUBLIC_EAS_ACCOUNT_OWNER ?? 'rozoai',
+  scheme: 'rozopos', // Custom URL scheme for deep linking
+  slug: process.env.EXPO_PUBLIC_SLUG ?? 'rozoai-pos',
+  version: version ?? '0.0.0',
   orientation: 'portrait',
   icon: './assets/icon.png',
   userInterfaceStyle: 'automatic',
@@ -38,10 +41,11 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   assetBundlePatterns: ['**/*'],
   ios: {
     supportsTablet: true,
-    bundleIdentifier: Env.BUNDLE_ID,
+    bundleIdentifier: process.env.EXPO_PUBLIC_BUNDLE_ID,
     config: {
       usesNonExemptEncryption: false, // Avoid the export compliance warning on the app store
     },
+    associatedDomains: ['applinks:rozo.ai', 'applinks:*.rozo.ai'],
   },
   experiments: {
     typedRoutes: true,
@@ -52,7 +56,30 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       foregroundImage: './assets/adaptive-icon.png',
       backgroundColor: '#FFFFFF',
     },
-    package: Env.PACKAGE,
+    package: process.env.EXPO_PUBLIC_PACKAGE,
+    intentFilters: [
+      {
+        action: 'VIEW',
+        autoVerify: true,
+        data: [
+          {
+            scheme: 'https',
+            host: '*.rozo.ai',
+            pathPrefix: '/login',
+          },
+          {
+            scheme: 'https',
+            host: 'rozo.ai',
+            pathPrefix: '/login',
+          },
+          {
+            scheme: 'rozopos', // Custom URL scheme
+            host: '*',
+          },
+        ],
+        category: ['BROWSABLE', 'DEFAULT'],
+      },
+    ],
   },
   web: {
     favicon: './assets/favicon.png',
@@ -82,13 +109,13 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     ],
     'expo-localization',
     'expo-router',
+    'expo-secure-store',
     ['app-icon-badge', appIconBadgeConfig],
     ['react-native-edge-to-edge'],
   ],
   extra: {
-    ...ClientEnv,
     eas: {
-      projectId: Env.EAS_PROJECT_ID,
+      projectId: process.env.EXPO_PUBLIC_EAS_PROJECT_ID ?? '',
     },
   },
 });

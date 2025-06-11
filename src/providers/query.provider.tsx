@@ -4,8 +4,9 @@ import * as React from 'react';
 
 export const queryClient = new QueryClient();
 
-export function APIProvider({ children }: { children: React.ReactNode }) {
+export function QueryProvider({ children }: { children: React.ReactNode }) {
   useReactQueryDevTools(queryClient);
+
   return (
     // Provide the client to your App
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>

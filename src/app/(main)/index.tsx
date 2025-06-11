@@ -14,7 +14,7 @@ export default function HomePage() {
   return (
     <>
       <FocusAwareStatusBar />
-      <ScrollView className="px-4">
+      <ScrollView>
         <SafeAreaView className="flex-1">
           <Card className="m-3 max-w-[360px] rounded-lg p-5">
             <Text className="mb-2 text-sm font-normal text-typography-700">May 15, 2023</Text>

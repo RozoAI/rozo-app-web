@@ -7,3 +7,8 @@ body,
 #root {
   font-family: 'Roboto', sans-serif;
 }
+
+#root {
+  max-width: 480px;
+  margin: 0 auto;
+}
