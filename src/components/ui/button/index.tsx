@@ -38,13 +38,13 @@ const buttonStyle = tva({
   variants: {
     action: {
       primary:
-        'bg-primary-500 data-[hover=true]:bg-primary-600 data-[active=true]:bg-primary-700 border-primary-300 data-[hover=true]:border-primary-400 data-[active=true]:border-primary-500 data-[focus-visible=true]:web:ring-indicator-info',
+        'bg-primary-500 data-[hover=true]:bg-primary-600 data-[active=true]:bg-primary-700 border-primary-500 data-[hover=true]:border-primary-600 data-[active=true]:border-primary-500 data-[focus-visible=true]:web:ring-indicator-info',
       secondary:
         'bg-secondary-500 border-secondary-300 data-[hover=true]:bg-secondary-600 data-[hover=true]:border-secondary-400 data-[active=true]:bg-secondary-700 data-[active=true]:border-secondary-700 data-[focus-visible=true]:web:ring-indicator-info',
       positive:
         'bg-success-500 border-success-300 data-[hover=true]:bg-success-600 data-[hover=true]:border-success-400 data-[active=true]:bg-success-700 data-[active=true]:border-success-500 data-[focus-visible=true]:web:ring-indicator-info',
       negative:
-        'bg-error-500 border-error-300 data-[hover=true]:bg-error-600 data-[hover=true]:border-error-400 data-[active=true]:bg-error-700 data-[active=true]:border-error-500 data-[focus-visible=true]:web:ring-indicator-info',
+        'bg-error-500 border-error-300 text-error-500 data-[hover=true]:bg-error-600 data-[hover=true]:border-error-400 data-[active=true]:bg-error-700 data-[active=true]:border-error-500 data-[focus-visible=true]:web:ring-indicator-info',
       default: 'bg-transparent data-[hover=true]:bg-background-50 data-[active=true]:bg-transparent',
     },
     variant: {
@@ -166,7 +166,7 @@ const buttonTextStyle = tva({
     {
       variant: 'outline',
       action: 'negative',
-      class: 'text-primary-500 data-[hover=true]:text-primary-500 data-[active=true]:text-primary-500',
+      class: 'text-error-500 data-[hover=true]:text-error-500 data-[active=true]:text-error-500',
     },
   ],
 });
@@ -190,7 +190,6 @@ const buttonIconStyle = tva({
       primary: 'text-primary-600 data-[hover=true]:text-primary-600 data-[active=true]:text-primary-700',
       secondary: 'text-typography-500 data-[hover=true]:text-typography-600 data-[active=true]:text-typography-700',
       positive: 'text-success-600 data-[hover=true]:text-success-600 data-[active=true]:text-success-700',
-
       negative: 'text-error-600 data-[hover=true]:text-error-600 data-[active=true]:text-error-700',
     },
   },

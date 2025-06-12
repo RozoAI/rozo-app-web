@@ -7,9 +7,11 @@
     "app_name": "Nama Aplikasi",
     "indonesia": "Indonesia",
     "english": "Inggris",
-    "generale": "Umum",
+    "general": "Umum",
     "github": "Github",
-    "language": "Bahasa",
+    "language": {
+      "title": "Bahasa"
+    },
     "links": "Tautan",
     "logout": "Keluar",
     "more": "Lebih",
@@ -27,7 +29,15 @@
     },
     "title": "Pengaturan",
     "version": "Versi",
-    "website": "Situs Web"
+    "website": "Situs Web",
+    "currency": {
+      "title": "Mata Uang"
+    },
+    "account": {
+      "title": "Akun"
+    },
+    "login": "Masuk",
+    "signUp": "Mendaftar"
   },
   "welcome": "Selamat datang di Rozo POS"
 }

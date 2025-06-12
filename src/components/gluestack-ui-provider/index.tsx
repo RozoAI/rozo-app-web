@@ -1,7 +1,7 @@
 import { OverlayProvider } from '@gluestack-ui/overlay';
-import { colorScheme as colorSchemeNW } from 'nativewind';
+import { ToastProvider } from '@gluestack-ui/toast';
 import React from 'react';
-import { type ColorSchemeName, useColorScheme, type ViewProps } from 'react-native';
+import { type ViewProps } from 'react-native';
 
 import { Box } from '@/components/ui/box';
 
@@ -9,30 +9,23 @@ import { config } from './config';
 
 export type ModeType = 'light' | 'dark' | 'system';
 
-const getColorSchemeName = (colorScheme: ColorSchemeName, mode: ModeType): 'light' | 'dark' => {
-  if (mode === 'system') {
-    return colorScheme ?? 'light';
-  }
-  return mode;
-};
-
 export function GluestackUIProvider({
-  mode = 'light',
+  mode = 'system',
   ...props
 }: {
+  children: React.ReactNode;
   mode?: ModeType;
-  children?: React.ReactNode;
   style?: ViewProps['style'];
 }) {
-  const colorScheme = useColorScheme();
-
-  const colorSchemeName = getColorSchemeName(colorScheme, mode);
-
-  colorSchemeNW.set(mode);
+  const configMode = React.useMemo(() => {
+    return config[mode === 'dark' ? 'dark' : 'light'];
+  }, [mode]);
 
   return (
-    <Box style={[config[colorSchemeName!], { flex: 1, height: '100%', width: '100%' }, props.style]}>
-      <OverlayProvider>{props.children}</OverlayProvider>
+    <Box style={[configMode, { flex: 1, height: '100%', width: '100%' }, props.style]}>
+      <OverlayProvider>
+        <ToastProvider>{props.children}</ToastProvider>
+      </OverlayProvider>
     </Box>
   );
 }

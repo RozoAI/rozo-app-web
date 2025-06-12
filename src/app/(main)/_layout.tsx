@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unstable-nested-components */
+import type { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
 import { Tabs, useRouter } from 'expo-router';
 import { HomeIcon, Settings2Icon, ShoppingBagIcon } from 'lucide-react-native';
 import React, { useEffect } from 'react';
@@ -8,13 +9,13 @@ import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/utils';
 import { useApp } from '@/providers/app.provider';
 
-const tabScreenOptions = {
+const tabScreenOptions: BottomTabNavigationOptions = {
   headerShown: false,
   tabBarStyle: {
     height: 64,
     paddingTop: 6,
     paddingBottom: 10,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: 'rgb(var(--color-background-500))',
     elevation: 0,
     shadowOpacity: 1,
     shadowColor: '#000',
@@ -24,20 +25,16 @@ const tabScreenOptions = {
     },
     shadowRadius: 2,
   },
-  tabBarActiveTintColor: '#6366F1',
-  tabBarLabelStyle: {
-    fontSize: 12,
-    fontWeight: '500' as const, // Type assertion for fontWeight
-    marginTop: 2,
-  },
-  tabBarLabelPosition: 'below-icon' as const,
+
+  tabBarActiveTintColor: 'rgb(var(--color-primary-500))',
   tabBarIconStyle: {
     marginBottom: -4,
   },
   tabBarAllowFontScaling: true,
   animation: 'fade' as const,
+  tabBarLabelPosition: 'below-icon',
   tabBarLabel: ({ children, color, focused }: { children: string; color: string; focused: boolean }) => (
-    <Text className={cn('text-xs font-medium', focused && 'font-semibold')} style={{ color }}>
+    <Text className={cn('text-sm font-medium', focused && `font-semibold`)} style={{ color }}>
       {children}
     </Text>
   ),
@@ -75,7 +72,6 @@ export default function TabLayout() {
           tabBarButtonTestID: 'orders-tab',
         }}
       />
-
       <Tabs.Screen
         name="settings"
         options={{

@@ -1,11 +1,12 @@
 // Import  global CSS file
 import '@/styles/global.css';
 
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
+import { useColorScheme } from 'nativewind';
 import React from 'react';
-import { useColorScheme } from 'react-native';
+import { I18nextProvider } from 'react-i18next';
 import { Platform, StyleSheet } from 'react-native';
 import FlashMessage from 'react-native-flash-message';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -14,8 +15,10 @@ import { KeyboardProvider } from 'react-native-keyboard-controller';
 import { GluestackUIProvider } from '@/components/gluestack-ui-provider';
 import { WebFontsLoader } from '@/components/web-fonts-loader';
 import { loadSelectedTheme } from '@/hooks';
+import { darkTheme, defaultTheme } from '@/lib/theme';
 import { dynamicClient } from '@/modules/dynamic/dynamic-client';
 import { configureDynamicDeepLinks } from '@/modules/dynamic/dynamic-linking';
+import i18n from '@/modules/i18n';
 import { AppProvider } from '@/providers/app.provider';
 import { QueryProvider } from '@/providers/query.provider';
 export { ErrorBoundary } from 'expo-router';
@@ -50,25 +53,27 @@ export default function RootLayout() {
 }
 
 function Providers({ children }: { children: React.ReactNode }) {
-  const colorScheme = useColorScheme();
+  const theme = useColorScheme();
 
   return (
-    <GluestackUIProvider mode={(colorScheme ?? 'light') as 'light' | 'dark'}>
-      <GestureHandlerRootView style={styles.container} className={(colorScheme ?? 'light') as 'light' | 'dark'}>
-        <KeyboardProvider>
-          <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-            <QueryProvider>
-              <AppProvider>
-                {Platform.OS === 'web' ? <WebFontsLoader>{children}</WebFontsLoader> : children}
+    <I18nextProvider i18n={i18n}>
+      <GluestackUIProvider mode={theme.colorScheme}>
+        <GestureHandlerRootView style={styles.container} className={theme.colorScheme}>
+          <KeyboardProvider>
+            <ThemeProvider value={theme.colorScheme === 'dark' ? darkTheme : defaultTheme}>
+              <QueryProvider>
+                <AppProvider>
+                  {Platform.OS === 'web' ? <WebFontsLoader>{children}</WebFontsLoader> : children}
 
-                <dynamicClient.reactNative.WebView />
-                <FlashMessage position="top" />
-              </AppProvider>
-            </QueryProvider>
-          </ThemeProvider>
-        </KeyboardProvider>
-      </GestureHandlerRootView>
-    </GluestackUIProvider>
+                  <dynamicClient.reactNative.WebView />
+                  <FlashMessage position="top" />
+                </AppProvider>
+              </QueryProvider>
+            </ThemeProvider>
+          </KeyboardProvider>
+        </GestureHandlerRootView>
+      </GluestackUIProvider>
+    </I18nextProvider>
   );
 }
 

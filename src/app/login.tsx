@@ -31,7 +31,9 @@ export default function LoginScreen() {
       description: '',
       logo_url: '',
       default_currency: 'USD', // Default currency
-      default_language: 'EN', // Default language
+      default_language: 'EN', // Default language,
+      default_token_id: 'USDC_BASE',
+      wallet_address: '0x8743AF5bAA18731E962c08707352b45164e069F9',
     });
   };
 

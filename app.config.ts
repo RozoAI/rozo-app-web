@@ -42,6 +42,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ios: {
     supportsTablet: true,
     bundleIdentifier: process.env.EXPO_PUBLIC_BUNDLE_ID,
+    userInterfaceStyle: 'automatic',
     config: {
       usesNonExemptEncryption: false, // Avoid the export compliance warning on the app store
     },
@@ -57,6 +58,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       backgroundColor: '#FFFFFF',
     },
     package: process.env.EXPO_PUBLIC_PACKAGE,
+    userInterfaceStyle: 'automatic',
     intentFilters: [
       {
         action: 'VIEW',

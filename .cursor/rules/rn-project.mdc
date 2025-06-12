@@ -148,3 +148,32 @@ Rules:
   - Usage ( listing all the commands and how to use them )
   - Stack ( the tech stack used in the project )
   - Folder Structure ( the folder structure of the project only the important ones inside src )
+
+## UI and Styling Rules
+
+- **Use Gluestack UI components** (e.g., `Box`, `Card`, `Heading`, `Pressable`) for layout, containers, and interactive elements.
+- **Use Nativewind** for utility-first styling via Tailwind CSS classes.
+- **Always prefer custom UI primitives** from `@/components/ui` (e.g., `Text`, `Box`, `Card`, `Heading`, `Pressable`) over raw React Native primitives.
+- **For icons**, use `lucide-react-native` or Gluestack's icon system.
+- **Compose Gluestack UI and Nativewind** together for best developer experience and theming.
+- **Do not use raw React Native primitives** (`View`, `Text`, etc.) directly unless absolutely necessary and not covered by your design system.
+- **Check for existing Gluestack UI or custom primitives** before creating new components.
+- **Favor composition:** Wrap Gluestack UI components with Nativewind classes for custom styling and layout.
+
+### Example
+
+```tsx
+import { Card, Box, Heading, Pressable } from '@/components/ui';
+import { Text } from '@/components/ui/text';
+import { Icon } from 'lucide-react-native';
+
+<Card className="rounded-lg">
+  <Heading size="md">Section</Heading>
+  <Box>
+    <Pressable>
+      <Icon name="settings" size={20} />
+      <Text>Action</Text>
+    </Pressable>
+  </Box>
+</Card>
+```

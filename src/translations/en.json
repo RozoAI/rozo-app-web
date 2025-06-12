@@ -2,14 +2,20 @@
   "onboarding": {
     "message": "Welcome to Rozo POS"
   },
+  "general": {
+    "termsOfService": "Terms of Service",
+    "privacyPolicy": "Privacy Policy"
+  },
   "settings": {
     "about": "About",
     "app_name": "App Name",
     "indonesia": "Indonesia",
     "english": "English",
-    "generale": "General",
+    "general": "General",
     "github": "Github",
-    "language": "Language",
+    "language": {
+      "title": "Language"
+    },
     "links": "Links",
     "logout": "Logout",
     "more": "More",
@@ -27,7 +33,15 @@
     },
     "title": "Settings",
     "version": "Version",
-    "website": "Website"
+    "website": "Website",
+    "currency": {
+      "title": "Currency"
+    },
+    "account": {
+      "title": "Account"
+    },
+    "signUp": "Sign Up",
+    "login": "Login"
   },
   "welcome": "Welcome to Rozo POS"
 }
