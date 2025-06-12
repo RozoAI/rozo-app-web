@@ -79,7 +79,7 @@ const createIconUI = ({ ...props }: ParameterTypes) => {
         width?: number | string;
       }
   >(function UIIcon({ className, ...inComingprops }, ref) {
-    const calculateClassName = React.useMemo(() => {
+    const calculateClassName = useMemo(() => {
       return className === undefined ? accessClassName(inComingprops?.style) : className;
     }, [className, inComingprops?.style]);
     return (

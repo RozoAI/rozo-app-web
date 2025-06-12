@@ -1,4 +1,5 @@
-import React from 'react';
+import { CheckIcon } from 'lucide-react-native';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import {
   Actionsheet,
@@ -10,6 +11,7 @@ import {
   ActionsheetItemText,
 } from '@/components/actionsheet';
 import { Pressable } from '@/components/ui/pressable';
+import { showToast } from '@/lib';
 import { useSelectedLanguage } from '@/modules/i18n';
 import { type Language } from '@/modules/i18n/resources';
 import { useApp } from '@/providers/app.provider';
@@ -18,61 +20,61 @@ import { useCreateProfile } from '@/resources/api';
 export const languages = [
   {
     label: 'Arabic (العربية)',
-    key: 'ar',
+    key: 'AR',
     flag: '🇸🇦',
   },
   {
     label: 'Bengali (বাংলা)',
-    key: 'bn',
+    key: 'BN',
     flag: '🇧🇩',
   },
   {
     label: 'Chinese (中文)',
-    key: 'zh',
+    key: 'ZH',
     flag: '🇨🇳',
   },
   {
     label: 'English (English)',
-    key: 'en',
+    key: 'EN',
     flag: '🇺🇸',
   },
   {
     label: 'French (Français)',
-    key: 'fr',
+    key: 'FR',
     flag: '🇫🇷',
   },
   {
     label: 'Hindi (हिन्दी)',
-    key: 'hi',
+    key: 'HI',
     flag: '🇮🇳',
   },
   {
     label: 'Indonesian (Bahasa Indonesia)',
-    key: 'id',
+    key: 'ID',
     flag: '🇮🇩',
   },
   {
     label: 'Portuguese (Português)',
-    key: 'pt',
+    key: 'PT',
     flag: '🇵🇹',
   },
   {
     label: 'Russian (Русский)',
-    key: 'ru',
+    key: 'RU',
     flag: '🇷🇺',
   },
   {
     label: 'Spanish (Español)',
-    key: 'es',
+    key: 'ES',
     flag: '🇪🇸',
   },
 ];
 
 export function ActionSheetLanguageSwitcher({ trigger }: { trigger: (lg: string) => React.ReactNode }) {
   const { language, setLanguage } = useSelectedLanguage();
-  const [selectedValue, setSelectedValue] = React.useState<Language>(language);
+  const [selectedValue, setSelectedValue] = useState<Language>(language);
 
-  const [showActionsheet, setShowActionsheet] = React.useState(false);
+  const [showActionsheet, setShowActionsheet] = useState(false);
   const handleClose = () => setShowActionsheet(false);
 
   const itemRefs = React.useRef<{ [key: string]: React.RefObject<any> }>({});
@@ -80,7 +82,7 @@ export function ActionSheetLanguageSwitcher({ trigger }: { trigger: (lg: string)
   const { mutateAsync: createProfile, data } = useCreateProfile();
   const { merchant, setMerchant } = useApp();
 
-  React.useEffect(() => {
+  useEffect(() => {
     languages.forEach((lg) => {
       if (!itemRefs.current[lg.key]) {
         itemRefs.current[lg.key] = React.createRef();
@@ -88,18 +90,25 @@ export function ActionSheetLanguageSwitcher({ trigger }: { trigger: (lg: string)
     });
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (merchant && merchant.default_language) {
-      const lg = merchant.default_language.toLowerCase() as Language;
+      const lg = merchant.default_language.toUpperCase() as Language;
       setSelectedValue(lg);
     }
   }, [merchant]);
 
-  React.useEffect(() => {
-    setMerchant(data);
+  useEffect(() => {
+    if (data) {
+      setMerchant(data);
+
+      showToast({
+        message: 'Language updated successfully',
+        type: 'success',
+      });
+    }
   }, [data]);
 
-  const initialLabel = React.useMemo(() => {
+  const initialLabel = useMemo(() => {
     const lg = languages.find((lg) => lg.key === language);
 
     if (lg) {
@@ -109,8 +118,8 @@ export function ActionSheetLanguageSwitcher({ trigger }: { trigger: (lg: string)
     return '-';
   }, [language]);
 
-  const selectedLabel = React.useMemo(() => {
-    const lg = languages.find((lg) => lg.key === language);
+  const selectedLabel = useMemo(() => {
+    const lg = languages.find((lg) => lg.key === selectedValue);
 
     if (lg) {
       return `${lg.flag} ${lg.label}`;
@@ -119,7 +128,7 @@ export function ActionSheetLanguageSwitcher({ trigger }: { trigger: (lg: string)
     return '-';
   }, [selectedValue]);
 
-  const initialFocusRef = React.useMemo(() => {
+  const initialFocusRef = useMemo(() => {
     return itemRefs.current[selectedValue] || itemRefs.current[language];
   }, [selectedValue, language]);
 
@@ -149,13 +158,19 @@ export function ActionSheetLanguageSwitcher({ trigger }: { trigger: (lg: string)
             <ActionsheetDragIndicator />
           </ActionsheetDragIndicatorWrapper>
           {languages.map((lg) => {
+            const isActive = lg.key === selectedValue.toUpperCase();
+
             return (
               <ActionsheetItem
                 key={lg.key}
                 ref={itemRefs.current[lg.key]}
                 onPress={() => handleLanguageChange(lg.key as Language)}
+                data-active={isActive}
               >
-                <ActionsheetItemText>{`${lg.flag} ${lg.label}`}</ActionsheetItemText>
+                <ActionsheetItemText className="flex w-full items-center justify-between">
+                  {`${lg.flag} ${lg.label}`}
+                  {isActive && <CheckIcon />}
+                </ActionsheetItemText>
               </ActionsheetItem>
             );
           })}

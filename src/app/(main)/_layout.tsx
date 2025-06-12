@@ -17,13 +17,7 @@ const tabScreenOptions: BottomTabNavigationOptions = {
     paddingBottom: 10,
     backgroundColor: 'rgb(var(--color-background-500))',
     elevation: 0,
-    shadowOpacity: 1,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowRadius: 2,
+    shadowOpacity: 0.5,
   },
 
   tabBarActiveTintColor: 'rgb(var(--color-primary-500))',
@@ -40,6 +34,7 @@ const tabScreenOptions: BottomTabNavigationOptions = {
   ),
   sceneStyle: {
     padding: 16,
+    backgroundColor: 'rgb(var(--color-background-500))',
   },
 };
 

@@ -5,7 +5,7 @@ import { ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useColorScheme } from 'nativewind';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { I18nextProvider } from 'react-i18next';
 import { Platform, StyleSheet } from 'react-native';
 import FlashMessage from 'react-native-flash-message';
@@ -38,7 +38,7 @@ SplashScreen.setOptions({
 
 export default function RootLayout() {
   // Initialize deep linking for authentication when the app starts
-  React.useEffect(() => {
+  useEffect(() => {
     configureDynamicDeepLinks();
   }, []);
 

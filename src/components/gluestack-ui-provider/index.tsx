@@ -17,7 +17,7 @@ export function GluestackUIProvider({
   mode?: ModeType;
   style?: ViewProps['style'];
 }) {
-  const configMode = React.useMemo(() => {
+  const configMode = useMemo(() => {
     return config[mode === 'dark' ? 'dark' : 'light'];
   }, [mode]);
 

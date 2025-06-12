@@ -1,6 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { createContext, useEffect, useState } from 'react';
 
+import { PageLoader } from '@/components/loader/loader';
 import { useGetProfile } from '@/resources/api';
 import { type MerchantProfile } from '@/resources/schema/merchant';
 
@@ -26,6 +27,7 @@ interface IProviderProps {
 
 export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
   const { refetch, data, isSuccess } = useGetProfile();
+  const [isLoading, setIsLoading] = useState(true);
 
   const [token, setToken] = useState<string>();
   const [merchant, setMerchant] = useState<MerchantProfile>();
@@ -49,17 +51,21 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
 
   useEffect(() => {
     if (token) {
+      setIsLoading(true);
       refetch();
+    } else {
+      setIsLoading(false);
     }
   }, [token]);
 
   useEffect(() => {
     if (isSuccess && data) {
+      setIsLoading(false);
       handleMerchant(data);
     }
   }, [data, isSuccess]);
 
-  const contextPayload = React.useMemo(
+  const contextPayload = useMemo(
     () => ({
       isAuthenticated: !!token,
       token,
@@ -70,7 +76,7 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
     [token, merchant]
   );
 
-  return <AppContext.Provider value={contextPayload}>{children}</AppContext.Provider>;
+  return <AppContext.Provider value={contextPayload}>{isLoading ? <PageLoader /> : children}</AppContext.Provider>;
 };
 
 export const useApp = () => useContext(AppContext);

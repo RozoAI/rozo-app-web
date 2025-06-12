@@ -11,8 +11,8 @@ export function AccountSection() {
   return (
     <VStack space="sm">
       <Box className="flex-row items-center">
-        <Avatar className="mr-3">
-          <AvatarFallbackText>RZ</AvatarFallbackText>
+        <Avatar className="mr-2" size="sm">
+          <AvatarFallbackText>{merchant?.display_name?.slice(0, 2) || '-'}</AvatarFallbackText>
           <AvatarImage
             source={{
               uri: merchant?.logo_url || undefined,
@@ -20,12 +20,12 @@ export function AccountSection() {
             alt="image"
           />
         </Avatar>
-        <VStack>
-          <Heading size="sm" className="mb-1">
-            {merchant?.display_name ?? '-'}
-          </Heading>
-          <Text size="sm">{merchant?.email ?? '-'}</Text>
-        </VStack>
+        <Box className="flex flex-col">
+          <Heading size="sm">{merchant?.display_name ?? '-'}</Heading>
+          <Text size="xs" className="text-typography-500">
+            {merchant?.email ?? '-'}
+          </Text>
+        </Box>
       </Box>
     </VStack>
   );

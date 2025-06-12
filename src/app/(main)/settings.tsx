@@ -1,3 +1,4 @@
+import * as Application from 'expo-application';
 import { useRouter } from 'expo-router';
 import { DollarSign, Languages, Palette } from 'lucide-react-native';
 import React from 'react';
@@ -6,16 +7,17 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 import { type ModeType } from '@/components/gluestack-ui-provider';
 import { Button, ButtonText } from '@/components/ui/button';
+import { Divider } from '@/components/ui/divider';
 import { FocusAwareStatusBar } from '@/components/ui/focus-aware-status-bar';
 import { HStack } from '@/components/ui/hstack';
 import { ChevronRightIcon, Icon } from '@/components/ui/icon';
 import { SafeAreaView } from '@/components/ui/safe-area-view';
 import { Text } from '@/components/ui/text';
 import { VStack } from '@/components/ui/vstack';
-import { AccountSection } from '@/feature/settings/account-section';
-import { ActionSheetCurrencySwitcher } from '@/feature/settings/select-currency';
-import { ActionSheetLanguageSwitcher } from '@/feature/settings/select-language';
-import { ActionSheetThemeSwitcher } from '@/feature/settings/theme-switcher';
+import { AccountSection } from '@/features/settings/account-section';
+import { ActionSheetCurrencySwitcher } from '@/features/settings/select-currency';
+import { ActionSheetLanguageSwitcher } from '@/features/settings/select-language';
+import { ActionSheetThemeSwitcher } from '@/features/settings/theme-switcher';
 import { useDynamic } from '@/modules/dynamic/dynamic-client';
 import { useApp } from '@/providers/app.provider';
 
@@ -38,14 +40,14 @@ export default function SettingsPage() {
       <FocusAwareStatusBar />
       <ScrollView className="px-4">
         <SafeAreaView className="pb-6">
-          <Text className="my-4 text-center text-xl font-semibold">{t('settings.title')}</Text>
+          <Text className="text-gray-80 mb-1 py-2 text-center text-lg font-bold">{t('settings.title')}</Text>
 
-          <VStack space="lg">
+          <VStack space="lg" className="my-3">
             <VStack className="border-border-300 items-start justify-between rounded-xl border bg-background-0 px-4 py-2 dark:border-background-300">
               {isAuthenticated && <AccountSection />}
             </VStack>
 
-            <VStack className="border-border-300 items-center justify-between divide-y divide-[#747474] rounded-xl border bg-background-0 px-4 py-2 dark:divide-[#2b2b2b] dark:border-background-300">
+            <VStack className="border-border-300 items-center justify-between rounded-xl border bg-background-0 px-4 dark:border-background-300">
               <ActionSheetCurrencySwitcher
                 trigger={(curr) => (
                   <HStack space="2xl" className="w-full flex-1 items-center justify-between px-2 py-3">
@@ -56,10 +58,12 @@ export default function SettingsPage() {
                         <Text size="xs">{curr}</Text>
                       </VStack>
                     </HStack>
-                    <Icon as={ChevronRightIcon} />
+                    <Icon as={ChevronRightIcon} className="text-gray-400 dark:text-gray-50" />
                   </HStack>
                 )}
               />
+
+              <Divider />
 
               <ActionSheetLanguageSwitcher
                 trigger={(lg) => (
@@ -71,11 +75,12 @@ export default function SettingsPage() {
                         <Text size="xs">{lg}</Text>
                       </VStack>
                     </HStack>
-                    <Icon as={ChevronRightIcon} />
+                    <Icon as={ChevronRightIcon} className="text-gray-400 dark:text-gray-50" />
                   </HStack>
                 )}
               />
 
+              <Divider />
               <ActionSheetThemeSwitcher
                 trigger={(selectedTheme: ModeType) => (
                   <HStack space="2xl" className="w-full flex-1 items-center justify-between px-2 py-3">
@@ -86,22 +91,23 @@ export default function SettingsPage() {
                         <Text size="xs">{t(`settings.theme.${selectedTheme}`)}</Text>
                       </VStack>
                     </HStack>
-                    <Icon as={ChevronRightIcon} />
+                    <Icon as={ChevronRightIcon} className="text-gray-400 dark:text-gray-50" />
                   </HStack>
                 )}
               />
             </VStack>
 
-            <Button variant="outline" size="sm" action="negative" onPress={handleLogout} className="rounded-xl">
+            <Button variant="solid" size="sm" action="negative" onPress={handleLogout} className="rounded-xl">
               <ButtonText>{t('settings.logout')}</ButtonText>
             </Button>
 
-            <VStack space="sm">
-              <Text className="text-center text-xs">{t('settings.version')} - </Text>
-              <Text className="text-center text-xs">
-                {t('general.termsOfService')} & {t('general.privacyPolicy')}
-              </Text>
-            </VStack>
+            {Application.nativeApplicationVersion && (
+              <VStack space="sm">
+                <Text className="text-center text-xs">
+                  {t('settings.version')} - {Application.nativeApplicationVersion}
+                </Text>
+              </VStack>
+            )}
           </VStack>
         </SafeAreaView>
       </ScrollView>

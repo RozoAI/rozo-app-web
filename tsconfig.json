@@ -1,19 +1,13 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
+    "jsx": "react",
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./src/*",
-        "./*"
-      ],
-      "@env": [
-        "./src/lib/env.js"
-      ],
-      "tailwind.config": [
-        "./tailwind.config.js"
-      ]
+      "@/*": ["./src/*", "./*"],
+      "@env": ["./src/lib/env.js"],
+      "tailwind.config": ["./tailwind.config.js"]
     },
     "esModuleInterop": true,
     "checkJs": true
@@ -28,11 +22,5 @@
     "ios",
     "lint-staged.config.js"
   ],
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    ".expo/types/**/*.ts",
-    "expo-env.d.ts",
-    "nativewind-env.d.ts"
-  ]
+  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts", "nativewind-env.d.ts"]
 }

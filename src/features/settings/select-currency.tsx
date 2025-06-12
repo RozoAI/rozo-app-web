@@ -1,4 +1,5 @@
-import React from 'react';
+import { CheckIcon } from 'lucide-react-native';
+import React, { createRef, type RefObject, useEffect, useMemo, useRef, useState } from 'react';
 
 import {
   Actionsheet,
@@ -10,6 +11,7 @@ import {
   ActionsheetItemText,
 } from '@/components/actionsheet';
 import { Pressable } from '@/components/ui/pressable';
+import { showToast } from '@/lib';
 import { useApp } from '@/providers/app.provider';
 import { useCreateProfile } from '@/resources/api';
 
@@ -39,43 +41,50 @@ type ActionSheetCurrencySwitcherProps = {
 };
 
 export function ActionSheetCurrencySwitcher({ trigger, value }: ActionSheetCurrencySwitcherProps) {
-  const [selectedValue, setSelectedValue] = React.useState(value);
+  const [selectedValue, setSelectedValue] = useState(value);
 
-  const [showActionsheet, setShowActionsheet] = React.useState(false);
+  const [showActionsheet, setShowActionsheet] = useState(false);
   const handleClose = () => setShowActionsheet(false);
 
   const { mutate: createProfile, data } = useCreateProfile();
   const { merchant, setMerchant } = useApp();
 
-  React.useEffect(() => {
+  useEffect(() => {
     currencies.forEach((cur) => {
       if (!itemRefs.current[cur.value]) {
-        itemRefs.current[cur.value] = React.createRef();
+        itemRefs.current[cur.value] = createRef();
       }
     });
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (merchant && merchant.default_currency) {
       setSelectedValue(merchant.default_currency.toLowerCase());
     }
   }, [merchant]);
 
-  React.useEffect(() => {
-    setMerchant(data);
+  useEffect(() => {
+    if (data) {
+      setMerchant(data);
+
+      showToast({
+        message: 'Currency updated successfully',
+        type: 'success',
+      });
+    }
   }, [data]);
 
-  const initialLabel = React.useMemo(() => {
+  const initialLabel = useMemo(() => {
     return currencies.find((curr) => curr.value === selectedValue)?.label || '-';
   }, [selectedValue]);
 
-  const selectedLabel = React.useMemo(() => {
+  const selectedLabel = useMemo(() => {
     return currencies.find((curr) => curr.value === selectedValue)?.label;
   }, [selectedValue]);
 
-  const itemRefs = React.useRef<{ [key: string]: React.RefObject<any> }>({});
+  const itemRefs = useRef<{ [key: string]: RefObject<any> }>({});
 
-  const initialFocusRef = React.useMemo(() => {
+  const initialFocusRef = useMemo(() => {
     const currentTheme = selectedValue ?? 'usd';
     return itemRefs.current[currentTheme];
   }, [selectedValue]);
@@ -117,7 +126,10 @@ export function ActionSheetCurrencySwitcher({ trigger, value }: ActionSheetCurre
                 onPress={() => handleCurrencyChange(curr.value)}
                 data-active={isActive}
               >
-                <ActionsheetItemText>{curr.label}</ActionsheetItemText>
+                <ActionsheetItemText className="flex w-full items-center justify-between">
+                  {curr.label}
+                  {isActive && <CheckIcon />}
+                </ActionsheetItemText>
               </ActionsheetItem>
             );
           })}

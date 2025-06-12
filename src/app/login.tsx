@@ -2,12 +2,13 @@
 import { useRouter } from 'expo-router';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { Image } from 'react-native';
 
 import { Box } from '@/components/ui/box';
 import { Button, ButtonSpinner, ButtonText } from '@/components/ui/button';
 import { FocusAwareStatusBar } from '@/components/ui/focus-aware-status-bar';
+import { Image } from '@/components/ui/image';
 import { Text } from '@/components/ui/text';
+import { useSelectedTheme } from '@/hooks';
 import { showToast } from '@/lib';
 import { useDynamic } from '@/modules/dynamic/dynamic-client';
 import { useApp } from '@/providers/app.provider';
@@ -17,24 +18,22 @@ import { useCreateProfile } from '@/resources/api';
  * Login screen component with Google authentication
  */
 export default function LoginScreen() {
+  const { selectedTheme } = useSelectedTheme();
   const { isAuthenticated, setToken } = useApp();
-  const { ui, auth } = useDynamic();
+  const { ui, auth, wallets } = useDynamic();
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const { mutate: createProfile, isError, error, isSuccess, isPending, data } = useCreateProfile();
+  const { mutate: createProfile, isError, error, isSuccess, isPending } = useCreateProfile();
 
-  const handleCreateProfile = (user: any) => {
-    createProfile({
-      email: user?.email,
-      display_name: user?.email,
-      description: '',
-      logo_url: '',
-      default_currency: 'USD', // Default currency
-      default_language: 'EN', // Default language,
-      default_token_id: 'USDC_BASE',
-      wallet_address: '0x8743AF5bAA18731E962c08707352b45164e069F9',
+  const onLoginSuccess = () => {
+    setToken(auth.token!);
+    showToast({
+      type: 'success',
+      message: 'Welcome to Rozo POS',
     });
+
+    router.navigate('/');
   };
 
   auth.on('authInit', () => {
@@ -44,24 +43,40 @@ export default function LoginScreen() {
   auth.on('authSuccess', (user) => {
     setIsLoading(true);
 
-    if (auth.token) {
-      setToken(auth.token);
-
-      // Call profile API for create and update profile
-      handleCreateProfile(user);
+    if (user) {
+      if (user.newUser) {
+        // TODO: Remove the hardcode if the API is fixed
+        const evmWallet = wallets.userWallets.find((wallet) => wallet.chain === 'EVM');
+        createProfile({
+          email: user?.email ?? '',
+          display_name: user?.email ?? '',
+          description: '',
+          logo_url: '',
+          default_currency: 'USD', // Default currency
+          default_language: 'EN', // Default language
+          // TODO: Remove the hardcode if the API is fixed
+          default_token_id: 'USDC_BASE',
+          wallet_address: evmWallet?.address ?? '',
+        });
+      } else {
+        onLoginSuccess();
+      }
+    } else {
+      showToast({
+        type: 'danger',
+        message: 'Failed to login',
+      });
+      setIsLoading(false);
     }
   });
 
   useEffect(() => {
     if (isSuccess) {
-      showToast({
-        type: 'success',
-        message: 'Welcome to Rozo POS',
-      });
-
-      router.navigate('/');
+      onLoginSuccess();
     }
+  }, [isSuccess]);
 
+  useEffect(() => {
     if (isError) {
       showToast({
         type: 'danger',
@@ -69,7 +84,7 @@ export default function LoginScreen() {
       });
       setIsLoading(false);
     }
-  }, [isSuccess, isError, error, data]);
+  }, [isError]);
 
   // redirect to home if user is authenticated
   useEffect(() => {
@@ -86,7 +101,13 @@ export default function LoginScreen() {
       <Box className="flex-1 items-center justify-center px-6">
         {/* Logo and title section */}
         <Box className="mb-6 w-full items-center justify-center">
-          <Image source={require('@/components/svg/logo.svg')} style={{ width: 120, height: 120 }} resizeMode="contain" />
+          <Image
+            source={
+              selectedTheme === 'dark' ? require('@/components/svg/logo-white.svg') : require('@/components/svg/logo.svg')
+            }
+            style={{ width: 120, height: 120 }}
+            resizeMode="contain"
+          />
 
           <Text className="text-center text-3xl font-bold text-primary-600">Rozo POS</Text>
 
@@ -100,7 +121,7 @@ export default function LoginScreen() {
           action="primary"
           className="w-full flex-row items-center justify-center space-x-2 rounded-xl"
           onPress={() => ui.auth.show()}
-          disabled={isLoading || isPending}
+          isDisabled={isLoading || isPending}
         >
           {(isLoading || isPending) && <ButtonSpinner />}
           <ButtonText>{isLoading || isPending ? 'Loading...' : 'Sign in'}</ButtonText>

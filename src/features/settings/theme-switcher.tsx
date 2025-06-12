@@ -1,6 +1,6 @@
-import { LaptopIcon, MoonIcon, SunIcon } from 'lucide-react-native';
+import { CheckIcon, LaptopIcon, MoonIcon, SunIcon } from 'lucide-react-native';
 import { useColorScheme } from 'nativewind';
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import {
@@ -29,7 +29,7 @@ export function ActionSheetThemeSwitcher({ trigger }: { trigger: (them: ModeType
   const { selectedTheme, setSelectedTheme } = useSelectedTheme();
   const { colorScheme } = useColorScheme();
 
-  const [showActionsheet, setShowActionsheet] = React.useState(false);
+  const [showActionsheet, setShowActionsheet] = useState(false);
   const handleClose = () => setShowActionsheet(false);
 
   function handleColorMode(value: ModeType) {
@@ -39,7 +39,7 @@ export function ActionSheetThemeSwitcher({ trigger }: { trigger: (them: ModeType
 
   const itemRefs = React.useRef<{ [key: string]: React.RefObject<any> }>({});
 
-  React.useEffect(() => {
+  useEffect(() => {
     themes.forEach((theme) => {
       if (!itemRefs.current[theme.value]) {
         itemRefs.current[theme.value] = React.createRef();
@@ -51,7 +51,7 @@ export function ActionSheetThemeSwitcher({ trigger }: { trigger: (them: ModeType
     }
   }, []);
 
-  const initialFocusRef = React.useMemo(() => {
+  const initialFocusRef = useMemo(() => {
     const currentTheme = selectedTheme ?? 'system';
     return itemRefs.current[currentTheme];
   }, [selectedTheme]);
@@ -69,14 +69,20 @@ export function ActionSheetThemeSwitcher({ trigger }: { trigger: (them: ModeType
             <ActionsheetDragIndicator />
           </ActionsheetDragIndicatorWrapper>
           {themes.map((th) => {
+            const isActive = th.value === selectedTheme;
+
             return (
               <ActionsheetItem
                 key={th.value}
                 ref={itemRefs.current[th.value]}
                 onPress={() => handleColorMode(th.value as ModeType)}
+                data-active={isActive}
               >
                 <ActionsheetIcon className={cn('stroke-[#747474]')} as={th.icon} />
-                <ActionsheetItemText>{t(`settings.theme.${th.value}`)}</ActionsheetItemText>
+                <ActionsheetItemText className="flex w-full items-center justify-between">
+                  {t(`settings.theme.${th.value}`)}
+                  {isActive && <CheckIcon />}
+                </ActionsheetItemText>
               </ActionsheetItem>
             );
           })}
