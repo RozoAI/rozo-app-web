@@ -30,13 +30,16 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   owner: process.env.EXPO_PUBLIC_EAS_ACCOUNT_OWNER ?? 'rozoai',
   scheme: 'rozopos', // Custom URL scheme for deep linking
   slug: process.env.EXPO_PUBLIC_SLUG ?? 'rozoai-pos',
-  version: version ?? '0.0.0',
+  version,
   orientation: 'portrait',
   icon: './assets/icon.png',
   userInterfaceStyle: 'automatic',
   newArchEnabled: true,
   updates: {
     fallbackToCacheTimeout: 0,
+  },
+  runtimeVersion: {
+    policy: 'appVersion',
   },
   assetBundlePatterns: ['**/*'],
   ios: {
@@ -86,6 +89,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   web: {
     favicon: './assets/favicon.png',
     bundler: 'metro',
+    output: 'single',
   },
   plugins: [
     [
@@ -115,9 +119,4 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     ['app-icon-badge', appIconBadgeConfig],
     ['react-native-edge-to-edge'],
   ],
-  extra: {
-    eas: {
-      projectId: process.env.EXPO_PUBLIC_EAS_PROJECT_ID ?? '',
-    },
-  },
 });

@@ -72,7 +72,7 @@ export const languages = [
 
 export function ActionSheetLanguageSwitcher({ trigger }: { trigger: (lg: string) => React.ReactNode }) {
   const { language, setLanguage } = useSelectedLanguage();
-  const [selectedValue, setSelectedValue] = useState<Language>(language);
+  const [selectedValue, setSelectedValue] = useState<Language>(language ?? 'EN');
 
   const [showActionsheet, setShowActionsheet] = useState(false);
   const handleClose = () => setShowActionsheet(false);
@@ -92,7 +92,7 @@ export function ActionSheetLanguageSwitcher({ trigger }: { trigger: (lg: string)
 
   useEffect(() => {
     if (merchant && merchant.default_language) {
-      const lg = merchant.default_language.toUpperCase() as Language;
+      const lg = merchant.default_language?.toUpperCase() as Language;
       setSelectedValue(lg);
     }
   }, [merchant]);
@@ -139,7 +139,7 @@ export function ActionSheetLanguageSwitcher({ trigger }: { trigger: (lg: string)
     const { created_at, ...rest } = merchant;
     createProfile({
       ...rest,
-      default_language: value.toUpperCase(),
+      default_language: value?.toUpperCase(),
     }).then(() => setLanguage(value));
 
     handleClose();
@@ -158,7 +158,7 @@ export function ActionSheetLanguageSwitcher({ trigger }: { trigger: (lg: string)
             <ActionsheetDragIndicator />
           </ActionsheetDragIndicatorWrapper>
           {languages.map((lg) => {
-            const isActive = lg.key === selectedValue.toUpperCase();
+            const isActive = lg.key === selectedValue?.toUpperCase();
 
             return (
               <ActionsheetItem

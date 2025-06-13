@@ -98,7 +98,7 @@ export function ActionSheetCurrencySwitcher({ trigger, value }: ActionSheetCurre
     const { created_at, ...rest } = merchant;
     createProfile({
       ...rest,
-      default_currency: value.toUpperCase(),
+      default_currency: value?.toUpperCase(),
     });
 
     handleClose();
