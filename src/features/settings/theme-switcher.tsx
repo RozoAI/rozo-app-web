@@ -3,6 +3,7 @@ import { useColorScheme } from 'nativewind';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { type ModeType } from '@/components/gluestack-ui-provider';
 import {
   Actionsheet,
   ActionsheetBackdrop,
@@ -12,8 +13,7 @@ import {
   ActionsheetIcon,
   ActionsheetItem,
   ActionsheetItemText,
-} from '@/components/actionsheet';
-import { type ModeType } from '@/components/gluestack-ui-provider';
+} from '@/components/ui/actionsheet';
 import { Pressable } from '@/components/ui/pressable';
 import { useSelectedTheme } from '@/hooks';
 import { cn } from '@/lib';

@@ -9,7 +9,7 @@ import {
   ActionsheetDragIndicatorWrapper,
   ActionsheetItem,
   ActionsheetItemText,
-} from '@/components/actionsheet';
+} from '@/components/ui/actionsheet';
 import { Pressable } from '@/components/ui/pressable';
 import { showToast } from '@/lib';
 import { useApp } from '@/providers/app.provider';

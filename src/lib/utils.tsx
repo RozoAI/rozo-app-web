@@ -60,3 +60,44 @@ export const createSelectors = <S extends UseBoundStore<StoreApi<object>>>(_stor
 
   return store;
 };
+
+export const formatAmount = (amountUnits: string, tokenSymbol: string): string => {
+  // Convert from smallest unit (wei-like) to readable format
+  // This is a simplified conversion - you might need more sophisticated logic
+  const amount = Number.parseFloat(amountUnits) / Math.pow(10, 18); // Assuming 18 decimals
+  return `${amount.toFixed(4)} ${tokenSymbol}`;
+};
+
+export const formatAddress = (address: string): string => {
+  if (address.length <= 10) return address;
+  return `${address.slice(0, 6)}...${address.slice(-4)}`;
+};
+
+export const formatTxHash = (txHash: string): string => {
+  if (txHash.length <= 10) return txHash;
+  return `${txHash.slice(0, 8)}...${txHash.slice(-6)}`;
+};
+
+export const formatDate = (date: Date): string => {
+  return date.toLocaleDateString('en-US', {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+  });
+};
+
+export const getChainName = (chainId: number | string): string => {
+  const id = typeof chainId === 'string' ? Number.parseInt(chainId) : chainId;
+  switch (id) {
+    case 1:
+      return 'Ethereum';
+    case 137:
+      return 'Polygon';
+    case 56:
+      return 'BSC';
+    case 43114:
+      return 'Avalanche';
+    default:
+      return `Chain ${id}`;
+  }
+};

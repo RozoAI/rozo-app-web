@@ -13,6 +13,7 @@ import { HStack } from '@/components/ui/hstack';
 import { ChevronRightIcon, Icon } from '@/components/ui/icon';
 import { SafeAreaView } from '@/components/ui/safe-area-view';
 import { Text } from '@/components/ui/text';
+import { View } from '@/components/ui/view';
 import { VStack } from '@/components/ui/vstack';
 import { AccountSection } from '@/features/settings/account-section';
 import { ActionSheetCurrencySwitcher } from '@/features/settings/select-currency';
@@ -38,16 +39,18 @@ export default function SettingsPage() {
   return (
     <>
       <FocusAwareStatusBar />
-      <ScrollView className="px-4">
-        <SafeAreaView className="pb-6">
-          <Text className="text-gray-80 mb-1 py-2 text-center text-lg font-bold">{t('settings.title')}</Text>
-
-          <VStack space="lg" className="my-3">
-            <VStack className="border-border-300 items-start justify-between rounded-xl border bg-background-0 px-4 py-2 dark:border-background-300">
+      <SafeAreaView className="flex-1">
+        <ScrollView className="flex-1 py-6">
+          <View className="mb-6">
+            <Text className="text-2xl font-bold">{t('settings.title')}</Text>
+            <Text className="text-sm text-gray-400">Manage your account preferences and app settings</Text>
+          </View>
+          <VStack space="lg">
+            <VStack className="items-start justify-between rounded-xl border border-background-300 bg-background-0 px-4 py-2">
               {isAuthenticated && <AccountSection />}
             </VStack>
 
-            <VStack className="border-border-300 items-center justify-between rounded-xl border bg-background-0 px-4 dark:border-background-300">
+            <VStack className="items-center justify-between divide-y divide-gray-200 rounded-xl border border-background-300 bg-background-0 px-4 py-2 dark:divide-[#2b2b2b]">
               <ActionSheetCurrencySwitcher
                 trigger={(curr) => (
                   <HStack space="2xl" className="w-full flex-1 items-center justify-between px-2 py-3">
@@ -109,8 +112,8 @@ export default function SettingsPage() {
               </VStack>
             )}
           </VStack>
-        </SafeAreaView>
-      </ScrollView>
+        </ScrollView>
+      </SafeAreaView>
     </>
   );
 }

@@ -8,8 +8,8 @@ import { VStack } from '@/components/ui/vstack';
 import { useApp } from '@/providers/app.provider';
 
 export function AccountSection() {
-  const { merchant } = useApp();
-
+  const { merchant, isAuthenticated } = useApp();
+  console.log({ merchant, isAuthenticated });
   return (
     <VStack space="sm">
       <Box className="flex-row items-center">
