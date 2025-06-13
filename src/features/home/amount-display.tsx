@@ -5,8 +5,9 @@ import { View } from 'react-native';
 import { Card } from '@/components/ui/card';
 import { Spinner } from '@/components/ui/spinner';
 import { Text } from '@/components/ui/text';
+import { type CurrencyConfig } from '@/lib/currency-config';
 
-import type { CurrencyConfig, DynamicStyles } from './types';
+import type { DynamicStyles } from './types';
 
 type AmountDisplayProps = {
   amount: string;

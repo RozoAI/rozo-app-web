@@ -1,18 +1,3 @@
-// Types for the home feature
-export type QuickAmount = {
-  value: string;
-  label: string;
-};
-
-// Currency configuration by currency code
-export type CurrencyConfig = {
-  code: string;
-  symbol: string;
-  decimalSeparator: string;
-  thousandSeparator: string;
-  quickAmounts: QuickAmount[];
-};
-
 // Dynamic style types
 export type DynamicStyles = {
   fontSize: {

@@ -1,8 +1,22 @@
-import type { CurrencyConfig } from './types';
+// Types for the home feature
+export type QuickAmount = {
+  value: string;
+  label: string;
+};
+
+export type CurrencyConfig = {
+  label: string;
+  code: string;
+  symbol: string;
+  decimalSeparator: string;
+  thousandSeparator: string;
+  quickAmounts: QuickAmount[];
+};
 
 // Currency configuration by currency code
 export const currencyConfigs: Record<string, CurrencyConfig> = {
   IDR: {
+    label: 'IDR - Indonesian Rupiah (IDR)',
     code: 'IDR',
     symbol: 'Rp',
     decimalSeparator: ',',
@@ -15,6 +29,7 @@ export const currencyConfigs: Record<string, CurrencyConfig> = {
     ],
   },
   MYR: {
+    label: 'MYR - Malaysian Ringgit (RM)',
     code: 'MYR',
     symbol: 'RM',
     decimalSeparator: '.',
@@ -27,6 +42,7 @@ export const currencyConfigs: Record<string, CurrencyConfig> = {
     ],
   },
   SGD: {
+    label: 'SGD - Singapore Dollar (S$)',
     code: 'SGD',
     symbol: 'S$',
     decimalSeparator: '.',
@@ -39,6 +55,7 @@ export const currencyConfigs: Record<string, CurrencyConfig> = {
     ],
   },
   USD: {
+    label: 'USD - United State Dollar ($)',
     code: 'USD',
     symbol: '$',
     decimalSeparator: '.',

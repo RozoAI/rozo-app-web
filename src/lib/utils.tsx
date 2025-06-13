@@ -7,6 +7,8 @@ import { showMessage } from 'react-native-flash-message';
 import { twMerge } from 'tailwind-merge';
 import type { StoreApi, UseBoundStore } from 'zustand';
 
+import { currencyConfigs } from '@/lib/currency-config';
+
 // Platform
 export const IS_IOS = Platform.OS === 'ios';
 export const IS_ANDROID = Platform.OS === 'android';
@@ -101,3 +103,16 @@ export const getChainName = (chainId: number | string): string => {
       return `Chain ${id}`;
   }
 };
+
+export function formatCurrency(amount: string | number, currencyCode: string = 'USD'): string {
+  const config = currencyConfigs[currencyCode] || currencyConfigs.USD;
+  const numAmount = typeof amount === 'string' ? parseFloat(amount) : amount;
+
+  if (isNaN(numAmount)) return `${config.symbol}0`;
+
+  const parts = numAmount.toFixed(2).split('.');
+  const integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, config.thousandSeparator);
+  const decimalPart = parts[1];
+
+  return `${config.symbol}${integerPart}${config.decimalSeparator}${decimalPart}`;
+}

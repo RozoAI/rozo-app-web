@@ -9,11 +9,11 @@ import { Image } from '@/components/ui/image';
 import { SafeAreaView } from '@/components/ui/safe-area-view';
 import { Text } from '@/components/ui/text';
 import { useSelectedTheme } from '@/hooks';
+import { currencyConfigs } from '@/lib/currency-config';
 import { useApp } from '@/providers/app.provider';
 import { daimoConfig } from '@/providers/query.provider';
 
 import { AmountDisplay } from './amount-display';
-import { currencyConfigs } from './currency-config';
 import { PaymentButton } from './payment-button';
 import { QuickAmountList } from './quick-amount';
 import { type DynamicStyles } from './types';

@@ -1,5 +1,5 @@
 import { CheckIcon } from 'lucide-react-native';
-import React, { createRef, type RefObject, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import {
   Actionsheet,
@@ -11,28 +11,17 @@ import {
   ActionsheetItemText,
 } from '@/components/ui/actionsheet';
 import { Pressable } from '@/components/ui/pressable';
+import { Spinner } from '@/components/ui/spinner';
+import { View } from '@/components/ui/view';
 import { showToast } from '@/lib';
+import { currencyConfigs } from '@/lib/currency-config';
 import { useApp } from '@/providers/app.provider';
 import { useCreateProfile } from '@/resources/api';
 
-const currencies = [
-  {
-    label: 'USD - United State Dollar ($)',
-    value: 'usd',
-  },
-  {
-    label: 'MYR - Malaysian Ringgit (RM)',
-    value: 'myr',
-  },
-  {
-    label: 'SGP - Singapore Dollar ($)',
-    value: 'sgp',
-  },
-  {
-    label: 'IDR - Indonesian Rupiah (IDR)',
-    value: 'idr',
-  },
-];
+type CurrencyOption = {
+  code: string;
+  label: string;
+};
 
 type ActionSheetCurrencySwitcherProps = {
   trigger: (curr: string) => React.ReactNode;
@@ -40,74 +29,119 @@ type ActionSheetCurrencySwitcherProps = {
   value?: string;
 };
 
-export function ActionSheetCurrencySwitcher({ trigger, value }: ActionSheetCurrencySwitcherProps) {
-  const [selectedValue, setSelectedValue] = useState(value);
+export function ActionSheetCurrencySwitcher({ trigger, value }: ActionSheetCurrencySwitcherProps): React.ReactElement {
+  const [selectedValue, setSelectedValue] = useState<string | undefined>(value);
+  const [showActionsheet, setShowActionsheet] = useState<boolean>(false);
 
-  const [showActionsheet, setShowActionsheet] = useState(false);
-  const handleClose = () => setShowActionsheet(false);
-
-  const { mutate: createProfile, data } = useCreateProfile();
+  const { mutate: updateProfile, data, error, isPending } = useCreateProfile();
   const { merchant, setMerchant } = useApp();
 
-  useEffect(() => {
-    currencies.forEach((cur) => {
-      if (!itemRefs.current[cur.value]) {
-        itemRefs.current[cur.value] = createRef();
-      }
-    });
+  // Memoize currencies to prevent unnecessary re-renders
+  const currencies = useMemo<CurrencyOption[]>(() => {
+    return Object.values(currencyConfigs);
   }, []);
 
+  // Create refs once and store them
+  const itemRefs = useRef<Record<string, React.RefObject<any>>>({});
+
+  // Initialize refs only once
   useEffect(() => {
-    if (merchant && merchant.default_currency) {
+    currencies.forEach((cur) => {
+      if (!itemRefs.current[cur.code]) {
+        itemRefs.current[cur.code] = React.createRef();
+      }
+    });
+  }, [currencies]);
+
+  // Update selected value when merchant data changes
+  useEffect(() => {
+    if (merchant?.default_currency) {
       setSelectedValue(merchant.default_currency.toLowerCase());
     }
-  }, [merchant]);
+  }, [merchant?.default_currency]);
 
+  // Handle API response
   useEffect(() => {
     if (data) {
       setMerchant(data);
+      setSelectedValue(data.default_currency.toLowerCase());
 
       showToast({
         message: 'Currency updated successfully',
         type: 'success',
       });
+    } else if (error) {
+      showToast({
+        message: 'Failed to update currency',
+        type: 'danger',
+      });
     }
-  }, [data]);
+  }, [data, error, setMerchant]);
 
+  // Memoized values
   const initialLabel = useMemo(() => {
-    return currencies.find((curr) => curr.value === selectedValue)?.label || '-';
-  }, [selectedValue]);
+    return currencies.find((curr) => curr.code === selectedValue?.toUpperCase())?.label || '-';
+  }, [currencies, selectedValue]);
 
   const selectedLabel = useMemo(() => {
-    return currencies.find((curr) => curr.value === selectedValue)?.label;
-  }, [selectedValue]);
-
-  const itemRefs = useRef<{ [key: string]: RefObject<any> }>({});
+    return currencies.find((curr) => curr.code === selectedValue?.toUpperCase())?.label || initialLabel;
+  }, [currencies, selectedValue, initialLabel]);
 
   const initialFocusRef = useMemo(() => {
-    const currentTheme = selectedValue ?? 'usd';
-    return itemRefs.current[currentTheme];
+    const currentCurrency = selectedValue?.toUpperCase() ?? currencyConfigs.USD.code;
+    return itemRefs.current[currentCurrency];
   }, [selectedValue]);
 
-  function handleCurrencyChange(value: string) {
-    if (!merchant?.email) return;
+  // Callbacks
+  const handleClose = useCallback(() => setShowActionsheet(false), []);
+  const handleOpen = useCallback(() => setShowActionsheet(true), []);
 
-    setSelectedValue(value);
+  const handleCurrencyChange = useCallback(
+    (value: string) => {
+      if (!merchant?.email) return;
 
-    // eslint-disable-next-line unused-imports/no-unused-vars
-    const { created_at, ...rest } = merchant;
-    createProfile({
-      ...rest,
-      default_currency: value?.toUpperCase(),
-    });
+      // eslint-disable-next-line unused-imports/no-unused-vars
+      const { created_at, ...rest } = merchant;
+      updateProfile({
+        ...rest,
+        default_currency: value.toUpperCase(),
+      });
 
-    handleClose();
-  }
+      handleClose();
+    },
+    [updateProfile, merchant, handleClose]
+  );
+
+  // Memoized currency item renderer
+  const renderCurrencyItem = useCallback(
+    (curr: CurrencyOption) => {
+      const isActive = curr.code === selectedValue?.toUpperCase();
+      return (
+        <ActionsheetItem
+          key={curr.code}
+          ref={itemRefs.current[curr.code]}
+          onPress={() => handleCurrencyChange(curr.code)}
+          data-active={isActive}
+        >
+          <ActionsheetItemText className="flex w-full items-center justify-between">
+            {curr.label}
+            {isActive && <CheckIcon />}
+          </ActionsheetItemText>
+        </ActionsheetItem>
+      );
+    },
+    [selectedValue, handleCurrencyChange]
+  );
 
   return (
     <>
-      <Pressable onPress={() => setShowActionsheet(true)} className="w-full">
+      <Pressable onPress={handleOpen} className="relative w-full">
         {trigger(selectedLabel ?? initialLabel)}
+        {isPending && (
+          <View className="absolute inset-x-0 top-0 z-10 flex size-full items-center justify-center bg-white/50 py-2">
+            <Spinner />
+          </View>
+        )}
       </Pressable>
 
       <Actionsheet isOpen={showActionsheet} onClose={handleClose} trapFocus={false} initialFocusRef={initialFocusRef}>
@@ -116,23 +150,7 @@ export function ActionSheetCurrencySwitcher({ trigger, value }: ActionSheetCurre
           <ActionsheetDragIndicatorWrapper>
             <ActionsheetDragIndicator />
           </ActionsheetDragIndicatorWrapper>
-          {currencies.map((curr) => {
-            const isActive = curr.value === selectedValue;
-
-            return (
-              <ActionsheetItem
-                key={curr.value}
-                ref={itemRefs.current[curr.value]}
-                onPress={() => handleCurrencyChange(curr.value)}
-                data-active={isActive}
-              >
-                <ActionsheetItemText className="flex w-full items-center justify-between">
-                  {curr.label}
-                  {isActive && <CheckIcon />}
-                </ActionsheetItemText>
-              </ActionsheetItem>
-            );
-          })}
+          {currencies.map(renderCurrencyItem)}
         </ActionsheetContent>
       </Actionsheet>
     </>
