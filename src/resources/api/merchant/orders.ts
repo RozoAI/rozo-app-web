@@ -1,10 +1,22 @@
 import { type AxiosError } from 'axios';
-import { createQuery } from 'react-query-kit';
+import { createMutation, createQuery } from 'react-query-kit';
 
 import { client } from '@/modules/axios/client';
 import { type MerchantOrder } from '@/resources/schema/order';
 
+type Payload = {
+  display_amount: number;
+  display_currency: string;
+  description?: string;
+};
+
+type Response = {
+  orders: MerchantOrder[];
+  count: number;
+};
+
 export const useOrdersQuery = (offset: number, limit: number) =>
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   createQuery<Response, {}, AxiosError>({
     queryKey: ['orders', offset, limit],
     fetcher: () => {
@@ -15,9 +27,23 @@ export const useOrdersQuery = (offset: number, limit: number) =>
             offset,
           },
         })
-        .then((res) => res.data);
+        .then((res) => {
+          return {
+            orders: res.data.orders,
+            count: res.data.count,
+          };
+        });
     },
   });
+
+export const useCreateOrder = createMutation<string, Payload, AxiosError>({
+  mutationFn: async (payload) =>
+    client({
+      url: 'functions/v1/orders',
+      method: 'POST',
+      data: payload,
+    }).then((response) => response.data.payment_url),
+});
 
 // Updated mock data based on new schema
 export const mockOrders: MerchantOrder[] = [

@@ -56,10 +56,3 @@ export const MerchantOrderSchema = z.object({
 });
 
 export type MerchantOrder = z.infer<typeof MerchantOrderSchema>;
-
-export const MerchantOrderResponseSchema = z.object({
-  success: z.boolean(),
-  orders: z.array(MerchantOrderSchema),
-  count: z.number(),
-});
-export type MerchantOrderResponse = z.infer<typeof MerchantOrderResponseSchema>;

@@ -9,7 +9,7 @@ export function PageLoader() {
   const { selectedTheme } = useSelectedTheme();
 
   return (
-    <View className="flex-1 items-center justify-center bg-white">
+    <View className="flex-1 items-center justify-center bg-background-0">
       <View className="items-center justify-center gap-4">
         <Image
           source={

@@ -6,7 +6,7 @@ import { SafeAreaView } from '@/components/ui/safe-area-view';
 import { Spinner } from '@/components/ui/spinner';
 import { Text } from '@/components/ui/text';
 import { useOrdersQuery } from '@/resources/api/merchant/orders';
-import { type MerchantOrder, type MerchantOrderResponse } from '@/resources/schema/order';
+import { type MerchantOrder } from '@/resources/schema/order';
 
 import EmptyOrdersState from './empty-orders';
 import { OrderCard } from './order-card';
@@ -20,16 +20,14 @@ export function RecentOrdersScreen() {
   const { data, isLoading, isFetching } = useOrdersQuery(offset, limit)();
 
   useEffect(() => {
-    const res = (data || []) as unknown as MerchantOrderResponse;
-
-    if (res && res.orders && res.orders.length > 0) {
+    if (data && data.orders.length > 0) {
       setOrders((prev) => {
         const existingIds = new Set(prev.map((o) => o.order_id));
-        const newUnique = res.orders.filter((o) => !existingIds.has(o.order_id));
+        const newUnique = data.orders.filter((o) => !existingIds.has(o.order_id));
         return [...prev, ...newUnique];
       });
 
-      if (res.orders.length < limit) setHasMore(false);
+      if (data.orders.length < limit) setHasMore(false);
     } else {
       setHasMore(false);
     }

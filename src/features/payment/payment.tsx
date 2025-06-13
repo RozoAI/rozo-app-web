@@ -1,35 +1,32 @@
-import { DaimoPayButton } from '@daimo/pay';
 import { NumPad } from '@umit-turk/react-native-num-pad';
-import { disconnect } from '@wagmi/core';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useWindowDimensions, View } from 'react-native';
-import { getAddress } from 'viem';
 
 import { Image } from '@/components/ui/image';
 import { SafeAreaView } from '@/components/ui/safe-area-view';
 import { Text } from '@/components/ui/text';
 import { useSelectedTheme } from '@/hooks';
-import { currencyConfigs } from '@/lib/currency-config';
 import { useApp } from '@/providers/app.provider';
-import { daimoConfig } from '@/providers/query.provider';
+import { useCreateOrder } from '@/resources/api/merchant/orders';
 
 import { AmountDisplay } from './amount-display';
 import { PaymentButton } from './payment-button';
+import { PaymentModal } from './payment-modal';
 import { QuickAmountList } from './quick-amount';
 import { type DynamicStyles } from './types';
 
 export function PaymentScreen() {
-  const { merchant } = useApp();
+  const { defaultCurrency } = useApp();
   // Get screen dimensions
   const { width } = useWindowDimensions();
   const [amount, setAmount] = useState('0');
   const [exchangeAmount, setExchangeAmount] = useState('0');
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [paymentUrl, setPaymentUrl] = useState<string | undefined>(undefined);
 
   const { selectedTheme } = useSelectedTheme();
 
-  // Get currency configuration based on merchant's default currency
-  const defaultCurrency = merchant?.default_currency || 'IDR';
-  const currencyConfig = currencyConfigs[defaultCurrency] || currencyConfigs.IDR;
+  const { mutateAsync: createOrder, isPending } = useCreateOrder();
 
   // Calculate dynamic sizes based on screen dimensions
   const isSmallScreen = width < 360; // iPhone SE and similar small devices
@@ -44,6 +41,7 @@ export function PaymentScreen() {
         quickAmount: isSmallScreen ? 'text-xs' : 'text-xs',
         modalTitle: isSmallScreen ? 'text-base' : isMediumScreen ? 'text-lg' : 'text-xl',
         modalAmount: isSmallScreen ? 'text-lg' : isMediumScreen ? 'text-xl' : 'text-2xl',
+        title: isSmallScreen ? 'text-xl' : 'text-2xl',
       },
       spacing: {
         cardPadding: isSmallScreen ? 'p-3' : isMediumScreen ? 'p-4' : 'p-5',
@@ -80,12 +78,12 @@ export function PaymentScreen() {
         // Add digit
         setAmount((prev) => {
           // Don't allow multiple decimal separators
-          if (digit === currencyConfig.decimalSeparator && prev.includes(currencyConfig.decimalSeparator)) {
+          if (digit === defaultCurrency?.decimalSeparator && prev.includes(defaultCurrency?.decimalSeparator)) {
             return prev;
           }
 
           // Replace 0 with digit if amount is only 0
-          if (prev === '0' && digit !== currencyConfig.decimalSeparator) {
+          if (prev === '0' && digit !== defaultCurrency?.decimalSeparator) {
             return digit;
           }
 
@@ -93,7 +91,7 @@ export function PaymentScreen() {
         });
       }
     },
-    [currencyConfig.decimalSeparator]
+    [defaultCurrency?.decimalSeparator]
   );
 
   // Handle quick amount selection
@@ -101,12 +99,27 @@ export function PaymentScreen() {
     setAmount(value);
   }, []);
 
-  const onPaymentCompleted = async (e: any) => {
-    console.log(e);
-    await disconnect(daimoConfig);
+  const handleOpenPaymentModal = async () => {
+    try {
+      const paymentUrl = await createOrder({
+        display_amount: Number(amount),
+        display_currency: defaultCurrency?.code ?? 'USD',
+        description: 'Payment for order',
+      });
+
+      setPaymentUrl(paymentUrl);
+      setIsPaymentModalOpen(true);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleClosePaymentModal = useCallback(() => {
     setAmount('0');
     setExchangeAmount('0');
-  };
+    setIsPaymentModalOpen(false);
+    setPaymentUrl(undefined);
+  }, []);
 
   return (
     <View className="flex-1">
@@ -124,17 +137,12 @@ export function PaymentScreen() {
 
         <View className={`flex-1 ${dynamicStyles.spacing.containerMargin}`}>
           {/* Amount Display */}
-          <AmountDisplay
-            amount={amount}
-            currencyConfig={currencyConfig}
-            dynamicStyles={dynamicStyles}
-            onExchangeAmount={setExchangeAmount}
-          />
+          <AmountDisplay amount={amount} dynamicStyles={dynamicStyles} onExchangeAmount={setExchangeAmount} />
 
           {/* Quick Amount Buttons */}
           <View className={`px-2 ${dynamicStyles.spacing.containerMargin}`}>
             <QuickAmountList
-              quickAmounts={currencyConfig.quickAmounts}
+              quickAmounts={defaultCurrency?.quickAmounts ?? []}
               dynamicStyles={dynamicStyles}
               onSelectQuickAmount={handleQuickAmount}
             />
@@ -145,7 +153,7 @@ export function PaymentScreen() {
         <View className="mt-auto dark:[&_svg]:fill-gray-200">
           <NumPad
             onPress={handlePress}
-            decimalSeparator={currencyConfig.decimalSeparator === '.' ? '.' : ','}
+            decimalSeparator={defaultCurrency?.decimalSeparator === '.' ? '.' : ','}
             containerStyle={{
               padding: 0,
               backgroundColor: 'transparent',
@@ -172,23 +180,21 @@ export function PaymentScreen() {
           />
 
           {/* Payment Button */}
-
-          {merchant?.wallet_address && Number(exchangeAmount) > 0 ? (
-            <DaimoPayButton.Custom
-              appId={process.env.DAIMO_PAY_APP_ID ?? 'pay-demo'}
-              toAddress={(merchant?.wallet_address ?? '') as `0x${string}`}
-              toChain={8453} /* BASE */
-              toUnits={exchangeAmount}
-              toToken={getAddress('0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913')} /* BASE USDC */
-              onPaymentCompleted={onPaymentCompleted}
-            >
-              {({ show }) => (
-                <PaymentButton isDisabled={Number(amount) === 0} dynamicStyles={dynamicStyles} onPress={show} />
-              )}
-            </DaimoPayButton.Custom>
-          ) : (
-            <PaymentButton isDisabled={true} dynamicStyles={dynamicStyles} onPress={() => {}} />
-          )}
+          <PaymentButton
+            isLoading={isPending}
+            isDisabled={Number(amount) === 0 || isPending}
+            dynamicStyles={dynamicStyles}
+            onPress={handleOpenPaymentModal}
+          />
+          {/* Payment Modal */}
+          <PaymentModal
+            paymentUrl={paymentUrl}
+            isOpen={isPaymentModalOpen}
+            onClose={handleClosePaymentModal}
+            amount={amount}
+            exchangeAmount={exchangeAmount}
+            dynamicStyles={dynamicStyles}
+          />
         </View>
       </SafeAreaView>
     </View>

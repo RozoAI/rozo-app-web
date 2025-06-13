@@ -1,17 +1,18 @@
 import React from 'react';
 import { View } from 'react-native';
 
-import { Button, ButtonText } from '@/components/ui/button';
+import { Button, ButtonSpinner, ButtonText } from '@/components/ui/button';
 
 import { type DynamicStyles } from './types';
 
 type PaymentButtonProps = {
+  isLoading?: boolean;
   isDisabled: boolean;
   dynamicStyles: DynamicStyles;
   onPress: () => void;
 };
 
-export function PaymentButton({ isDisabled, dynamicStyles, onPress }: PaymentButtonProps) {
+export function PaymentButton({ isLoading, isDisabled, dynamicStyles, onPress }: PaymentButtonProps) {
   return (
     <View className="mt-4 px-3 pb-2">
       <Button
@@ -20,7 +21,7 @@ export function PaymentButton({ isDisabled, dynamicStyles, onPress }: PaymentBut
         isDisabled={isDisabled}
         className="rounded-xl"
       >
-        <ButtonText>Continue to Payment</ButtonText>
+        {isLoading ? <ButtonSpinner /> : <ButtonText>Continue to Payment</ButtonText>}
       </Button>
     </View>
   );

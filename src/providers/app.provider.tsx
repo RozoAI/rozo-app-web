@@ -2,6 +2,7 @@ import React, { useContext, useMemo } from 'react';
 import { createContext, useEffect, useState } from 'react';
 
 import { PageLoader } from '@/components/loader/loader';
+import { type CurrencyConfig, currencyConfigs } from '@/lib/currency-config';
 import { useGetProfile } from '@/resources/api';
 import { type MerchantProfile } from '@/resources/schema/merchant';
 
@@ -9,6 +10,7 @@ interface IContextProps {
   isAuthenticated: boolean;
   token: string | undefined;
   merchant: MerchantProfile | undefined;
+  defaultCurrency: CurrencyConfig | undefined;
   setToken: (token: string | undefined) => void;
   setMerchant: (merchant: MerchantProfile | undefined) => void;
 }
@@ -17,6 +19,7 @@ export const AppContext = createContext<IContextProps>({
   isAuthenticated: false,
   token: undefined,
   merchant: undefined,
+  defaultCurrency: undefined,
   setToken: () => {},
   setMerchant: () => {},
 });
@@ -45,6 +48,11 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
     setMerchant(merchant);
   };
 
+  const defaultCurrency = useMemo(() => {
+    const currency = merchant?.default_currency ?? 'USD';
+    return currencyConfigs[currency];
+  }, [merchant]);
+
   useEffect(() => {
     initApp();
   }, []);
@@ -70,6 +78,7 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
       isAuthenticated: !!token,
       token,
       merchant,
+      defaultCurrency,
       setToken,
       setMerchant: handleMerchant,
     }),

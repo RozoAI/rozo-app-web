@@ -6,6 +6,7 @@ export type DynamicStyles = {
     quickAmount: string;
     modalTitle: string;
     modalAmount: string;
+    title: string;
   };
   spacing: {
     cardPadding: string;
