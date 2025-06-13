@@ -20,9 +20,10 @@ export function PaymentScreen() {
   // Get screen dimensions
   const { width } = useWindowDimensions();
   const [amount, setAmount] = useState('0');
-  const [exchangeAmount, setExchangeAmount] = useState('0');
+  const [exchangeAmount, setExchangeAmount] = useState('0.00');
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
-  const [paymentUrl, setPaymentUrl] = useState<string | undefined>(undefined);
+  const [paymentUrl, setPaymentUrl] = useState<string>();
+  const [orderId, setOrderId] = useState<string | undefined>(undefined);
 
   const { selectedTheme } = useSelectedTheme();
 
@@ -101,24 +102,26 @@ export function PaymentScreen() {
 
   const handleOpenPaymentModal = async () => {
     try {
-      const paymentUrl = await createOrder({
+      const response = await createOrder({
         display_amount: Number(amount),
         display_currency: defaultCurrency?.code ?? 'USD',
         description: 'Payment for order',
       });
 
-      setPaymentUrl(paymentUrl);
+      setPaymentUrl(response.payment_url);
+      setOrderId(response.order_id);
       setIsPaymentModalOpen(true);
     } catch (error) {
-      console.error(error);
+      console.error('Error creating order:', error);
     }
   };
 
   const handleClosePaymentModal = useCallback(() => {
     setAmount('0');
-    setExchangeAmount('0');
+    setExchangeAmount('0.00');
     setIsPaymentModalOpen(false);
     setPaymentUrl(undefined);
+    setOrderId(undefined);
   }, []);
 
   return (
@@ -188,12 +191,13 @@ export function PaymentScreen() {
           />
           {/* Payment Modal */}
           <PaymentModal
-            paymentUrl={paymentUrl}
             isOpen={isPaymentModalOpen}
             onClose={handleClosePaymentModal}
             amount={amount}
             exchangeAmount={exchangeAmount}
             dynamicStyles={dynamicStyles}
+            paymentUrl={paymentUrl}
+            orderId={orderId}
           />
         </View>
       </SafeAreaView>

@@ -15,7 +15,7 @@ type Response = {
   count: number;
 };
 
-export const useOrdersQuery = (offset: number, limit: number) =>
+export const useGetOrders = (offset: number, limit: number) =>
   // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   createQuery<Response, {}, AxiosError>({
     queryKey: ['orders', offset, limit],
@@ -36,13 +36,24 @@ export const useOrdersQuery = (offset: number, limit: number) =>
     },
   });
 
-export const useCreateOrder = createMutation<string, Payload, AxiosError>({
+export const useGetOrder = createQuery<MerchantOrder, { id: string }, AxiosError>({
+  queryKey: ['orders'],
+  fetcher: (variables) => client.get(`functions/v1/orders/${variables.id}`).then((res) => res.data.order),
+  enabled: false,
+});
+
+export const useCreateOrder = createMutation<{ payment_url: string; order_id: string }, Payload, AxiosError>({
   mutationFn: async (payload) =>
     client({
       url: 'functions/v1/orders',
       method: 'POST',
       data: payload,
-    }).then((response) => response.data.payment_url),
+    }).then((response) => {
+      return {
+        payment_url: response.data.payment_url,
+        order_id: response.data.order_id,
+      };
+    }),
 });
 
 // Updated mock data based on new schema

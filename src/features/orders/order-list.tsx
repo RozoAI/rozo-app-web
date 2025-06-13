@@ -5,7 +5,7 @@ import { Box } from '@/components/ui/box';
 import { SafeAreaView } from '@/components/ui/safe-area-view';
 import { Spinner } from '@/components/ui/spinner';
 import { Text } from '@/components/ui/text';
-import { useOrdersQuery } from '@/resources/api/merchant/orders';
+import { useGetOrders } from '@/resources/api/merchant/orders';
 import { type MerchantOrder } from '@/resources/schema/order';
 
 import EmptyOrdersState from './empty-orders';
@@ -17,7 +17,7 @@ export function RecentOrdersScreen() {
   const [orders, setOrders] = useState<MerchantOrder[]>([]);
   const [hasMore, setHasMore] = useState(true);
 
-  const { data, isLoading, isFetching } = useOrdersQuery(offset, limit)();
+  const { data, isLoading, isFetching } = useGetOrders(offset, limit)();
 
   useEffect(() => {
     if (data && data.orders.length > 0) {

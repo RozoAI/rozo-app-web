@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import QRCode from 'react-qr-code';
 
-import { Button, ButtonText } from '@/components/ui/button';
+import { Button, ButtonSpinner, ButtonText } from '@/components/ui/button';
 import { Heading } from '@/components/ui/heading';
 import { CloseIcon, Icon } from '@/components/ui/icon';
 import {
@@ -16,6 +16,7 @@ import {
 import { Spinner } from '@/components/ui/spinner';
 import { Text } from '@/components/ui/text';
 import { View } from '@/components/ui/view';
+import { usePaymentStatus } from '@/hooks/use-payment-status';
 import { useApp } from '@/providers/app.provider';
 
 import { PaymentSuccess } from './payment-success';
@@ -28,6 +29,7 @@ type PaymentModalProps = {
   exchangeAmount: string;
   dynamicStyles: DynamicStyles;
   paymentUrl?: string;
+  orderId?: string;
 };
 
 export function PaymentModal({
@@ -37,39 +39,48 @@ export function PaymentModal({
   amount,
   exchangeAmount,
   dynamicStyles,
+  orderId,
 }: PaymentModalProps): React.ReactElement {
-  const { defaultCurrency } = useApp();
-  const [isVerifying, setIsVerifying] = useState(false);
-  const [isPaid, setIsPaid] = useState(false);
+  const { defaultCurrency, merchant } = useApp();
   const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
   const [showSuccessView, setShowSuccessView] = useState(false);
 
+  // Use our custom hook to handle payment status updates
+  const { isLoading, checkPaymentStatus, isCompleted } = usePaymentStatus(merchant?.merchant_id, orderId);
+  console.log('isCompleted', isLoading);
   // Generate QR code when modal opens
   useEffect(() => {
     if (isOpen && paymentUrl) {
       setQrCodeUrl(paymentUrl);
+    } else {
+      setQrCodeUrl(null);
+    }
+
+    // Reset states when modal opens
+    if (isOpen) {
+      setShowSuccessView(false);
     }
   }, [isOpen, paymentUrl]);
 
-  // Handle payment verification
-  const handleVerifyPayment = useCallback(() => {
-    setIsVerifying(true);
-    // Simulate payment verification
-    setTimeout(() => {
-      setIsVerifying(false);
-      setIsPaid(true);
-
+  // Watch for payment status changes
+  useEffect(() => {
+    console.log('isCompleted', isCompleted);
+    if (isCompleted) {
       // Show success view after a brief delay
       setTimeout(() => {
         setShowSuccessView(true);
-      }, 1000);
-    }, 2000);
-  }, []);
+      }, 500);
+    }
+  }, [isCompleted]);
+
+  // Handle payment verification
+  const handleVerifyPayment = useCallback(() => {
+    checkPaymentStatus();
+  }, [checkPaymentStatus]);
 
   // Handle back to home
   const handleBackToHome = useCallback(() => {
     // Reset states
-    setIsPaid(false);
     setShowSuccessView(false);
     onClose();
   }, [onClose]);
@@ -137,11 +148,11 @@ export function PaymentModal({
             <>
               <Button
                 onPress={handleVerifyPayment}
-                isDisabled={isVerifying || isPaid}
+                isDisabled={isLoading || isCompleted}
                 className="w-full rounded-xl"
                 size={dynamicStyles.size.buttonSize as 'sm' | 'md' | 'lg'}
               >
-                <ButtonText>{isVerifying ? 'Verifying...' : isPaid ? 'Paid' : 'Verify Payment'}</ButtonText>
+                {isLoading ? <ButtonSpinner /> : <ButtonText>Verify Payment</ButtonText>}
               </Button>
               <Button
                 variant="link"
@@ -149,7 +160,7 @@ export function PaymentModal({
                 className="w-full"
                 size={dynamicStyles.size.buttonSize as 'sm' | 'md' | 'lg'}
               >
-                <ButtonText className="font-normal text-red-500 dark:text-red-400">Cancel</ButtonText>
+                <ButtonText>Cancel</ButtonText>
               </Button>
             </>
           </ModalFooter>

@@ -28,8 +28,6 @@ export const useCreateProfile = createMutation<Response, Payload, AxiosError>({
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export const useGetProfile = createQuery<Response, {}, AxiosError>({
   queryKey: ['profile'],
-  fetcher: () => {
-    return client.get('functions/v1/merchants').then((response) => response.data.profile);
-  },
+  fetcher: () => client.get('functions/v1/merchants').then((response) => response.data.profile),
   enabled: false,
 });
