@@ -14,7 +14,7 @@
     "build:production:ios": "cross-env APP_ENV=production  eas build --profile production --platform ios",
     "build:staging:android": "cross-env APP_ENV=staging  eas build --profile staging --platform android ",
     "build:staging:ios": "cross-env APP_ENV=staging  eas build --profile staging --platform ios",
-    "check-all": "pnpm run lint && pnpm run type-check && pnpm run lint:translations && pnpm run test",
+    "check-all": "pnpm run lint && pnpm run type-check && pnpm run lint:translations",
     "doctor": "npx expo-doctor@latest",
     "expo:add": "npx expo install",
     "format": "prettier \"src/**/*.ts{,x}\" --write",

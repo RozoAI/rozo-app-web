@@ -1,23 +1,35 @@
 {
+  "general": {
+    "privacyPolicy": "Kebijakan Privasi",
+    "termsOfService": "Syarat dan Ketentuan"
+  },
   "onboarding": {
     "message": "Selamat datang di Rozo POS"
   },
   "settings": {
     "about": "Tentang",
+    "account": {
+      "title": "Akun"
+    },
     "app_name": "Nama Aplikasi",
-    "indonesia": "Indonesia",
+    "currency": {
+      "title": "Mata Uang"
+    },
     "english": "Inggris",
     "general": "Umum",
     "github": "Github",
+    "indonesia": "Indonesia",
     "language": {
       "title": "Bahasa"
     },
     "links": "Tautan",
+    "login": "Masuk",
     "logout": "Keluar",
     "more": "Lebih",
     "privacy": "Kebijakan Privasi",
     "rate": "Nilai",
     "share": "Bagikan",
+    "signUp": "Mendaftar",
     "support": "Dukungan",
     "support_us": "Dukung Kami",
     "terms": "Syarat Layanan",
@@ -29,15 +41,7 @@
     },
     "title": "Pengaturan",
     "version": "Versi",
-    "website": "Situs Web",
-    "currency": {
-      "title": "Mata Uang"
-    },
-    "account": {
-      "title": "Akun"
-    },
-    "login": "Masuk",
-    "signUp": "Mendaftar"
+    "website": "Situs Web"
   },
   "welcome": "Selamat datang di Rozo POS"
 }

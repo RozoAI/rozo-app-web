@@ -1,5 +1,6 @@
 import clsx, { type ClassValue } from 'clsx';
 import { AlertCircle, AlertTriangle, CheckCircle, Info } from 'lucide-react-native';
+import React from 'react';
 import { Dimensions, Platform } from 'react-native';
 import { Linking } from 'react-native';
 import { showMessage } from 'react-native-flash-message';

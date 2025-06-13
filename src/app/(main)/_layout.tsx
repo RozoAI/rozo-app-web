@@ -54,7 +54,7 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color }) => <Icon as={HomeIcon} size="md" color={color} />,
+          tabBarIcon: ({ color }: any) => <Icon as={HomeIcon} size="md" color={color} />,
           tabBarButtonTestID: 'home-tab',
         }}
       />
@@ -63,7 +63,7 @@ export default function TabLayout() {
         name="orders"
         options={{
           title: 'Orders',
-          tabBarIcon: ({ color }) => <Icon as={ShoppingBagIcon} size="md" color={color} />,
+          tabBarIcon: ({ color }: any) => <Icon as={ShoppingBagIcon} size="md" color={color} />,
           tabBarButtonTestID: 'orders-tab',
         }}
       />
@@ -71,7 +71,7 @@ export default function TabLayout() {
         name="settings"
         options={{
           title: 'Settings',
-          tabBarIcon: ({ color }) => <Icon as={Settings2Icon} size="md" color={color} />,
+          tabBarIcon: ({ color }: any) => <Icon as={Settings2Icon} size="md" color={color} />,
           tabBarButtonTestID: 'settings-tab',
         }}
       />

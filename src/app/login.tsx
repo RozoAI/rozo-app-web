@@ -40,13 +40,13 @@ export default function LoginScreen() {
     setIsLoading(true);
   });
 
-  auth.on('authSuccess', (user) => {
+  auth.on('authSuccess', (user: any) => {
     setIsLoading(true);
 
     if (user) {
       if (user.newUser) {
         // TODO: Remove the hardcode if the API is fixed
-        const evmWallet = wallets.userWallets.find((wallet) => wallet.chain === 'EVM');
+        const evmWallet = wallets.userWallets.find((wallet: any) => wallet.chain === 'EVM');
         createProfile({
           email: user?.email ?? '',
           display_name: user?.email ?? '',

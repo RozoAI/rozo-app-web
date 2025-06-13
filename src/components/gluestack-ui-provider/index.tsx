@@ -1,6 +1,6 @@
 import { OverlayProvider } from '@gluestack-ui/overlay';
 import { ToastProvider } from '@gluestack-ui/toast';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { type ViewProps } from 'react-native';
 
 import { Box } from '@/components/ui/box';
