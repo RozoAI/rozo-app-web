@@ -36,6 +36,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   icon: './assets/icon.png',
   userInterfaceStyle: 'automatic',
   newArchEnabled: true,
+  jsEngine: 'hermes',
   updates: {
     fallbackToCacheTimeout: 0,
     url: 'https://u.expo.dev/a40a9a82-88ef-405a-a4db-21a2f9ec9996',
