@@ -8,6 +8,7 @@ import { twMerge } from 'tailwind-merge';
 import type { StoreApi, UseBoundStore } from 'zustand';
 
 import { currencyConfigs } from '@/lib/currency-config';
+import { type MerchantOrder } from '@/resources/schema/order';
 
 // Platform
 export const IS_IOS = Platform.OS === 'ios';
@@ -116,3 +117,15 @@ export function formatCurrency(amount: string | number, currencyCode: string = '
 
   return `${config.symbol}${integerPart}${config.decimalSeparator}${decimalPart}`;
 }
+
+export const getStatusActionType = (status: MerchantOrder['status']): 'success' | 'error' | 'warning' | 'info' | 'muted' => {
+  const statusMap: Record<MerchantOrder['status'], 'success' | 'error' | 'warning' | 'info' | 'muted'> = {
+    COMPLETED: 'success',
+    PROCESSING: 'info',
+    PENDING: 'warning',
+    FAILED: 'error',
+    DISCREPANCY: 'warning',
+  };
+
+  return statusMap[status] || 'muted';
+};

@@ -1,0 +1,89 @@
+{
+  "general": {
+    "addNote": "إضافة ملاحظة",
+    "amount": "المبلغ",
+    "amountPaid": "المبلغ المدفوع",
+    "backToHome": "العودة إلى الرئيسية",
+    "cancel": "إلغاء",
+    "close": "يغلق",
+    "createdAt": "تم إنشاؤها في",
+    "description": "وصف",
+    "loading": "تحميل",
+    "notFound": "لم يتم العثور عليها",
+    "note": "ملحوظة",
+    "printReceipt": "طباعة الإيصال",
+    "privacyPolicy": "سياسة الخصوصية",
+    "termsOfService": "شروط الخدمة"
+  },
+  "onboarding": {
+    "message": "مرحبًا بك في Rozo POS"
+  },
+  "order": {
+    "filterByStatus": "تصفية حسب الحالة",
+    "noOrdersYet": "لا توجد طلبات بعد",
+    "noOrdersYetDesc": "ستظهر طلباتك الأخيرة هنا بمجرد بدء المعاملات.",
+    "orderDetails": "طلب تفاصيل",
+    "recentOrders": "الطلبات الأخيرة",
+    "recentOrdersDesc": "فيما يلي طلباتك الأخيرة",
+    "status": {
+      "completed": "مكتمل",
+      "discrepancy": "تفاوت",
+      "failed": "فشل",
+      "pending": "قيد الانتظار",
+      "processing": "قيد المعالجة"
+    }
+  },
+  "payment": {
+    "PaymentQRCode": "رمز الدفع (QR)",
+    "amountToPay": "المبلغ للدفع",
+    "continueToPayment": "المتابعة إلى الدفع",
+    "enterPaymentAmount": "أدخل مبلغ الدفع",
+    "notes": {
+      "enterNote": "أدخل الملاحظة",
+      "title": "مذكرة الدفع"
+    },
+    "paymentSuccessful": "تم الدفع بنجاح",
+    "paymentSuccessfulDesc": "تم إتمام معاملتك بنجاح",
+    "scanToPay": "مسح للدفع",
+    "verifyPayment": "تحقق من الدفع"
+  },
+  "settings": {
+    "about": "حول",
+    "account": {
+      "title": "الحساب"
+    },
+    "app_name": "اسم التطبيق",
+    "currency": {
+      "title": "العملة"
+    },
+    "description": "إدارة تفضيلات حسابك وإعدادات التطبيق",
+    "english": "الإنجليزية",
+    "general": "عام",
+    "github": "GitHub",
+    "indonesia": "الإندونيسية",
+    "language": {
+      "title": "اللغة"
+    },
+    "links": "روابط",
+    "login": "تسجيل الدخول",
+    "logout": "تسجيل الخروج",
+    "more": "المزيد",
+    "privacy": "سياسة الخصوصية",
+    "rate": "تقييم",
+    "share": "مشاركة",
+    "signUp": "إنشاء حساب",
+    "support": "الدعم",
+    "support_us": "ادعمنا",
+    "terms": "شروط الخدمة",
+    "theme": {
+      "dark": "داكن",
+      "light": "فاتح",
+      "system": "النظام",
+      "title": "الثيم"
+    },
+    "title": "الإعدادات",
+    "version": "الإصدار",
+    "website": "الموقع الإلكتروني"
+  },
+  "welcome": "مرحبًا بك في Rozo POS"
+}

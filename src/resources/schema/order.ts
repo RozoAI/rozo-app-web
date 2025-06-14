@@ -1,10 +1,13 @@
 import { z } from 'zod';
 
+export const MerchantOrderStatusSchema = z.enum(['PENDING', 'PROCESSING', 'COMPLETED', 'FAILED', 'DISCREPANCY']);
+export type MerchantOrderStatus = z.infer<typeof MerchantOrderStatusSchema>;
+
 export const MerchantOrderSchema = z.object({
   order_id: z.string(),
   merchant_id: z.string(),
   payment_id: z.string(),
-  status: z.enum(['PENDING', 'PROCESSING', 'COMPLETED', 'FAILED', 'DISCREPANCY']),
+  status: MerchantOrderStatusSchema,
   callback_payload: z.object({
     type: z.string(),
     txHash: z.string(),
@@ -53,6 +56,8 @@ export const MerchantOrderSchema = z.object({
   source_token_amount: z.number(),
   description: z.string(),
   display_amount: z.number(),
+  payment_url: z.optional(z.string().url()),
+  qrcode: z.optional(z.string().url()),
 });
 
 export type MerchantOrder = z.infer<typeof MerchantOrderSchema>;

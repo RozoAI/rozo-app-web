@@ -1,10 +1,10 @@
 import { useRouter } from 'expo-router';
 import LottieView from 'lottie-react-native';
-import { PrinterIcon } from 'lucide-react-native';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Box } from '@/components/ui/box';
-import { Button, ButtonIcon, ButtonText } from '@/components/ui/button';
+import { Button, ButtonText } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import { View } from '@/components/ui/view';
 import { type CurrencyConfig } from '@/lib/currency-config';
@@ -26,16 +26,17 @@ export function PaymentSuccess({
   exchangeAmount,
 
   dynamicStyles,
-  onPrintReceipt,
+  // onPrintReceipt,
   onBackToHome,
   defaultCurrency,
 }: PaymentSuccessProps): React.ReactElement {
+  const { t } = useTranslation();
   const router = useRouter();
 
   // Handle print receipt
-  const handlePrintReceipt = () => {
-    onPrintReceipt();
-  };
+  // const handlePrintReceipt = () => {
+  //   onPrintReceipt();
+  // };
 
   // Handle back to home
   const handleBackToHome = () => {
@@ -59,15 +60,13 @@ export function PaymentSuccess({
         {/* Success Title and Subtitle */}
         <Box className="flex flex-col items-center justify-center gap-2">
           <Text className={`text-center font-bold text-gray-800 dark:text-gray-100 ${dynamicStyles.fontSize.title}`}>
-            Payment Successful!
+            {t('payment.paymentSuccessful')}!
           </Text>
-          <Text className="text-center text-gray-500 dark:text-gray-400">
-            Your transaction has been completed successfully
-          </Text>
+          <Text className="text-center text-gray-500 dark:text-gray-400">{t('payment.paymentSuccessfulDesc')}</Text>
         </Box>
         {/* Amount Information */}
         <View className="w-full items-center rounded-xl bg-gray-50 p-4 dark:bg-gray-800">
-          <Text className="mb-1 text-gray-500 dark:text-gray-400">Amount Paid</Text>
+          <Text className="mb-1 text-gray-500 dark:text-gray-400">{t('general.amountPaid')}</Text>
           <Text className={`text-center font-bold text-gray-800 dark:text-gray-200 ${dynamicStyles.fontSize.modalAmount}`}>
             {`${defaultCurrency?.symbol} ${amount}`}
           </Text>
@@ -81,14 +80,14 @@ export function PaymentSuccess({
 
       {/* Action Buttons */}
       <View className="w-full gap-3">
-        <Button
+        {/* <Button
           onPress={handlePrintReceipt}
           className="w-full rounded-xl"
           size={dynamicStyles.size.buttonSize as 'sm' | 'md' | 'lg'}
         >
           <ButtonIcon as={PrinterIcon} />
-          <ButtonText>Print Receipt</ButtonText>
-        </Button>
+          <ButtonText>{t('general.printReceipt')}</ButtonText>
+        </Button> */}
 
         <Button
           variant="link"
@@ -96,7 +95,7 @@ export function PaymentSuccess({
           className="w-full rounded-xl"
           size={dynamicStyles.size.buttonSize as 'sm' | 'md' | 'lg'}
         >
-          <ButtonText>Back to Home</ButtonText>
+          <ButtonText>{t('general.backToHome')}</ButtonText>
         </Button>
       </View>
     </View>

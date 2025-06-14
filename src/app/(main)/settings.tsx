@@ -43,7 +43,7 @@ export default function SettingsPage() {
         <ScrollView className="flex-1 py-6">
           <View className="mb-6">
             <Text className="text-2xl font-bold">{t('settings.title')}</Text>
-            <Text className="text-sm text-gray-400">Manage your account preferences and app settings</Text>
+            <Text className="text-sm text-gray-400">{t('settings.description')}</Text>
           </View>
           <VStack space="lg">
             <VStack className="items-start justify-between rounded-xl border border-background-300 bg-background-0 px-4 py-2">

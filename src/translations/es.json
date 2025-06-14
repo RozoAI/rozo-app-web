@@ -1,0 +1,89 @@
+{
+  "general": {
+    "addNote": "Agregar nota",
+    "amount": "Monto",
+    "amountPaid": "Monto pagado",
+    "backToHome": "Volver al inicio",
+    "cancel": "Cancelar",
+    "close": "Cerca",
+    "createdAt": "Creado a",
+    "description": "Descripción",
+    "loading": "Cargando",
+    "notFound": "Extraviado",
+    "note": "Nota",
+    "printReceipt": "Imprimir recibo",
+    "privacyPolicy": "Política de privacidad",
+    "termsOfService": "Términos del servicio"
+  },
+  "onboarding": {
+    "message": "Bienvenido a Rozo POS"
+  },
+  "order": {
+    "filterByStatus": "Filtrar por estado",
+    "noOrdersYet": "Aún no hay órdenes",
+    "noOrdersYetDesc": "Tus órdenes recientes aparecerán aquí una vez que comiences a realizar transacciones.",
+    "orderDetails": "Detalles del pedido",
+    "recentOrders": "Órdenes recientes",
+    "recentOrdersDesc": "A continuación se muestran sus órdenes más recientes",
+    "status": {
+      "completed": "Completado",
+      "discrepancy": "Discrepancia",
+      "failed": "Fallido",
+      "pending": "Pendiente",
+      "processing": "Procesando"
+    }
+  },
+  "payment": {
+    "PaymentQRCode": "Código QR de pago",
+    "amountToPay": "Monto a pagar",
+    "continueToPayment": "Continuar al pago",
+    "enterPaymentAmount": "Introducir el monto del pago",
+    "notes": {
+      "enterNote": "Ingrese la nota",
+      "title": "Nota de pago"
+    },
+    "paymentSuccessful": "Pago exitoso",
+    "paymentSuccessfulDesc": "Su transacción se ha completado con éxito",
+    "scanToPay": "Escanear para pagar",
+    "verifyPayment": "Verificar pago"
+  },
+  "settings": {
+    "about": "Acerca de",
+    "account": {
+      "title": "Cuenta"
+    },
+    "app_name": "Nombre de la App",
+    "currency": {
+      "title": "Moneda"
+    },
+    "description": "Administre las preferencias de su cuenta y la configuración de la aplicación",
+    "english": "Inglés",
+    "general": "General",
+    "github": "GitHub",
+    "indonesia": "Indonesio",
+    "language": {
+      "title": "Idioma"
+    },
+    "links": "Enlaces",
+    "login": "Iniciar sesión",
+    "logout": "Cerrar sesión",
+    "more": "Más",
+    "privacy": "Política de privacidad",
+    "rate": "Calificar",
+    "share": "Compartir",
+    "signUp": "Registrarse",
+    "support": "Soporte",
+    "support_us": "Apóyanos",
+    "terms": "Términos del servicio",
+    "theme": {
+      "dark": "Oscuro",
+      "light": "Claro",
+      "system": "Sistema",
+      "title": "Tema"
+    },
+    "title": "Configuración",
+    "version": "Versión",
+    "website": "Sitio web"
+  },
+  "welcome": "Bienvenido a Rozo POS"
+}

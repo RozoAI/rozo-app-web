@@ -12,7 +12,7 @@ import { useCreateOrder } from '@/resources/api/merchant/orders';
 import { AmountDisplay } from './amount-display';
 import { PaymentButton } from './payment-button';
 import { PaymentModal } from './payment-modal';
-import { QuickAmountList } from './quick-amount';
+import { ActionSheetPaymentNote } from './payment-note';
 import { type DynamicStyles } from './types';
 
 export function PaymentScreen() {
@@ -20,6 +20,7 @@ export function PaymentScreen() {
   // Get screen dimensions
   const { width } = useWindowDimensions();
   const [amount, setAmount] = useState('0');
+  const [description, setDescription] = useState('');
   const [exchangeAmount, setExchangeAmount] = useState('0.00');
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [paymentUrl, setPaymentUrl] = useState<string>();
@@ -70,7 +71,15 @@ export function PaymentScreen() {
         // Delete last digit
         setAmount((prev) => {
           if (prev.length <= 1) return '0';
-          return prev.slice(0, -1);
+          const newValue = prev.slice(0, -1);
+
+          // Check if the new value would be less than 0.01 (but not exactly 0)
+          const numericValue = parseFloat(newValue.replace(defaultCurrency?.decimalSeparator || '.', '.'));
+          if (!isNaN(numericValue) && numericValue > 0 && numericValue < 0.01) {
+            return '0';
+          }
+
+          return newValue;
         });
       } else if (digit === 'C') {
         // Clear amount
@@ -88,7 +97,27 @@ export function PaymentScreen() {
             return digit;
           }
 
-          return prev + digit;
+          const newValue = prev + digit;
+
+          // Validate the new value
+          const numericValue = parseFloat(newValue.replace(defaultCurrency?.decimalSeparator || '.', '.'));
+
+          // Allow exactly 0 or values >= 0.01
+          if (!isNaN(numericValue) && numericValue > 0 && numericValue < 0.01) {
+            // Don't update if the value would be between 0 and 0.01 (exclusive)
+            return prev;
+          }
+
+          // Additional check: limit decimal places to 2
+          const decimalSeparator = defaultCurrency?.decimalSeparator || '.';
+          if (newValue.includes(decimalSeparator)) {
+            const parts = newValue.split(decimalSeparator);
+            if (parts[1] && parts[1].length > 2) {
+              return prev; // Don't allow more than 2 decimal places
+            }
+          }
+
+          return newValue;
         });
       }
     },
@@ -96,19 +125,19 @@ export function PaymentScreen() {
   );
 
   // Handle quick amount selection
-  const handleQuickAmount = useCallback((value: string) => {
-    setAmount(value);
-  }, []);
+  // const handleQuickAmount = useCallback((value: string) => {
+  //   setAmount(value);
+  // }, []);
 
   const handleOpenPaymentModal = async () => {
     try {
       const response = await createOrder({
         display_amount: Number(amount),
         display_currency: defaultCurrency?.code ?? 'USD',
-        description: 'Payment for order',
+        description: description,
       });
 
-      setPaymentUrl(response.payment_url);
+      setPaymentUrl(response.qrcode);
       setOrderId(response.order_id);
       setIsPaymentModalOpen(true);
     } catch (error) {
@@ -122,6 +151,10 @@ export function PaymentScreen() {
     setIsPaymentModalOpen(false);
     setPaymentUrl(undefined);
     setOrderId(undefined);
+  }, []);
+
+  const handleNote = useCallback((note: string) => {
+    setDescription(note);
   }, []);
 
   return (
@@ -144,11 +177,12 @@ export function PaymentScreen() {
 
           {/* Quick Amount Buttons */}
           <View className={`px-2 ${dynamicStyles.spacing.containerMargin}`}>
-            <QuickAmountList
+            {/* <QuickAmountList
               quickAmounts={defaultCurrency?.quickAmounts ?? []}
               dynamicStyles={dynamicStyles}
               onSelectQuickAmount={handleQuickAmount}
-            />
+            /> */}
+            <ActionSheetPaymentNote onAddNote={handleNote} />
           </View>
         </View>
 

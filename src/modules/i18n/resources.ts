@@ -1,5 +1,13 @@
+import ar from '@/translations/ar.json';
+import bn from '@/translations/bn.json';
 import en from '@/translations/en.json';
+import es from '@/translations/es.json';
+import fr from '@/translations/fr.json';
+import hi from '@/translations/hi.json';
 import id from '@/translations/id.json';
+import pt from '@/translations/pt.json';
+import ru from '@/translations/ru.json';
+import zh from '@/translations/zh.json';
 
 export const resources = {
   en: {
@@ -9,25 +17,28 @@ export const resources = {
     translation: id,
   },
   ar: {
-    translation: en,
+    translation: ar,
   },
   bn: {
-    translation: en,
+    translation: bn,
   },
   zh: {
-    translation: en,
+    translation: zh,
   },
   fr: {
-    translation: en,
+    translation: fr,
   },
   hi: {
-    translation: en,
+    translation: hi,
+  },
+  pt: {
+    translation: pt,
   },
   ru: {
-    translation: en,
+    translation: ru,
   },
   es: {
-    translation: en,
+    translation: es,
   },
 };
 

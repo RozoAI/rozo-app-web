@@ -1,10 +1,51 @@
 {
   "general": {
+    "addNote": "Add note",
+    "amount": "Amount",
+    "amountPaid": "Amount Paid",
+    "backToHome": "Back to Home",
+    "cancel": "Cancel",
+    "close": "Close",
+    "createdAt": "Created at",
+    "description": "Description",
+    "loading": "Loading",
+    "notFound": "Not found",
+    "note": "Note",
+    "printReceipt": "Print Receipt",
     "privacyPolicy": "Privacy Policy",
     "termsOfService": "Terms of Service"
   },
   "onboarding": {
     "message": "Welcome to Rozo POS"
+  },
+  "order": {
+    "filterByStatus": "Filter by Status",
+    "noOrdersYet": "No Orders Yet",
+    "noOrdersYetDesc": "Your recent orders will appear here once you start making transactions.",
+    "orderDetails": "Order Details",
+    "recentOrders": "Recent Orders",
+    "recentOrdersDesc": "Below are your most recent orders",
+    "status": {
+      "completed": "Completed",
+      "discrepancy": "Discrepancy",
+      "failed": "Failed",
+      "pending": "Pending",
+      "processing": "Processing"
+    }
+  },
+  "payment": {
+    "PaymentQRCode": "Payment QR Code",
+    "amountToPay": "Amount to Pay",
+    "continueToPayment": "Continue to Payment",
+    "enterPaymentAmount": "Enter Payment Amount",
+    "notes": {
+      "enterNote": "Enter note",
+      "title": "Payment Note"
+    },
+    "paymentSuccessful": "Payment Successful",
+    "paymentSuccessfulDesc": "Your transaction has been completed successfully",
+    "scanToPay": "Scan to Pay",
+    "verifyPayment": "Verify Payment"
   },
   "settings": {
     "about": "About",
@@ -15,6 +56,7 @@
     "currency": {
       "title": "Currency"
     },
+    "description": "Manage your account preferences and app settings",
     "english": "English",
     "general": "General",
     "github": "Github",

@@ -1,0 +1,89 @@
+{
+  "general": {
+    "addNote": "Добавить заметку",
+    "amount": "Сумма",
+    "amountPaid": "Уплаченная сумма",
+    "backToHome": "Назад на главную",
+    "cancel": "Отмена",
+    "close": "Закрывать",
+    "createdAt": "Создан в",
+    "description": "Описание",
+    "loading": "Загрузка",
+    "notFound": "Не найдено",
+    "note": "Примечание",
+    "printReceipt": "Печать чека",
+    "privacyPolicy": "Политика конфиденциальности",
+    "termsOfService": "Условия использования"
+  },
+  "onboarding": {
+    "message": "Добро пожаловать в Rozo POS"
+  },
+  "order": {
+    "filterByStatus": "Фильтр по статусу",
+    "noOrdersYet": "Заказов пока нет",
+    "noOrdersYetDesc": "Ваши недавние заказы появятся здесь после начала транзакций.",
+    "orderDetails": "Подробная информация о заказе",
+    "recentOrders": "Недавние заказы",
+    "recentOrdersDesc": "Ниже представлены ваши последние заказы",
+    "status": {
+      "completed": "Завершено",
+      "discrepancy": "Несоответствие",
+      "failed": "Неудачно",
+      "pending": "В ожидании",
+      "processing": "В обработке"
+    }
+  },
+  "payment": {
+    "PaymentQRCode": "QR-код оплаты",
+    "amountToPay": "Сумма к оплате",
+    "continueToPayment": "Продолжить к оплате",
+    "enterPaymentAmount": "Введите сумму оплаты",
+    "notes": {
+      "enterNote": "Введите примечание",
+      "title": "Платежная примечание"
+    },
+    "paymentSuccessful": "Оплата прошла успешно",
+    "paymentSuccessfulDesc": "Ваша транзакция успешно завершена",
+    "scanToPay": "Сканировать, чтобы заплатить",
+    "verifyPayment": "Проверить оплату"
+  },
+  "settings": {
+    "about": "О нас",
+    "account": {
+      "title": "Аккаунт"
+    },
+    "app_name": "Название приложения",
+    "currency": {
+      "title": "Валюта"
+    },
+    "description": "Управляйте предпочтениями вашей учетной записи и настройками приложения",
+    "english": "Английский",
+    "general": "Общие",
+    "github": "GitHub",
+    "indonesia": "Индонезийский",
+    "language": {
+      "title": "Язык"
+    },
+    "links": "Ссылки",
+    "login": "Войти",
+    "logout": "Выйти",
+    "more": "Больше",
+    "privacy": "Политика конфиденциальности",
+    "rate": "Оценить",
+    "share": "Поделиться",
+    "signUp": "Зарегистрироваться",
+    "support": "Поддержка",
+    "support_us": "Поддержите нас",
+    "terms": "Условия использования",
+    "theme": {
+      "dark": "Тёмная",
+      "light": "Светлая",
+      "system": "Системная",
+      "title": "Тема"
+    },
+    "title": "Настройки",
+    "version": "Версия",
+    "website": "Веб-сайт"
+  },
+  "welcome": "Добро пожаловать в Rozo POS"
+}

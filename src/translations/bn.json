@@ -1,0 +1,89 @@
+{
+  "general": {
+    "addNote": "নোট যোগ করুন",
+    "amount": "পরিমাণ",
+    "amountPaid": "পরিশোধিত পরিমাণ",
+    "backToHome": "হোমে ফিরে যান",
+    "cancel": "বাতিল",
+    "close": "বন্ধ",
+    "createdAt": "এটি তৈরি",
+    "description": "বর্ণনা",
+    "loading": "লোড হচ্ছে",
+    "notFound": "পাওয়া যায় নি",
+    "note": "দ্রষ্টব্য",
+    "printReceipt": "রশিদ মুদ্রণ করুন",
+    "privacyPolicy": "গোপনীয়তা নীতি",
+    "termsOfService": "পরিষেবার শর্তাবলী"
+  },
+  "onboarding": {
+    "message": "Rozo POS-এ আপনাকে স্বাগতম"
+  },
+  "order": {
+    "filterByStatus": "স্থিতি দ্বারা ফিল্টার",
+    "noOrdersYet": "এখনও কোনো অর্ডার নেই",
+    "noOrdersYetDesc": "লেনদেন শুরু হলে আপনার সাম্প্রতিক অর্ডারগুলো এখানে প্রদর্শিত হবে।",
+    "orderDetails": "অর্ডার বিশদ",
+    "recentOrders": "সাম্প্রতিক অর্ডার",
+    "recentOrdersDesc": "নিচে আপনার সাম্প্রতিক অর্ডারগুলো",
+    "status": {
+      "completed": "সম্পন্ন",
+      "discrepancy": "বৈষম্য",
+      "failed": "ব্যর্থ",
+      "pending": "বিচারাধীন",
+      "processing": "প্রক্রিয়াধীন"
+    }
+  },
+  "payment": {
+    "PaymentQRCode": "পেমেন্ট QR কোড",
+    "amountToPay": "পরিশোধের পরিমাণ",
+    "continueToPayment": "পেমেন্ট চালিয়ে যান",
+    "enterPaymentAmount": "পেমেন্টের পরিমাণ লিখুন",
+    "notes": {
+      "enterNote": "নোট লিখুন",
+      "title": "পেমেন্ট নোট"
+    },
+    "paymentSuccessful": "পেমেন্ট সফল হয়েছে",
+    "paymentSuccessfulDesc": "আপনার লেনদেন সফলভাবে সম্পন্ন হয়েছে",
+    "scanToPay": "স্ক্যান করতে স্ক্যান করুন",
+    "verifyPayment": "পেমেন্ট যাচাই করুন"
+  },
+  "settings": {
+    "about": "সম্পর্কে",
+    "account": {
+      "title": "অ্যাকাউন্ট"
+    },
+    "app_name": "অ্যাপ নাম",
+    "currency": {
+      "title": "মুদ্রা"
+    },
+    "description": "আপনার অ্যাকাউন্ট পছন্দ এবং অ্যাপ্লিকেশন সেটিংস পরিচালনা করুন",
+    "english": "ইংরেজি",
+    "general": "সাধারণ",
+    "github": "GitHub",
+    "indonesia": "ইন্দোনেশিয়া",
+    "language": {
+      "title": "ভাষা"
+    },
+    "links": "লিঙ্ক",
+    "login": "লগইন",
+    "logout": "লগআউট",
+    "more": "আরো",
+    "privacy": "গোপনীয়তা নীতি",
+    "rate": "মূল্যায়ন",
+    "share": "শেয়ার করুন",
+    "signUp": "সাইন আপ",
+    "support": "সহায়তা",
+    "support_us": "আমাদের সমর্থন করুন",
+    "terms": "পরিষেবার শর্তাবলী",
+    "theme": {
+      "dark": "অন্ধকার",
+      "light": "আলো",
+      "system": "সিস্টেম",
+      "title": "থিম"
+    },
+    "title": "সেটিংস",
+    "version": "সংস্করণ",
+    "website": "ওয়েবসাইট"
+  },
+  "welcome": "Rozo POS-এ আপনাকে স্বাগতম"
+}

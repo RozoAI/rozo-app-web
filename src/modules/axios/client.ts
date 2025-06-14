@@ -18,6 +18,7 @@ client.interceptors.request.use((config) => {
 client.interceptors.response.use(
   (response) => response,
   (error) => {
+    console.log({ error });
     throw new Error(error.response?.data?.error ?? 'Something went wrong');
   }
 );

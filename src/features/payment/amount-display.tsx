@@ -1,5 +1,6 @@
 import { Convert } from 'easy-currencies';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import { Card } from '@/components/ui/card';
@@ -17,6 +18,7 @@ type AmountDisplayProps = {
 
 export function AmountDisplay({ amount, dynamicStyles, onExchangeAmount }: AmountDisplayProps) {
   const { defaultCurrency } = useApp();
+  const { t } = useTranslation();
   // State for USD equivalent amount
   const [usdAmount, setUsdAmount] = useState('0.00');
   const [exchangeLoading, setExchangeLoading] = useState(false);
@@ -54,6 +56,12 @@ export function AmountDisplay({ amount, dynamicStyles, onExchangeAmount }: Amoun
       return;
     }
 
+    // Handle minimum amount validation - minimum is 0.01
+    if (numericAmount > 0 && numericAmount < 0.01) {
+      setUsdAmount('0.00');
+      return;
+    }
+
     // If already in USD, return the same amount
     if (defaultCurrency?.code === 'USD') {
       setUsdAmount(numericAmount.toFixed(2));
@@ -67,7 +75,10 @@ export function AmountDisplay({ amount, dynamicStyles, onExchangeAmount }: Amoun
         const converted = await Convert(numericAmount)
           .from(defaultCurrency?.code ?? 'USD')
           .to('USD');
-        setUsdAmount(converted.toFixed(2));
+
+        // Apply minimum amount validation to converted amount as well
+        const finalAmount = converted < 0.01 && converted > 0 ? 0 : converted;
+        setUsdAmount(finalAmount.toFixed(2));
 
         setExchangeLoading(false);
       } catch (error) {
@@ -95,9 +106,9 @@ export function AmountDisplay({ amount, dynamicStyles, onExchangeAmount }: Amoun
   return (
     <View className="items-center px-2">
       <Card className={`w-full rounded-xl shadow-soft-1 ${dynamicStyles.spacing.cardPadding}`}>
-        <Text className="text-center text-gray-500 dark:text-gray-200">Amount</Text>
+        <Text className="text-center text-gray-500 dark:text-gray-200">{t('general.amount')}</Text>
         <Text className={`my-3 text-center font-bold text-gray-800 dark:text-gray-200 ${dynamicStyles.fontSize.amount}`}>
-          {`${defaultCurrency?.symbol} ${formattedAmount}`}
+          {`${formattedAmount} ${defaultCurrency?.symbol}`}
         </Text>
         {/* USD Conversion */}
         {defaultCurrency?.code !== 'USD' && (
@@ -107,8 +118,11 @@ export function AmountDisplay({ amount, dynamicStyles, onExchangeAmount }: Amoun
             </Text>
           </View>
         )}
-        <Text className={`mt-2 text-center text-gray-500 ${dynamicStyles.fontSize.label}`}>Enter Payment Amount</Text>
+        <Text className={`mt-2 text-center text-gray-500 ${dynamicStyles.fontSize.label}`}>
+          {t('payment.enterPaymentAmount')}
+        </Text>
       </Card>
     </View>
   );
 }
+// End of Selection

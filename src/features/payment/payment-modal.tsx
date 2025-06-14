@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import QRCode from 'react-qr-code';
 
-import { Button, ButtonSpinner, ButtonText } from '@/components/ui/button';
+import { Button, ButtonText } from '@/components/ui/button';
 import { Heading } from '@/components/ui/heading';
 import { CloseIcon, Icon } from '@/components/ui/icon';
 import {
@@ -41,13 +42,13 @@ export function PaymentModal({
   dynamicStyles,
   orderId,
 }: PaymentModalProps): React.ReactElement {
+  const { t } = useTranslation();
   const { defaultCurrency, merchant } = useApp();
   const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
   const [showSuccessView, setShowSuccessView] = useState(false);
 
   // Use our custom hook to handle payment status updates
-  const { isLoading, checkPaymentStatus, isCompleted } = usePaymentStatus(merchant?.merchant_id, orderId);
-  console.log('isCompleted', isLoading);
+  const { isCompleted } = usePaymentStatus(merchant?.merchant_id, orderId);
   // Generate QR code when modal opens
   useEffect(() => {
     if (isOpen && paymentUrl) {
@@ -74,9 +75,9 @@ export function PaymentModal({
   }, [isCompleted]);
 
   // Handle payment verification
-  const handleVerifyPayment = useCallback(() => {
-    checkPaymentStatus();
-  }, [checkPaymentStatus]);
+  // const handleVerifyPayment = useCallback(() => {
+  //   checkPaymentStatus();
+  // }, [checkPaymentStatus]);
 
   // Handle back to home
   const handleBackToHome = useCallback(() => {
@@ -92,7 +93,7 @@ export function PaymentModal({
         {!showSuccessView && (
           <ModalHeader className="mb-2">
             <Heading size="md" className="text-typography-950">
-              Payment QR Code
+              {t('payment.PaymentQRCode')}
             </Heading>
             <ModalCloseButton>
               <Icon
@@ -128,11 +129,11 @@ export function PaymentModal({
 
               {/* Amount Information */}
               <View className="mb-6 w-full items-center">
-                <Text className="mb-1 text-gray-500 dark:text-gray-400">Amount to Pay</Text>
+                <Text className="mb-1 text-gray-500 dark:text-gray-400">{t('payment.amountToPay')}</Text>
                 <Text
                   className={`text-center font-bold text-gray-800 dark:text-gray-200 ${dynamicStyles.fontSize.modalAmount}`}
                 >
-                  {`${defaultCurrency?.symbol} ${amount}`}
+                  {`${amount} ${defaultCurrency?.symbol}`}
                 </Text>
                 <View className="mt-1 rounded-lg bg-gray-100 p-2 dark:bg-gray-800">
                   <Text className={`text-center text-gray-600 dark:text-gray-200 ${dynamicStyles.fontSize.label}`}>
@@ -146,21 +147,21 @@ export function PaymentModal({
         {!showSuccessView && (
           <ModalFooter className="flex w-full flex-col items-center gap-2">
             <>
-              <Button
+              {/* <Button
                 onPress={handleVerifyPayment}
                 isDisabled={isLoading || isCompleted}
                 className="w-full rounded-xl"
                 size={dynamicStyles.size.buttonSize as 'sm' | 'md' | 'lg'}
               >
-                {isLoading ? <ButtonSpinner /> : <ButtonText>Verify Payment</ButtonText>}
-              </Button>
+                {isLoading ? <ButtonSpinner /> : <ButtonText>{t('payment.verifyPayment')}</ButtonText>}
+              </Button> */}
               <Button
                 variant="link"
                 onPress={onClose}
                 className="w-full"
                 size={dynamicStyles.size.buttonSize as 'sm' | 'md' | 'lg'}
               >
-                <ButtonText>Cancel</ButtonText>
+                <ButtonText>{t('general.cancel')}</ButtonText>
               </Button>
             </>
           </ModalFooter>

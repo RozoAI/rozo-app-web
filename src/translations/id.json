@@ -1,10 +1,51 @@
 {
   "general": {
+    "addNote": "Tambahkan catatan",
+    "amount": "Jumlah",
+    "amountPaid": "Jumlah Dibayar",
+    "backToHome": "Kembali ke Beranda",
+    "cancel": "Batal",
+    "close": "Menutup",
+    "createdAt": "Dibuat di",
+    "description": "Keterangan",
+    "loading": "Memuat",
+    "notFound": "Tidak ditemukan",
+    "note": "Catatan",
+    "printReceipt": "Cetak Struk",
     "privacyPolicy": "Kebijakan Privasi",
     "termsOfService": "Syarat dan Ketentuan"
   },
   "onboarding": {
     "message": "Selamat datang di Rozo POS"
+  },
+  "order": {
+    "filterByStatus": "Filter berdasarkan status",
+    "noOrdersYet": "Belum Ada Pesanan",
+    "noOrdersYetDesc": "Pesanan Anda akan muncul di sini setelah Anda mulai bertransaksi.",
+    "orderDetails": "Detail pesanan",
+    "recentOrders": "Pesanan Terbaru",
+    "recentOrdersDesc": "Berikut adalah pesanan terbaru Anda",
+    "status": {
+      "completed": "Selesai",
+      "discrepancy": "Selisih",
+      "failed": "Gagal",
+      "pending": "Tertunda",
+      "processing": "Diproses"
+    }
+  },
+  "payment": {
+    "PaymentQRCode": "Kode QR Pembayaran",
+    "amountToPay": "Jumlah yang Harus Dibayar",
+    "continueToPayment": "Lanjutkan ke Pembayaran",
+    "enterPaymentAmount": "Masukkan Jumlah Pembayaran",
+    "notes": {
+      "enterNote": "Masukkan catatan",
+      "title": "Catatan pembayaran"
+    },
+    "paymentSuccessful": "Pembayaran Berhasil",
+    "paymentSuccessfulDesc": "Transaksi Anda telah berhasil diselesaikan",
+    "scanToPay": "Memindai untuk membayar",
+    "verifyPayment": "Verifikasi Pembayaran"
   },
   "settings": {
     "about": "Tentang",
@@ -15,9 +56,10 @@
     "currency": {
       "title": "Mata Uang"
     },
+    "description": "Kelola Preferensi Akun Anda dan Pengaturan Aplikasi",
     "english": "Inggris",
     "general": "Umum",
-    "github": "Github",
+    "github": "GitHub",
     "indonesia": "Indonesia",
     "language": {
       "title": "Bahasa"
@@ -25,14 +67,14 @@
     "links": "Tautan",
     "login": "Masuk",
     "logout": "Keluar",
-    "more": "Lebih",
+    "more": "Lainnya",
     "privacy": "Kebijakan Privasi",
-    "rate": "Nilai",
+    "rate": "Beri Nilai",
     "share": "Bagikan",
-    "signUp": "Mendaftar",
+    "signUp": "Daftar",
     "support": "Dukungan",
     "support_us": "Dukung Kami",
-    "terms": "Syarat Layanan",
+    "terms": "Syarat dan Ketentuan",
     "theme": {
       "dark": "Gelap",
       "light": "Terang",

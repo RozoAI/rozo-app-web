@@ -34,19 +34,19 @@ export const languages: readonly LanguageOption[] = [
     label: 'Arabic (العربية)',
     key: 'AR',
     flag: '🇸🇦',
-    value: 'ar', // Fallback to English if Arabic is not available
+    value: 'ar',
   },
   {
     label: 'Bengali (বাংলা)',
     key: 'BN',
     flag: '🇧🇩',
-    value: 'bn', // Fallback to English if Bengali is not available
+    value: 'bn',
   },
   {
     label: 'Chinese (中文)',
     key: 'ZH',
     flag: '🇨🇳',
-    value: 'zh', // Fallback to English if Chinese is not available
+    value: 'zh',
   },
   {
     label: 'English (English)',
@@ -58,13 +58,13 @@ export const languages: readonly LanguageOption[] = [
     label: 'French (Français)',
     key: 'FR',
     flag: '🇫🇷',
-    value: 'fr', // Fallback to English if French is not available
+    value: 'fr',
   },
   {
     label: 'Hindi (हिन्दी)',
     key: 'HI',
     flag: '🇮🇳',
-    value: 'hi', // Fallback to English if Hindi is not available
+    value: 'hi',
   },
   {
     label: 'Indonesian (Bahasa Indonesia)',
@@ -76,19 +76,19 @@ export const languages: readonly LanguageOption[] = [
     label: 'Portuguese (Português)',
     key: 'PT',
     flag: '🇵🇹',
-    value: 'en', // Fallback to English if Portuguese is not available
+    value: 'pt',
   },
   {
     label: 'Russian (Русский)',
     key: 'RU',
     flag: '🇷🇺',
-    value: 'ru', // Fallback to English if Russian is not available
+    value: 'ru',
   },
   {
     label: 'Spanish (Español)',
     key: 'ES',
     flag: '🇪🇸',
-    value: 'es', // Fallback to English if Spanish is not available
+    value: 'es',
   },
 ] as const;
 
@@ -220,7 +220,7 @@ export function ActionSheetLanguageSwitcher({ trigger }: ActionSheetLanguageSwit
       <Pressable onPress={handleOpen} className="relative w-full">
         {trigger(selectedLabel ?? initialLabel)}
         {isPending && (
-          <View className="absolute inset-x-0 top-0 z-10 flex size-full items-center justify-center bg-white/50 py-2">
+          <View className="absolute inset-x-0 top-0 z-10 flex size-full items-center justify-center bg-white/50 py-2 dark:bg-white/20">
             <Spinner />
           </View>
         )}

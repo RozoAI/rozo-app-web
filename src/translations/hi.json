@@ -1,0 +1,89 @@
+{
+  "general": {
+    "addNote": "नोट जोड़ें",
+    "amount": "राशि",
+    "amountPaid": "भरी गई राशि",
+    "backToHome": "मुख्य पृष्ठ पर लौटें",
+    "cancel": "रद्द करें",
+    "close": "बंद करना",
+    "createdAt": "पर बनाया गया",
+    "description": "विवरण",
+    "loading": "लोड करना",
+    "notFound": "नहीं मिला",
+    "note": "टिप्पणी",
+    "printReceipt": "रसीद प्रिंट करें",
+    "privacyPolicy": "गोपनीयता नीति",
+    "termsOfService": "सेवा की शर्तें"
+  },
+  "onboarding": {
+    "message": "Rozo POS में आपका स्वागत है"
+  },
+  "order": {
+    "filterByStatus": "स्थिति से फ़िल्टर करें",
+    "noOrdersYet": "कोई ऑर्डर नहीं",
+    "noOrdersYetDesc": "जैसे ही आप लेन-देन शुरू करेंगे, आपकी ऑर्डर यहां दिखाई देंगी।",
+    "orderDetails": "ऑर्डर का विवरण",
+    "recentOrders": "हाल की ऑर्डर",
+    "recentOrdersDesc": "नीचे आपकी हाल की ऑर्डर हैं",
+    "status": {
+      "completed": "पूर्ण",
+      "discrepancy": "विसंगति",
+      "failed": "विफल",
+      "pending": "बकाया",
+      "processing": "प्रसंस्करण में"
+    }
+  },
+  "payment": {
+    "PaymentQRCode": "भुगतान क्यूआर कोड",
+    "amountToPay": "भुगतान की राशि",
+    "continueToPayment": "भुगतान जारी रखें",
+    "enterPaymentAmount": "भुगतान राशि दर्ज करें",
+    "notes": {
+      "enterNote": "नोट दर्ज करें",
+      "title": "भुगतान नोट"
+    },
+    "paymentSuccessful": "भुगतान सफल रहा",
+    "paymentSuccessfulDesc": "आपका लेनदेन सफलतापूर्वक पूरा हो गया है",
+    "scanToPay": "भुगतान करने के लिए स्कैन करना",
+    "verifyPayment": "भुगतान सत्यापित करें"
+  },
+  "settings": {
+    "about": "के बारे में",
+    "account": {
+      "title": "खाता"
+    },
+    "app_name": "ऐप का नाम",
+    "currency": {
+      "title": "मुद्रा"
+    },
+    "description": "अपनी खाता वरीयताएँ और ऐप सेटिंग्स प्रबंधित करें",
+    "english": "अंग्रेज़ी",
+    "general": "सामान्य",
+    "github": "GitHub",
+    "indonesia": "इंडोनेशियाई",
+    "language": {
+      "title": "भाषा"
+    },
+    "links": "लिंक",
+    "login": "लॉगिन",
+    "logout": "लॉगआउट",
+    "more": "अधिक",
+    "privacy": "गोपनीयता नीति",
+    "rate": "रेट करें",
+    "share": "साझा करें",
+    "signUp": "साइन अप करें",
+    "support": "सहायता",
+    "support_us": "हमें समर्थन दें",
+    "terms": "सेवा की शर्तें",
+    "theme": {
+      "dark": "डार्क",
+      "light": "लाइट",
+      "system": "सिस्टम",
+      "title": "थीम"
+    },
+    "title": "सेटिंग्स",
+    "version": "संस्करण",
+    "website": "वेबसाइट"
+  },
+  "welcome": "Rozo POS में आपका स्वागत है"
+}

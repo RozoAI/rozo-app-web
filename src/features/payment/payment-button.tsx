@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import { Button, ButtonSpinner, ButtonText } from '@/components/ui/button';
@@ -13,6 +14,8 @@ type PaymentButtonProps = {
 };
 
 export function PaymentButton({ isLoading, isDisabled, dynamicStyles, onPress }: PaymentButtonProps) {
+  const { t } = useTranslation();
+
   return (
     <View className="mt-4 px-3 pb-2">
       <Button
@@ -21,7 +24,7 @@ export function PaymentButton({ isLoading, isDisabled, dynamicStyles, onPress }:
         isDisabled={isDisabled}
         className="rounded-xl"
       >
-        {isLoading ? <ButtonSpinner /> : <ButtonText>Continue to Payment</ButtonText>}
+        {isLoading ? <ButtonSpinner /> : <ButtonText className="text-white">{t('payment.continueToPayment')}</ButtonText>}
       </Button>
     </View>
   );

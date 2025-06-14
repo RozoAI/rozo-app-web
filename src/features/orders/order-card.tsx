@@ -1,32 +1,24 @@
 import { format } from 'date-fns';
 import { ClockIcon } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
 import { TouchableOpacity, View } from 'react-native';
 
 import { Badge, BadgeText } from '@/components/ui/badge';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
-import { formatCurrency } from '@/lib';
+import { formatCurrency, getStatusActionType } from '@/lib';
 import { type MerchantOrder } from '@/resources/schema/order';
 
 interface OrderCardProps {
   order: MerchantOrder;
+  onPress?: (order: MerchantOrder) => void;
 }
 
-const getStatusActionType = (status: MerchantOrder['status']): 'success' | 'error' | 'warning' | 'info' | 'muted' => {
-  const statusMap: Record<MerchantOrder['status'], 'success' | 'error' | 'warning' | 'info' | 'muted'> = {
-    COMPLETED: 'success',
-    PROCESSING: 'info',
-    PENDING: 'warning',
-    FAILED: 'error',
-    DISCREPANCY: 'warning',
-  };
+export function OrderCard({ order, onPress }: OrderCardProps) {
+  const { t } = useTranslation();
 
-  return statusMap[status] || 'muted';
-};
-
-export function OrderCard({ order }: OrderCardProps) {
   return (
-    <TouchableOpacity activeOpacity={0.7}>
+    <TouchableOpacity activeOpacity={0.7} onPress={() => onPress?.(order)}>
       <View className="items-start justify-between rounded-xl border border-background-300 bg-background-0 px-4 py-2">
         {/* Main Order Info */}
         <View className="mb-3 w-full flex-row items-start justify-between">
@@ -35,7 +27,7 @@ export function OrderCard({ order }: OrderCardProps) {
               <Text className="text-sm font-medium text-blue-600 dark:text-blue-400">#{order.order_id.slice(0, 8)}</Text>
 
               <Badge size="md" variant="solid" action={getStatusActionType(order.status)}>
-                <BadgeText>{order.status}</BadgeText>
+                <BadgeText>{t(`order.status.${order.status.toLowerCase()}`)}</BadgeText>
               </Badge>
             </View>
             <Text className="text-2xl font-bold text-black dark:text-white">
