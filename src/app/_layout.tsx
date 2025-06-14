@@ -1,13 +1,13 @@
-// Import  global CSS file
+// Import global CSS file
 import '@/styles/global.css';
 
 import { ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
+import * as SplashScreen from 'expo-splash-screen'; // Correct import
 import { useColorScheme } from 'nativewind';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react'; // Import hooks
 import { I18nextProvider } from 'react-i18next';
-import { Platform, StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native'; // Import View
 import FlashMessage from 'react-native-flash-message';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
@@ -21,29 +21,58 @@ import { configureDynamicDeepLinks } from '@/modules/dynamic/dynamic-linking';
 import i18n from '@/modules/i18n';
 import { AppProvider } from '@/providers/app.provider';
 import { QueryProvider } from '@/providers/query.provider';
+
 export { ErrorBoundary } from 'expo-router';
 
 export const unstable_settings = {
   initialRouteName: '(main)',
 };
 
-loadSelectedTheme();
-// Prevent the splash screen from auto-hiding before asset loading is complete.
+// Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
-// Set the animation options. This is optional.
-SplashScreen.setOptions({
-  duration: 500,
-  fade: true,
-});
 
 export default function RootLayout() {
-  // Initialize deep linking for authentication when the app starts
+  // 1. State to track if all assets are loaded
+  const [isReady, setIsReady] = useState(false);
+
+  // 2. The main effect to prepare the app
   useEffect(() => {
-    configureDynamicDeepLinks();
+    async function prepare() {
+      try {
+        // Here you can await all your async startup tasks
+        await loadSelectedTheme();
+        configureDynamicDeepLinks(); // This can run in parallel if not awaited
+
+        // You can add other tasks here, like checking for an auth token
+        // await checkUserAuthentication();
+      } catch (e) {
+        // We'll want to show the app even if something fails, but log the error
+        console.warn(e);
+      } finally {
+        // Tell the application it's ready to render
+        setIsReady(true);
+      }
+    }
+
+    prepare();
   }, []);
 
+  // 3. A callback for hiding the splash screen after the layout is rendered
+  const onLayoutRootView = useCallback(async () => {
+    // We hide the splash screen only when the app is ready AND fonts are loaded
+    if (isReady) {
+      await SplashScreen.hideAsync();
+    }
+  }, [isReady]);
+
+  // 4. Don't render anything until all assets are ready
+  if (!isReady) {
+    return null;
+  }
+
+  // 5. Render the app and pass the onLayout callback down to the Providers
   return (
-    <Providers>
+    <Providers onLayout={onLayoutRootView}>
       <Stack>
         <Stack.Screen name="(main)" options={{ headerShown: false }} />
         <Stack.Screen name="login" options={{ headerShown: false }} />
@@ -52,23 +81,24 @@ export default function RootLayout() {
   );
 }
 
-function Providers({ children }: { children: React.ReactNode }) {
+// 6. Modify Providers to accept and use the onLayout prop
+function Providers({ children, onLayout }: { children: React.ReactNode; onLayout: () => void }) {
   const theme = useColorScheme();
 
   return (
     <I18nextProvider i18n={i18n}>
       <GluestackUIProvider mode={theme.colorScheme}>
-        <GestureHandlerRootView style={styles.container} className={theme.colorScheme}>
+        {/* The onLayout prop is attached to the absolute root view */}
+        <GestureHandlerRootView style={styles.container} className={theme.colorScheme} onLayout={onLayout}>
           <KeyboardProvider>
             <ThemeProvider value={theme.colorScheme === 'dark' ? darkTheme : defaultTheme}>
               <QueryProvider>
-                <AppProvider>
-                  {Platform.OS === 'web' ? <WebFontsLoader>{children}</WebFontsLoader> : children}
+                {/* @ts-ignore */}
+                <dynamicClient.reactNative.WebView />
 
-                  <dynamicClient.reactNative.WebView />
-                  {/* @ts-ignore */}
-                  <FlashMessage position="top" />
-                </AppProvider>
+                {/* @ts-ignore */}
+                <FlashMessage position="top" />
+                <AppProvider>{Platform.OS === 'web' ? <WebFontsLoader>{children}</WebFontsLoader> : children}</AppProvider>
               </QueryProvider>
             </ThemeProvider>
           </KeyboardProvider>

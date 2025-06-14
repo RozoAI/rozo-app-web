@@ -4,7 +4,7 @@ import { useMMKVString } from 'react-native-mmkv';
 
 import { storage } from '@/lib/storage';
 
-const SELECTED_THEME = 'SELECTED_THEME';
+const SELECTED_THEME = '_theme';
 export type ColorSchemeType = 'light' | 'dark' | 'system';
 /**
  * this hooks should only be used while selecting the theme

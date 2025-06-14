@@ -1,9 +1,9 @@
 import { format } from 'date-fns';
-import LottieView from 'lottie-react-native';
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import QRCode from 'react-qr-code';
 
+import CheckSvg from '@/components/svg/check';
 import {
   Actionsheet,
   ActionsheetBackdrop,
@@ -117,14 +117,7 @@ export const OrderDetailActionSheet = forwardRef<OrderDetailActionSheetRef, Orde
 
                 {order.status === 'COMPLETED' && (
                   <View className="flex w-full flex-col items-center justify-center">
-                    <LottieView
-                      source={require('@/components/animations/check.json')}
-                      autoPlay
-                      loop
-                      resizeMode="center"
-                      webStyle={{ width: 200, height: 150 }}
-                      style={{ width: 200, height: 150 }}
-                    />
+                    <CheckSvg width={200} height={150} />
                   </View>
                 )}
 

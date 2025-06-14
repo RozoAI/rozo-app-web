@@ -8,7 +8,6 @@ module.exports = {
     'unused-imports',
     'tailwindcss',
     'simple-import-sort',
-    'eslint-plugin-react-compiler',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {

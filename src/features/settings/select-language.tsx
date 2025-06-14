@@ -13,8 +13,8 @@ import {
 import { Pressable } from '@/components/ui/pressable';
 import { Spinner } from '@/components/ui/spinner';
 import { View } from '@/components/ui/view';
+import { useSelectedLanguage } from '@/hooks/use-selected-language';
 import { showToast } from '@/lib';
-import { useSelectedLanguage } from '@/modules/i18n';
 import { type Language } from '@/modules/i18n/resources';
 import { useApp } from '@/providers/app.provider';
 import { useCreateProfile } from '@/resources/api';

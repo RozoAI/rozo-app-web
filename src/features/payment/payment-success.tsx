@@ -1,8 +1,8 @@
 import { useRouter } from 'expo-router';
-import LottieView from 'lottie-react-native';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import CheckSvg from '@/components/svg/check';
 import { Box } from '@/components/ui/box';
 import { Button, ButtonText } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
@@ -48,14 +48,7 @@ export function PaymentSuccess({
     <View className="items-center justify-between gap-4">
       <Box className="flex flex-col items-center justify-center gap-6">
         {/* Success Icon */}
-        <LottieView
-          source={require('@/components/animations/check.json')}
-          autoPlay
-          loop
-          resizeMode="center"
-          webStyle={{ width: 200, height: 150 }}
-          style={{ width: 200, height: 150 }}
-        />
+        <CheckSvg width={200} height={150} />
 
         {/* Success Title and Subtitle */}
         <Box className="flex flex-col items-center justify-center gap-2">

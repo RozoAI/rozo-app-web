@@ -72,7 +72,6 @@ export function usePaymentStatus(merchantId?: string, orderId?: string) {
   }, [merchantId, orderId, isWeb]);
 
   useEffect(() => {
-    console.log(data);
     if (data && data.status === 'COMPLETED') {
       setStatus('completed');
     }

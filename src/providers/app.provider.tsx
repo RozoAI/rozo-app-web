@@ -1,8 +1,12 @@
+import { useRouter } from 'expo-router';
 import React, { useContext, useMemo } from 'react';
 import { createContext, useEffect, useState } from 'react';
 
 import { PageLoader } from '@/components/loader/loader';
+import { showToast, storage } from '@/lib';
 import { type CurrencyConfig, currencyConfigs } from '@/lib/currency-config';
+import { useDynamic } from '@/modules/dynamic/dynamic-client';
+// eslint-disable-next-line import/no-cycle
 import { useGetProfile } from '@/resources/api';
 import { type MerchantProfile } from '@/resources/schema/merchant';
 
@@ -28,24 +32,25 @@ interface IProviderProps {
   children: React.ReactNode;
 }
 
-export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
-  const { refetch, data, isSuccess } = useGetProfile();
-  const [isLoading, setIsLoading] = useState(true);
+export const TOKEN_KEY = '_auth_token';
 
-  const [token, setToken] = useState<string>();
+export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
+  const { refetch, data, error } = useGetProfile();
+  const { auth } = useDynamic();
+  const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
+
+  const [token, setToken] = useState<string | undefined>();
   const [merchant, setMerchant] = useState<MerchantProfile>();
 
   const initApp = async () => {
-    const suffix = process.env.EXPO_PUBLIC_DYNAMIC_ENVIRONMENT_ID ?? '';
-    const token = localStorage.getItem(`dynamic_authentication_token_${suffix}`);
+    setIsLoading(true);
+    const token = auth?.token;
 
+    setToken(token ?? undefined);
     if (token) {
-      setToken(token);
+      storage.set(TOKEN_KEY, token);
     }
-  };
-
-  const handleMerchant = (merchant: MerchantProfile | undefined) => {
-    setMerchant(merchant);
   };
 
   const defaultCurrency = useMemo(() => {
@@ -55,23 +60,35 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
 
   useEffect(() => {
     initApp();
-  }, []);
+  }, [auth?.token]);
 
   useEffect(() => {
     if (token) {
       setIsLoading(true);
       refetch();
     } else {
-      setIsLoading(false);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 2000);
     }
   }, [token]);
 
   useEffect(() => {
-    if (isSuccess && data) {
+    if (data) {
       setIsLoading(false);
-      handleMerchant(data);
+      setMerchant(data);
     }
-  }, [data, isSuccess]);
+
+    if (error) {
+      showToast({
+        type: 'danger',
+        message: error?.message ?? 'Failed to get profile',
+      });
+
+      setIsLoading(false);
+      router.replace('/error');
+    }
+  }, [data, error]);
 
   const contextPayload = useMemo(
     () => ({
@@ -80,7 +97,7 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
       merchant,
       defaultCurrency,
       setToken,
-      setMerchant: handleMerchant,
+      setMerchant,
     }),
     [token, merchant]
   );

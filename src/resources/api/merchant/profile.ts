@@ -1,6 +1,7 @@
 import type { AxiosError } from 'axios';
 import { createMutation, createQuery } from 'react-query-kit';
 
+// eslint-disable-next-line import/no-cycle
 import { client } from '@/modules/axios/client';
 import { type MerchantProfile } from '@/resources/schema/merchant';
 

@@ -1,13 +1,16 @@
 import axios from 'axios';
 
+import { storage } from '@/lib';
+// eslint-disable-next-line import/no-cycle
+import { TOKEN_KEY } from '@/providers/app.provider';
+
 export const client = axios.create({
   timeout: 20 * 1000,
   baseURL: process.env.EXPO_PUBLIC_API_URL,
 });
 
-client.interceptors.request.use((config) => {
-  const suffix = process.env.EXPO_PUBLIC_DYNAMIC_ENVIRONMENT_ID ?? '';
-  const token = localStorage.getItem(`dynamic_authentication_token_${suffix}`);
+client.interceptors.request.use(async (config) => {
+  const token = storage.getString(TOKEN_KEY);
 
   if (token) {
     config.headers.Authorization = `Bearer ${token.replace(/^"|"$/g, '')}`;
@@ -18,7 +21,6 @@ client.interceptors.request.use((config) => {
 client.interceptors.response.use(
   (response) => response,
   (error) => {
-    console.log({ error });
     throw new Error(error.response?.data?.error ?? 'Something went wrong');
   }
 );

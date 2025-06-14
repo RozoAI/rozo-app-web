@@ -25,8 +25,8 @@ const appIconBadgeConfig: AppIconBadgeConfig = {
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
-  name: process.env.EXPO_PUBLIC_APP_NAME ?? 'rozoai-pos',
-  description: `${process.env.EXPO_PUBLIC_APP_NAME ?? 'rozoai-pos'} Mobile App`,
+  name: process.env.EXPO_PUBLIC_APP_NAME ?? 'Rozo POS',
+  description: `${process.env.EXPO_PUBLIC_APP_NAME ?? 'Rozo POS'}`,
   owner: process.env.EXPO_PUBLIC_EAS_ACCOUNT_OWNER ?? 'rozoai',
   scheme: 'rozopos', // Custom URL scheme for deep linking
   slug: process.env.EXPO_PUBLIC_SLUG ?? 'rozoai-pos',
@@ -38,7 +38,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   jsEngine: 'hermes',
   updates: {
     fallbackToCacheTimeout: 0,
-    url: 'https://u.expo.dev/a40a9a82-88ef-405a-a4db-21a2f9ec9996',
   },
   runtimeVersion: version,
   assetBundlePatterns: ['**/*'],
@@ -56,10 +55,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     reactCanary: true,
   },
   android: {
-    adaptiveIcon: {
-      foregroundImage: './assets/adaptive-icon.png',
-      backgroundColor: '#FFFFFF',
-    },
     package: process.env.EXPO_PUBLIC_PACKAGE,
     userInterfaceStyle: 'automatic',
     intentFilters: [
@@ -96,8 +91,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       'expo-splash-screen',
       {
         backgroundColor: '#FFFFFF',
-        image: './assets/splash-icon.png',
-        imageWidth: 150,
+        image: './assets/splash-light.png',
+        imageWidth: 200,
+        dark: {
+          image: './assets/splash-dark.png',
+          backgroundColor: '#000000',
+        },
       },
     ],
     [
@@ -113,6 +112,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         ],
       },
     ],
+    'expo-web-browser',
     'expo-localization',
     'expo-router',
     'expo-secure-store',

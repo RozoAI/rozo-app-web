@@ -65,7 +65,6 @@ export function PaymentModal({
 
   // Watch for payment status changes
   useEffect(() => {
-    console.log('isCompleted', isCompleted);
     if (isCompleted) {
       // Show success view after a brief delay
       setTimeout(() => {

@@ -2,7 +2,8 @@ import { NumPad } from '@umit-turk/react-native-num-pad';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useWindowDimensions, View } from 'react-native';
 
-import { Image } from '@/components/ui/image';
+import LogoSvg from '@/components/svg/logo';
+import LogoWhiteSvg from '@/components/svg/logo-white';
 import { SafeAreaView } from '@/components/ui/safe-area-view';
 import { Text } from '@/components/ui/text';
 import { useSelectedTheme } from '@/hooks';
@@ -162,12 +163,7 @@ export function PaymentScreen() {
       <SafeAreaView className="flex-1">
         {/* Logo and Brand Name */}
         <View className="mb-2 flex-row items-center justify-center gap-2 py-1">
-          <Image
-            source={
-              selectedTheme === 'dark' ? require('@/components/svg/logo-white.svg') : require('@/components/svg/logo.svg')
-            }
-            size="2xs"
-          />
+          {selectedTheme === 'dark' ? <LogoWhiteSvg width={24} height={24} /> : <LogoSvg width={24} height={24} />}
           <Text className="text-lg font-bold text-gray-800 dark:text-gray-200">Rozo POS</Text>
         </View>
 

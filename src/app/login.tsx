@@ -3,10 +3,11 @@ import { useRouter } from 'expo-router';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
+import LogoSvg from '@/components/svg/logo';
+import LogoWhiteSvg from '@/components/svg/logo-white';
 import { Box } from '@/components/ui/box';
 import { Button, ButtonSpinner, ButtonText } from '@/components/ui/button';
 import { FocusAwareStatusBar } from '@/components/ui/focus-aware-status-bar';
-import { Image } from '@/components/ui/image';
 import { Text } from '@/components/ui/text';
 import { useSelectedTheme } from '@/hooks';
 import { showToast } from '@/lib';
@@ -44,23 +45,19 @@ export default function LoginScreen() {
     setIsLoading(true);
 
     if (user) {
-      if (user.newUser) {
+      // TODO: Remove the hardcode if the API is fixed
+      const evmWallet = wallets.userWallets.find((wallet: any) => wallet.chain === 'EVM');
+      createProfile({
+        email: user?.email ?? '',
+        display_name: user?.email ?? '',
+        description: '',
+        logo_url: '',
+        default_currency: 'USD', // Default currency
+        default_language: 'EN', // Default language
         // TODO: Remove the hardcode if the API is fixed
-        const evmWallet = wallets.userWallets.find((wallet: any) => wallet.chain === 'EVM');
-        createProfile({
-          email: user?.email ?? '',
-          display_name: user?.email ?? '',
-          description: '',
-          logo_url: '',
-          default_currency: 'USD', // Default currency
-          default_language: 'EN', // Default language
-          // TODO: Remove the hardcode if the API is fixed
-          default_token_id: 'USDC_BASE',
-          wallet_address: evmWallet?.address ?? '',
-        });
-      } else {
-        onLoginSuccess();
-      }
+        default_token_id: 'USDC_BASE',
+        wallet_address: evmWallet?.address ?? '',
+      });
     } else {
       showToast({
         type: 'danger',
@@ -101,13 +98,7 @@ export default function LoginScreen() {
       <Box className="flex-1 items-center justify-center px-6">
         {/* Logo and title section */}
         <Box className="mb-6 w-full items-center justify-center">
-          <Image
-            source={
-              selectedTheme === 'dark' ? require('@/components/svg/logo-white.svg') : require('@/components/svg/logo.svg')
-            }
-            style={{ width: 120, height: 120 }}
-            resizeMode="contain"
-          />
+          {selectedTheme === 'dark' ? <LogoWhiteSvg width={120} height={120} /> : <LogoSvg width={120} height={120} />}
 
           <Text className="text-center text-3xl font-bold text-primary-600">Rozo POS</Text>
 
