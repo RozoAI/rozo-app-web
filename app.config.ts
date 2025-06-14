@@ -2,7 +2,7 @@
 import type { ConfigContext, ExpoConfig } from '@expo/config';
 import type { AppIconBadgeConfig } from 'app-icon-badge/types';
 
-const version = process.env.EXPO_PUBLIC_VERSION ?? '0.0.0';
+const version = process.env.EXPO_PUBLIC_VERSION ?? '0.0.1';
 const appEnv = process.env.EXPO_PUBLIC_APP_ENV ?? 'development';
 
 const isProduction = appEnv === 'production';
@@ -27,9 +27,10 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   name: process.env.EXPO_PUBLIC_APP_NAME ?? 'rozoai-pos',
   description: `${process.env.EXPO_PUBLIC_APP_NAME ?? 'rozoai-pos'} Mobile App`,
-  owner: process.env.EXPO_PUBLIC_EAS_ACCOUNT_OWNER ?? 'rozoai',
+  owner: process.env.EXPO_PUBLIC_EAS_ACCOUNT_OWNER ?? 'yahyafakhroji',
   scheme: 'rozopos', // Custom URL scheme for deep linking
-  slug: process.env.EXPO_PUBLIC_SLUG ?? 'rozoai-pos',
+  // slug: process.env.EXPO_PUBLIC_SLUG ?? 'rozoai-pos',
+  slug: 'rozoai-pos-pyvhxqjtnald5hpgznhii',
   version,
   orientation: 'portrait',
   icon: './assets/icon.png',
@@ -37,10 +38,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   newArchEnabled: true,
   updates: {
     fallbackToCacheTimeout: 0,
+    url: 'https://u.expo.dev/a40a9a82-88ef-405a-a4db-21a2f9ec9996',
   },
-  runtimeVersion: {
-    policy: 'appVersion',
-  },
+  runtimeVersion: version,
   assetBundlePatterns: ['**/*'],
   ios: {
     supportsTablet: true,
@@ -119,4 +119,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     ['app-icon-badge', appIconBadgeConfig],
     ['react-native-edge-to-edge'],
   ],
+  extra: {
+    eas: {
+      projectId: 'a40a9a82-88ef-405a-a4db-21a2f9ec9996',
+    },
+  },
 });

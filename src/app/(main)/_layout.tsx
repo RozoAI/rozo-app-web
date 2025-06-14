@@ -1,8 +1,8 @@
 /* eslint-disable react/no-unstable-nested-components */
 import type { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
-import { Tabs, useRouter } from 'expo-router';
+import { Redirect, Tabs } from 'expo-router';
 import { HomeIcon, Settings2Icon, ShoppingBagIcon } from 'lucide-react-native';
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
@@ -40,13 +40,10 @@ const tabScreenOptions: BottomTabNavigationOptions = {
 
 export default function TabLayout() {
   const { isAuthenticated } = useApp();
-  const router = useRouter();
 
-  useEffect(() => {
-    if (!isAuthenticated) {
-      router.navigate('/login');
-    }
-  }, [isAuthenticated]);
+  if (!isAuthenticated) {
+    return <Redirect href="login" />;
+  }
 
   return (
     <Tabs screenOptions={tabScreenOptions}>

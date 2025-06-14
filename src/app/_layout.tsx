@@ -66,6 +66,7 @@ function Providers({ children }: { children: React.ReactNode }) {
                   {Platform.OS === 'web' ? <WebFontsLoader>{children}</WebFontsLoader> : children}
 
                   <dynamicClient.reactNative.WebView />
+                  {/* @ts-ignore */}
                   <FlashMessage position="top" />
                 </AppProvider>
               </QueryProvider>
