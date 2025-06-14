@@ -27,10 +27,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   name: process.env.EXPO_PUBLIC_APP_NAME ?? 'rozoai-pos',
   description: `${process.env.EXPO_PUBLIC_APP_NAME ?? 'rozoai-pos'} Mobile App`,
-  owner: process.env.EXPO_PUBLIC_EAS_ACCOUNT_OWNER ?? 'yahyafakhroji',
+  owner: process.env.EXPO_PUBLIC_EAS_ACCOUNT_OWNER ?? 'rozoai',
   scheme: 'rozopos', // Custom URL scheme for deep linking
-  // slug: process.env.EXPO_PUBLIC_SLUG ?? 'rozoai-pos',
-  slug: 'rozoai-pos-pyvhxqjtnald5hpgznhii',
+  slug: process.env.EXPO_PUBLIC_SLUG ?? 'rozoai-pos',
   version,
   orientation: 'portrait',
   icon: './assets/icon.png',
@@ -122,7 +121,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ],
   extra: {
     eas: {
-      projectId: 'a40a9a82-88ef-405a-a4db-21a2f9ec9996',
+      projectId: process.env.EXPO_PUBLIC_EAS_PROJECT_ID ?? '',
     },
   },
 });
