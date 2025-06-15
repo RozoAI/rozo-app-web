@@ -15,6 +15,9 @@
     "privacyPolicy": "Политика конфиденциальности",
     "termsOfService": "Условия использования"
   },
+  "home": {
+    "title": "Дом"
+  },
   "onboarding": {
     "message": "Добро пожаловать в Rozo POS"
   },
@@ -31,7 +34,8 @@
       "failed": "Неудачно",
       "pending": "В ожидании",
       "processing": "В обработке"
-    }
+    },
+    "title": "Приказ"
   },
   "payment": {
     "PaymentQRCode": "QR-код оплаты",

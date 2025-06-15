@@ -15,6 +15,9 @@
     "privacyPolicy": "Privacy Policy",
     "termsOfService": "Terms of Service"
   },
+  "home": {
+    "title": "Home"
+  },
   "onboarding": {
     "message": "Welcome to Rozo POS"
   },
@@ -31,7 +34,8 @@
       "failed": "Failed",
       "pending": "Pending",
       "processing": "Processing"
-    }
+    },
+    "title": "Orders"
   },
   "payment": {
     "PaymentQRCode": "Payment QR Code",

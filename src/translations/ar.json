@@ -15,6 +15,9 @@
     "privacyPolicy": "سياسة الخصوصية",
     "termsOfService": "شروط الخدمة"
   },
+  "home": {
+    "title": "بيت"
+  },
   "onboarding": {
     "message": "مرحبًا بك في Rozo POS"
   },
@@ -31,7 +34,8 @@
       "failed": "فشل",
       "pending": "قيد الانتظار",
       "processing": "قيد المعالجة"
-    }
+    },
+    "title": "طلبات"
   },
   "payment": {
     "PaymentQRCode": "رمز الدفع (QR)",

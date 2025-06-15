@@ -15,6 +15,9 @@
     "privacyPolicy": "गोपनीयता नीति",
     "termsOfService": "सेवा की शर्तें"
   },
+  "home": {
+    "title": "घर"
+  },
   "onboarding": {
     "message": "Rozo POS में आपका स्वागत है"
   },
@@ -31,7 +34,8 @@
       "failed": "विफल",
       "pending": "बकाया",
       "processing": "प्रसंस्करण में"
-    }
+    },
+    "title": "आदेश"
   },
   "payment": {
     "PaymentQRCode": "भुगतान क्यूआर कोड",

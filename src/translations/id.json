@@ -15,6 +15,9 @@
     "privacyPolicy": "Kebijakan Privasi",
     "termsOfService": "Syarat dan Ketentuan"
   },
+  "home": {
+    "title": "Rumah"
+  },
   "onboarding": {
     "message": "Selamat datang di Rozo POS"
   },
@@ -31,7 +34,8 @@
       "failed": "Gagal",
       "pending": "Tertunda",
       "processing": "Diproses"
-    }
+    },
+    "title": "Pesanan"
   },
   "payment": {
     "PaymentQRCode": "Kode QR Pembayaran",

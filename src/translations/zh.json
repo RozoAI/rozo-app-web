@@ -15,6 +15,9 @@
     "privacyPolicy": "隐私政策",
     "termsOfService": "服务条款"
   },
+  "home": {
+    "title": "家"
+  },
   "onboarding": {
     "message": "欢迎使用 Rozo POS"
   },
@@ -31,7 +34,8 @@
       "failed": "失败",
       "pending": "待处理",
       "processing": "处理中"
-    }
+    },
+    "title": "订单"
   },
   "payment": {
     "PaymentQRCode": "付款二维码",
