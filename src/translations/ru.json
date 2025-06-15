@@ -6,6 +6,7 @@
     "backToHome": "Назад на главную",
     "cancel": "Отмена",
     "close": "Закрывать",
+    "copiedToClipboard": "К сожалению в буфер обмена",
     "createdAt": "Создан в",
     "description": "Описание",
     "loading": "Загрузка",
@@ -13,7 +14,9 @@
     "note": "Примечание",
     "printReceipt": "Печать чека",
     "privacyPolicy": "Политика конфиденциальности",
-    "termsOfService": "Условия использования"
+    "termsOfService": "Условия использования",
+    "walletAddress": "Адрес кошелька",
+    "walletBalance": "Баланс кошелька"
   },
   "home": {
     "title": "Дом"

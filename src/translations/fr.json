@@ -6,6 +6,7 @@
     "backToHome": "Retour à l’accueil",
     "cancel": "Annuler",
     "close": "Fermer",
+    "copiedToClipboard": "Coppied dans le presse-papiers",
     "createdAt": "Créé à",
     "description": "Description",
     "loading": "Chargement",
@@ -13,7 +14,9 @@
     "note": "Note",
     "printReceipt": "Imprimer le reçu",
     "privacyPolicy": "Politique de confidentialité",
-    "termsOfService": "Conditions d’utilisation"
+    "termsOfService": "Conditions d’utilisation",
+    "walletAddress": "Adresse du portefeuille",
+    "walletBalance": "Équilibre du portefeuille"
   },
   "home": {
     "title": "Maison"

@@ -6,6 +6,7 @@
     "backToHome": "হোমে ফিরে যান",
     "cancel": "বাতিল",
     "close": "বন্ধ",
+    "copiedToClipboard": "ক্লিপবোর্ডে কপ্পড",
     "createdAt": "এটি তৈরি",
     "description": "বর্ণনা",
     "loading": "লোড হচ্ছে",
@@ -13,7 +14,9 @@
     "note": "দ্রষ্টব্য",
     "printReceipt": "রশিদ মুদ্রণ করুন",
     "privacyPolicy": "গোপনীয়তা নীতি",
-    "termsOfService": "পরিষেবার শর্তাবলী"
+    "termsOfService": "পরিষেবার শর্তাবলী",
+    "walletAddress": "মানিব্যাগের ঠিকানা",
+    "walletBalance": "মানিব্যাগ ভারসাম্য"
   },
   "home": {
     "title": "বাড়ি"
