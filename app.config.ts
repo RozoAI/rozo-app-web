@@ -1,3 +1,4 @@
+/* eslint-disable unused-imports/no-unused-vars */
 /* eslint-disable max-lines-per-function */
 import type { ConfigContext, ExpoConfig } from '@expo/config';
 import type { AppIconBadgeConfig } from 'app-icon-badge/types';
@@ -116,7 +117,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     'expo-localization',
     'expo-router',
     'expo-secure-store',
-    ['app-icon-badge', appIconBadgeConfig],
+    // ['app-icon-badge', appIconBadgeConfig],
     ['react-native-edge-to-edge'],
   ],
   extra: {
