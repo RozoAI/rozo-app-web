@@ -43,7 +43,6 @@
     "@dynamic-labs/client": "~4.20.4",
     "@dynamic-labs/react-hooks": "~4.20.4",
     "@dynamic-labs/react-native-extension": "~4.20.4",
-    "@dynamic-labs/sdk-react-core": "^4.20.4",
     "@dynamic-labs/viem-extension": "^4.20.4",
     "@dynamic-labs/web-extension": "~4.20.4",
     "@expo-google-fonts/roboto": "~0.4.0",
