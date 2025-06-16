@@ -1,6 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { Textarea, TextareaInput } from '@/components/textarea';
 import {
   Actionsheet,
   ActionsheetBackdrop,
@@ -9,17 +10,22 @@ import {
   ActionsheetDragIndicatorWrapper,
 } from '@/components/ui/actionsheet';
 import { Button } from '@/components/ui/button';
-import { Input, InputField } from '@/components/ui/input';
+import { HStack } from '@/components/ui/hstack';
 import { Text } from '@/components/ui/text';
 import { View } from '@/components/ui/view';
 import { VStack } from '@/components/ui/vstack';
 
 type ActionSheetPaymentNoteProps = {
+  isEdit?: boolean;
   value?: string;
   onAddNote?: (note: string) => void;
 };
 
-export function ActionSheetPaymentNote({ value, onAddNote }: ActionSheetPaymentNoteProps): React.ReactElement {
+export function ActionSheetPaymentNote({
+  isEdit = false,
+  value,
+  onAddNote,
+}: ActionSheetPaymentNoteProps): React.ReactElement {
   const [customNote, setCustomNote] = useState<string>(value || '');
   const [showActionsheet, setShowActionsheet] = useState<boolean>(false);
   const { t } = useTranslation();
@@ -66,16 +72,25 @@ export function ActionSheetPaymentNote({ value, onAddNote }: ActionSheetPaymentN
             <Text className="text-center text-lg font-semibold">{t('payment.notes.title')}</Text>
 
             <View className="space-y-2">
-              <Input className="rounded-lg">
-                <InputField
-                  ref={customInputRef}
+              <Textarea size="md" isReadOnly={false} className="rounded-xl">
+                <TextareaInput
                   placeholder={t('payment.notes.enterNote')}
+                  ref={customInputRef}
                   value={customNote}
                   onChangeText={handleCustomNoteChange}
                   onSubmitEditing={handleCustomNoteSubmit}
                   returnKeyType="done"
                 />
-              </Input>
+              </Textarea>
+
+              <HStack space="md" className="grid grid-cols-2">
+                <Button className="w-full rounded-xl" variant="outline" onPress={handleClose}>
+                  {isEdit ? 'Close' : 'Cancel'}
+                </Button>
+                <Button className="w-full rounded-xl text-white" onPress={handleCustomNoteSubmit}>
+                  {t('general.submit')}
+                </Button>
+              </HStack>
             </View>
           </VStack>
         </ActionsheetContent>
