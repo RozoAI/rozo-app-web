@@ -112,6 +112,7 @@ export function PaymentModal({
               dynamicStyles={dynamicStyles}
               onPrintReceipt={() => {}}
               onBackToHome={handleBackToHome}
+              merchant={merchant}
             />
           ) : (
             <View className="items-center justify-center">

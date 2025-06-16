@@ -26,11 +26,11 @@ export function ActionSheetPaymentNote({
   value,
   onAddNote,
 }: ActionSheetPaymentNoteProps): React.ReactElement {
-  const [customNote, setCustomNote] = useState<string>(value || '');
+  const [note, setNote] = useState<string>(value || '');
   const [showActionsheet, setShowActionsheet] = useState<boolean>(false);
   const { t } = useTranslation();
 
-  const customInputRef = useRef<any>(null);
+  const noteInputRef = useRef<any>(null);
 
   // Callbacks
   const handleClose = useCallback(() => {
@@ -41,24 +41,29 @@ export function ActionSheetPaymentNote({
     setShowActionsheet(true);
     // Focus on input when opened
     setTimeout(() => {
-      customInputRef.current?.focus();
+      noteInputRef.current?.focus();
     }, 100);
   }, []);
 
-  const handleCustomNoteSubmit = useCallback(() => {
-    const trimmedNote = customNote.trim();
+  const handleOnCancelNote = useCallback(() => {
+    setShowActionsheet(false);
+    handleOnChangeNote('');
+  }, []);
+
+  const handleOnSubmitNote = useCallback(() => {
+    const trimmedNote = note.trim();
     onAddNote?.(trimmedNote);
     handleClose();
-  }, [customNote, onAddNote, handleClose]);
+  }, [note, onAddNote, handleClose]);
 
-  const handleCustomNoteChange = useCallback((text: string) => {
-    setCustomNote(text);
+  const handleOnChangeNote = useCallback((text: string) => {
+    setNote(text);
   }, []);
 
   return (
     <>
       <Button className="text-center underline underline-offset-1" variant="link" onPress={handleOpen}>
-        {customNote ? `${t('general.note')}: ${customNote}` : t('general.addNote')}
+        {note ? `${t('general.note')}: ${note}` : t('general.addNote')}
       </Button>
 
       <Actionsheet isOpen={showActionsheet} onClose={handleClose} trapFocus={false}>
@@ -75,19 +80,19 @@ export function ActionSheetPaymentNote({
               <Textarea size="md" isReadOnly={false} className="rounded-xl">
                 <TextareaInput
                   placeholder={t('payment.notes.enterNote')}
-                  ref={customInputRef}
-                  value={customNote}
-                  onChangeText={handleCustomNoteChange}
-                  onSubmitEditing={handleCustomNoteSubmit}
+                  ref={noteInputRef}
+                  value={note}
+                  onChangeText={handleOnChangeNote}
+                  onSubmitEditing={handleOnSubmitNote}
                   returnKeyType="done"
                 />
               </Textarea>
 
               <HStack space="md" className="grid grid-cols-2">
-                <Button className="w-full rounded-xl" variant="outline" onPress={handleClose}>
+                <Button className="w-full rounded-xl" variant="outline" onPress={isEdit ? handleClose : handleOnCancelNote}>
                   {isEdit ? 'Close' : 'Cancel'}
                 </Button>
-                <Button className="w-full rounded-xl text-white" onPress={handleCustomNoteSubmit}>
+                <Button className="w-full rounded-xl text-white" onPress={handleOnSubmitNote}>
                   {t('general.submit')}
                 </Button>
               </HStack>

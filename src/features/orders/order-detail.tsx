@@ -96,7 +96,7 @@ export const OrderDetailActionSheet = forwardRef<OrderDetailActionSheetRef, Orde
             {isLoading ? (
               <View className="items-center justify-center py-8">
                 <Spinner size="large" />
-                <Text className="mt-2 text-gray-600">{t('general.loading')}</Text>
+                <Text className="mt-2 text-gray-500 dark:text-gray-400">{t('general.loading')}</Text>
               </View>
             ) : order ? (
               <>
@@ -105,7 +105,7 @@ export const OrderDetailActionSheet = forwardRef<OrderDetailActionSheetRef, Orde
                   <Heading size="lg" className="text-typography-950">
                     {t('order.orderDetails')}
                   </Heading>
-                  <Text className="text-sm text-gray-500">#{order.order_id}</Text>
+                  <Text className="text-sm text-gray-500 dark:text-gray-400">#{order.order_id}</Text>
                 </View>
 
                 {order.status === 'COMPLETED' && (
@@ -117,7 +117,7 @@ export const OrderDetailActionSheet = forwardRef<OrderDetailActionSheetRef, Orde
                 {/* QR Code for Pending Orders */}
                 {order.status === 'PENDING' && (
                   <View className="items-center">
-                    <Text className="mb-4 text-sm text-gray-600">{t('payment.scanToPay')}</Text>
+                    <Text className="mb-4 text-sm text-gray-500 dark:text-gray-400">{t('payment.scanToPay')}</Text>
                     <View className="mb-4 size-48 items-center justify-center rounded-xl border bg-white p-3">
                       {qrCodeUrl ? (
                         <QRCode value={qrCodeUrl} size={180} />
@@ -133,7 +133,7 @@ export const OrderDetailActionSheet = forwardRef<OrderDetailActionSheetRef, Orde
                 {/* Order Details */}
                 <VStack space="sm">
                   <View className="flex-row justify-between">
-                    <Text className="text-gray-600">{t('general.amount')}</Text>
+                    <Text className="text-gray-500 dark:text-gray-400">{t('general.amount')}</Text>
                     <Text className="font-semibold">
                       {order.display_amount} {order.display_currency}
                     </Text>
@@ -141,18 +141,18 @@ export const OrderDetailActionSheet = forwardRef<OrderDetailActionSheetRef, Orde
 
                   {order.description && (
                     <View className="flex-row justify-between">
-                      <Text className="text-gray-600">{t('general.description')}</Text>
+                      <Text className="text-gray-500 dark:text-gray-400">{t('general.description')}</Text>
                       <Text className="font-medium">{order.description}</Text>
                     </View>
                   )}
 
                   <View className="flex-row justify-between">
-                    <Text className="text-gray-600">{t('general.merchantId')}</Text>
+                    <Text className="text-gray-500 dark:text-gray-400">{t('general.merchantId')}</Text>
                     <Text className="font-medium">{formatAddress(order.merchant_id)}</Text>
                   </View>
 
                   <View className="flex-row justify-between">
-                    <Text className="text-gray-600">{t('general.status')}</Text>
+                    <Text className="text-gray-500 dark:text-gray-400">{t('general.status')}</Text>
                     <Text className="font-medium">
                       <Badge size="md" variant="solid" action={getStatusActionType(order.status)}>
                         <BadgeText>{t(`order.status.${order.status.toLowerCase()}`)}</BadgeText>
@@ -161,14 +161,14 @@ export const OrderDetailActionSheet = forwardRef<OrderDetailActionSheetRef, Orde
                   </View>
 
                   <View className="flex-row justify-between">
-                    <Text className="text-gray-600">{t('general.createdAt')}</Text>
+                    <Text className="text-gray-500 dark:text-gray-400">{t('general.createdAt')}</Text>
                     <Text className="font-medium">{format(new Date(order.created_at), 'MMM dd yyyy, HH:mm')}</Text>
                   </View>
                 </VStack>
               </>
             ) : (
               <View className="items-center justify-center py-8">
-                <Text className="text-gray-600">{t('general.notFound')}</Text>
+                <Text className="text-gray-500 dark:text-gray-400">{t('general.notFound')}</Text>
               </View>
             )}
 

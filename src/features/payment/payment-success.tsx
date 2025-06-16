@@ -9,7 +9,7 @@ import { Text } from '@/components/ui/text';
 import { View } from '@/components/ui/view';
 import { formatAddress } from '@/lib';
 import { type CurrencyConfig } from '@/lib/currency-config';
-import { useApp } from '@/providers/app.provider';
+import { type MerchantProfile } from '@/resources/schema/merchant';
 
 import { type DynamicStyles } from './types';
 
@@ -20,6 +20,7 @@ type PaymentSuccessProps = {
   onPrintReceipt: () => void;
   onBackToHome: () => void;
   defaultCurrency?: CurrencyConfig;
+  merchant?: MerchantProfile;
 };
 
 export function PaymentSuccess({
@@ -29,9 +30,9 @@ export function PaymentSuccess({
   // onPrintReceipt,
   onBackToHome,
   defaultCurrency,
+  merchant,
 }: PaymentSuccessProps): React.ReactElement {
   const { t } = useTranslation();
-  const { merchant } = useApp();
   const router = useRouter();
 
   // Handle print receipt
@@ -59,7 +60,7 @@ export function PaymentSuccess({
           <Text className="text-center text-gray-500 dark:text-gray-400">{t('payment.paymentSuccessfulDesc')}</Text>
 
           <View className="flex-row justify-between">
-            <Text className="text-gray-600">{t('general.merchantId')}</Text>
+            <Text className="text-gray-500 dark:text-gray-400">{t('general.merchantId')}: </Text>
             <Text className="font-medium">{formatAddress(merchant?.merchant_id ?? '')}</Text>
           </View>
         </Box>
