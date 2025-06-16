@@ -18,11 +18,8 @@ import { AccountSection } from '@/features/settings/account-section';
 import { ActionSheetCurrencySwitcher } from '@/features/settings/select-currency';
 import { ActionSheetLanguageSwitcher } from '@/features/settings/select-language';
 import { ActionSheetThemeSwitcher } from '@/features/settings/theme-switcher';
-import { WalletBalanceCard } from '@/features/settings/wallet-balance-card';
 import { useDynamic } from '@/modules/dynamic/dynamic-client';
 import { useApp } from '@/providers/app.provider';
-
-import { WalletAddressCard } from './wallet-address-card';
 
 export function SettingScreen() {
   const { auth } = useDynamic();
@@ -50,10 +47,10 @@ export function SettingScreen() {
             {isAuthenticated && <AccountSection />}
           </VStack>
 
-          <VStack className="items-center justify-between divide-y divide-gray-200 rounded-xl border border-background-300 bg-background-0 px-4 py-2 dark:divide-[#2b2b2b]">
+          {/* <VStack className="items-center justify-between divide-y divide-gray-200 rounded-xl border border-background-300 bg-background-0 px-4 py-2 dark:divide-[#2b2b2b]">
             <WalletAddressCard />
             <WalletBalanceCard />
-          </VStack>
+          </VStack> */}
 
           <VStack className="items-center justify-between divide-y divide-gray-200 rounded-xl border border-background-300 bg-background-0 px-4 py-2 dark:divide-[#2b2b2b]">
             <ActionSheetCurrencySwitcher
