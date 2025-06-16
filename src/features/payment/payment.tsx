@@ -178,7 +178,7 @@ export function PaymentScreen() {
               dynamicStyles={dynamicStyles}
               onSelectQuickAmount={handleQuickAmount}
             /> */}
-            <ActionSheetPaymentNote onAddNote={handleNote} isEdit={description !== ''} />
+            <ActionSheetPaymentNote onSubmit={handleNote} isEdit={description !== ''} />
           </View>
         </View>
 

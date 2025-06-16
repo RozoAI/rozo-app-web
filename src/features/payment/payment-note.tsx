@@ -1,3 +1,5 @@
+// Start of Selection
+import { Edit, Plus } from 'lucide-react-native';
 import React, { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -9,24 +11,21 @@ import {
   ActionsheetDragIndicator,
   ActionsheetDragIndicatorWrapper,
 } from '@/components/ui/actionsheet';
-import { Button } from '@/components/ui/button';
+import { Button, ButtonIcon, ButtonText } from '@/components/ui/button';
 import { HStack } from '@/components/ui/hstack';
 import { Text } from '@/components/ui/text';
 import { View } from '@/components/ui/view';
 import { VStack } from '@/components/ui/vstack';
+import { cn } from '@/lib';
 
 type ActionSheetPaymentNoteProps = {
   isEdit?: boolean;
-  value?: string;
-  onAddNote?: (note: string) => void;
+  onSubmit?: (note: string) => void;
 };
 
-export function ActionSheetPaymentNote({
-  isEdit = false,
-  value,
-  onAddNote,
-}: ActionSheetPaymentNoteProps): React.ReactElement {
-  const [note, setNote] = useState<string>(value || '');
+export function ActionSheetPaymentNote({ isEdit = false, onSubmit }: ActionSheetPaymentNoteProps): React.ReactElement {
+  const [tempNote, setTempNote] = useState<string>('');
+  const [note, setNote] = useState<string>('');
   const [showActionsheet, setShowActionsheet] = useState<boolean>(false);
   const { t } = useTranslation();
 
@@ -47,14 +46,15 @@ export function ActionSheetPaymentNote({
 
   const handleOnCancelNote = useCallback(() => {
     setShowActionsheet(false);
-    handleOnChangeNote('');
+    setNote('');
   }, []);
 
   const handleOnSubmitNote = useCallback(() => {
     const trimmedNote = note.trim();
-    onAddNote?.(trimmedNote);
+    setTempNote(trimmedNote);
+    onSubmit?.(trimmedNote);
     handleClose();
-  }, [note, onAddNote, handleClose]);
+  }, [note, onSubmit, handleClose]);
 
   const handleOnChangeNote = useCallback((text: string) => {
     setNote(text);
@@ -62,8 +62,11 @@ export function ActionSheetPaymentNote({
 
   return (
     <>
-      <Button className="text-center underline underline-offset-1" variant="link" onPress={handleOpen}>
-        {note ? `${t('general.note')}: ${note}` : t('general.addNote')}
+      <Button className={cn('text-center')} variant="link" onPress={handleOpen}>
+        <ButtonIcon as={tempNote ? Edit : Plus} className="text-black dark:text-white" />
+        <ButtonText className="text-black dark:text-white">
+          {tempNote ? `${t('general.note')}: ${tempNote}` : t('general.addNote')}
+        </ButtonText>
       </Button>
 
       <Actionsheet isOpen={showActionsheet} onClose={handleClose} trapFocus={false}>
@@ -103,3 +106,4 @@ export function ActionSheetPaymentNote({
     </>
   );
 }
+// End of Selection
