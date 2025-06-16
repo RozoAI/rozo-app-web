@@ -1,7 +1,8 @@
+/* eslint-disable unused-imports/no-unused-vars */
+/* eslint-disable unused-imports/no-unused-imports */
 import * as Application from 'expo-application';
-import { useRouter } from 'expo-router';
 import { DollarSign, Languages, Palette } from 'lucide-react-native';
-import React from 'react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView } from 'react-native-gesture-handler';
 
@@ -18,33 +19,51 @@ import { AccountSection } from '@/features/settings/account-section';
 import { ActionSheetCurrencySwitcher } from '@/features/settings/select-currency';
 import { ActionSheetLanguageSwitcher } from '@/features/settings/select-language';
 import { ActionSheetThemeSwitcher } from '@/features/settings/theme-switcher';
-import { useDynamic } from '@/modules/dynamic/dynamic-client';
+import { getTokenBalance, transferTokenZeroDev } from '@/modules/dynamic/token-operations';
 import { useApp } from '@/providers/app.provider';
 
 export function SettingScreen() {
-  const { auth } = useDynamic();
-  const { setToken, setMerchant, isAuthenticated } = useApp();
+  const { logout, primaryWallet, merchantToken } = useApp();
   const { t } = useTranslation();
-  const router = useRouter();
 
-  const handleLogout = () => {
-    auth.logout();
-    setToken(undefined);
-    setMerchant(undefined);
-
-    router.replace('/login');
+  /*  const getBalance = async () => {
+    if (primaryWallet && merchantToken) {
+      const balance = await getTokenBalance(primaryWallet, merchantToken);
+      console.log(balance);
+    }
   };
+
+  useEffect(() => {
+    if (primaryWallet) {
+      getBalance();
+    }
+  }, [primaryWallet, merchantToken]);
+
+  const testTransfer = async () => {
+    if (primaryWallet && merchantToken) {
+      const result = await transferTokenZeroDev(
+        primaryWallet,
+        '0xD891AC81ab4A1eb21750ba50b4eF3e9eb3DA4ada',
+        '0.1',
+        merchantToken
+      );
+      console.log(result);
+    }
+  }; */
 
   return (
     <SafeAreaView className="flex-1">
       <ScrollView className="flex-1 py-6">
         <View className="mb-6">
+          {/* <Button onPress={testTransfer}>
+            <ButtonText>Test Transfer</ButtonText>
+          </Button> */}
           <Text className="text-2xl font-bold">{t('settings.title')}</Text>
           <Text className="text-sm text-gray-400">{t('settings.description')}</Text>
         </View>
         <VStack space="lg">
           <VStack className="items-start justify-between rounded-xl border border-background-300 bg-background-0 px-4 py-2">
-            {isAuthenticated && <AccountSection />}
+            <AccountSection />
           </VStack>
 
           {/* <VStack className="items-center justify-between divide-y divide-gray-200 rounded-xl border border-background-300 bg-background-0 px-4 py-2 dark:divide-[#2b2b2b]">
@@ -102,7 +121,7 @@ export function SettingScreen() {
             />
           </VStack>
 
-          <Button variant="solid" size="sm" action="negative" onPress={handleLogout} className="rounded-xl">
+          <Button variant="solid" size="sm" action="negative" onPress={logout} className="rounded-xl">
             <ButtonText>{t('settings.logout')}</ButtonText>
           </Button>
 

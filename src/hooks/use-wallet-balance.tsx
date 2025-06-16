@@ -1,38 +1,91 @@
-'use client';
+/**
+ * Hook for fetching and managing wallet token balance
+ *
+ * This hook handles fetching the token balance for a wallet address,
+ * including loading states, error handling, and refetching.
+ */
 
 import { useCallback, useEffect, useState } from 'react';
-import { type Address, formatEther } from 'viem';
-import { mainnet } from 'viem/chains';
+import { type Address } from 'viem';
 
-import { dynamicClient } from '@/modules/dynamic/dynamic-client';
+import { useDynamic } from '@/modules/dynamic/dynamic-client';
+import { getTokenBalance } from '@/modules/dynamic/token-operations';
+import { useApp } from '@/providers/app.provider';
 
-const publicViemClient = dynamicClient.viem.createPublicClient({ chain: mainnet });
+type UseWalletBalanceResult = {
+  balance: string;
+  isLoading: boolean;
+  error: string | null;
+  refetch: () => Promise<void>;
+};
 
-export const useWalletBalance = (address: Address) => {
-  const [balance, setBalance] = useState<string>('0.00');
-  const [isLoading, setIsLoading] = useState(true);
+/**
+ * Hook to fetch and manage wallet token balance
+ *
+ * @param walletAddress - The wallet address to check balance for
+ * @returns Object containing balance, loading state, error state, and refetch function
+ *
+ * @example
+ * const { balance, isLoading, error, refetch } = useWalletBalance(walletAddress);
+ *
+ * // Display balance in component
+ * return (
+ *   <View>
+ *     {isLoading ? (
+ *       <ActivityIndicator />
+ *     ) : error ? (
+ *       <Text className="text-red-500">{error}</Text>
+ *     ) : (
+ *       <Text>{balance} USDC</Text>
+ *     )}
+ *     <Button onPress={refetch}>Refresh</Button>
+ *   </View>
+ * );
+ */
+export function useWalletBalance(walletAddress?: Address): UseWalletBalanceResult {
+  const { merchantToken } = useApp();
+  const { wallets } = useDynamic();
+
+  const [balance, setBalance] = useState<string>('0');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Find the wallet object by address
+  const wallet = walletAddress
+    ? wallets.userWallets?.find((w) => w.address.toLowerCase() === walletAddress.toLowerCase())
+    : undefined;
+
+  /**
+   * Fetch token balance from the blockchain
+   */
   const fetchBalance = useCallback(async () => {
+    if (!wallet || !merchantToken) {
+      return;
+    }
+
     setIsLoading(true);
     setError(null);
 
     try {
-      const walletBalance = await publicViemClient.getBalance({ address });
-      const formattedBalance = formatEther(BigInt(walletBalance || '0'));
-      setBalance(Number.parseFloat(formattedBalance).toFixed(4));
+      const result = await getTokenBalance(wallet, merchantToken);
+      if (result) {
+        setBalance(result.formattedBalance);
+      } else {
+        setError('Could not fetch balance');
+      }
     } catch (err) {
-      console.error('Error fetching balance:', err);
-      setError('Failed to fetch balance');
-      setBalance('0.00');
+      setError(err instanceof Error ? err.message : 'Failed to fetch balance');
     } finally {
       setIsLoading(false);
     }
-  }, [address]);
+  }, [wallet, merchantToken]);
 
+  // Fetch balance on component mount and when dependencies change
   useEffect(() => {
-    fetchBalance();
-  }, [fetchBalance]);
+    if (walletAddress) {
+      fetchBalance();
+    }
+  }, [walletAddress, fetchBalance]);
 
   return {
     balance,
@@ -40,4 +93,4 @@ export const useWalletBalance = (address: Address) => {
     error,
     refetch: fetchBalance,
   };
-};
+}
