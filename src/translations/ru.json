@@ -10,10 +10,12 @@
     "createdAt": "Создан в",
     "description": "Описание",
     "loading": "Загрузка",
+    "merchantId": "Торговый идентификатор",
     "notFound": "Не найдено",
     "note": "Примечание",
     "printReceipt": "Печать чека",
     "privacyPolicy": "Политика конфиденциальности",
+    "status": "Статус",
     "termsOfService": "Условия использования",
     "walletAddress": "Адрес кошелька",
     "walletBalance": "Баланс кошелька"

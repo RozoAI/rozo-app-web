@@ -10,10 +10,12 @@
     "createdAt": "Criado em",
     "description": "Descrição",
     "loading": "Carregando",
+    "merchantId": "ID do comerciante",
     "notFound": "Não encontrado",
     "note": "Observação",
     "printReceipt": "Imprimir Recibo",
     "privacyPolicy": "Política de Privacidade",
+    "status": "Status",
     "termsOfService": "Termos de Serviço",
     "walletAddress": "Endereço da carteira",
     "walletBalance": "Balanço da carteira"

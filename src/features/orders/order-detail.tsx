@@ -19,7 +19,7 @@ import { Text } from '@/components/ui/text';
 import { View } from '@/components/ui/view';
 import { VStack } from '@/components/ui/vstack';
 import { usePaymentStatus } from '@/hooks/use-payment-status';
-import { getStatusActionType } from '@/lib/utils';
+import { formatAddress, getStatusActionType } from '@/lib/utils';
 import { useApp } from '@/providers/app.provider';
 import { useGetOrder } from '@/resources/api/merchant/orders';
 
@@ -108,13 +108,6 @@ export const OrderDetailActionSheet = forwardRef<OrderDetailActionSheetRef, Orde
                   <Text className="text-sm text-gray-500">#{order.order_id}</Text>
                 </View>
 
-                {/* Order Status */}
-                <View className="items-center">
-                  <Badge size="md" variant="solid" action={getStatusActionType(order.status)}>
-                    <BadgeText>{t(`order.status.${order.status.toLowerCase()}`)}</BadgeText>
-                  </Badge>
-                </View>
-
                 {order.status === 'COMPLETED' && (
                   <View className="flex w-full flex-col items-center justify-center">
                     <CheckSvg width={200} height={150} />
@@ -152,6 +145,20 @@ export const OrderDetailActionSheet = forwardRef<OrderDetailActionSheetRef, Orde
                       <Text className="font-medium">{order.description}</Text>
                     </View>
                   )}
+
+                  <View className="flex-row justify-between">
+                    <Text className="text-gray-600">{t('general.merchantId')}</Text>
+                    <Text className="font-medium">{formatAddress(order.merchant_id)}</Text>
+                  </View>
+
+                  <View className="flex-row justify-between">
+                    <Text className="text-gray-600">{t('general.status')}</Text>
+                    <Text className="font-medium">
+                      <Badge size="md" variant="solid" action={getStatusActionType(order.status)}>
+                        <BadgeText>{t(`order.status.${order.status.toLowerCase()}`)}</BadgeText>
+                      </Badge>
+                    </Text>
+                  </View>
 
                   <View className="flex-row justify-between">
                     <Text className="text-gray-600">{t('general.createdAt')}</Text>

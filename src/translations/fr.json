@@ -10,10 +10,12 @@
     "createdAt": "Créé à",
     "description": "Description",
     "loading": "Chargement",
+    "merchantId": "ID marchand",
     "notFound": "Pas trouvé",
     "note": "Note",
     "printReceipt": "Imprimer le reçu",
     "privacyPolicy": "Politique de confidentialité",
+    "status": "Statut",
     "termsOfService": "Conditions d’utilisation",
     "walletAddress": "Adresse du portefeuille",
     "walletBalance": "Équilibre du portefeuille"

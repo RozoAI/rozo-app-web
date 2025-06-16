@@ -10,10 +10,12 @@
     "createdAt": "पर बनाया गया",
     "description": "विवरण",
     "loading": "लोड करना",
+    "merchantId": "मर्चेंट आईडी",
     "notFound": "नहीं मिला",
     "note": "टिप्पणी",
     "printReceipt": "रसीद प्रिंट करें",
     "privacyPolicy": "गोपनीयता नीति",
+    "status": "स्थिति",
     "termsOfService": "सेवा की शर्तें",
     "walletAddress": "बटुए का पता",
     "walletBalance": "बटुआ शेष"

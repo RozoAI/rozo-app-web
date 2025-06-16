@@ -10,10 +10,12 @@
     "createdAt": "Created at",
     "description": "Description",
     "loading": "Loading",
+    "merchantId": "Merchant ID",
     "notFound": "Not found",
     "note": "Note",
     "printReceipt": "Print Receipt",
     "privacyPolicy": "Privacy Policy",
+    "status": "Status",
     "termsOfService": "Terms of Service",
     "walletAddress": "Wallet Address",
     "walletBalance": "Wallet Balance"

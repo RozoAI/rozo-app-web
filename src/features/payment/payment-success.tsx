@@ -7,14 +7,15 @@ import { Box } from '@/components/ui/box';
 import { Button, ButtonText } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import { View } from '@/components/ui/view';
+import { formatAddress } from '@/lib';
 import { type CurrencyConfig } from '@/lib/currency-config';
+import { useApp } from '@/providers/app.provider';
 
 import { type DynamicStyles } from './types';
 
 type PaymentSuccessProps = {
   amount: string;
   exchangeAmount: string;
-
   dynamicStyles: DynamicStyles;
   onPrintReceipt: () => void;
   onBackToHome: () => void;
@@ -24,13 +25,13 @@ type PaymentSuccessProps = {
 export function PaymentSuccess({
   amount,
   exchangeAmount,
-
   dynamicStyles,
   // onPrintReceipt,
   onBackToHome,
   defaultCurrency,
 }: PaymentSuccessProps): React.ReactElement {
   const { t } = useTranslation();
+  const { merchant } = useApp();
   const router = useRouter();
 
   // Handle print receipt
@@ -56,6 +57,11 @@ export function PaymentSuccess({
             {t('payment.paymentSuccessful')}!
           </Text>
           <Text className="text-center text-gray-500 dark:text-gray-400">{t('payment.paymentSuccessfulDesc')}</Text>
+
+          <View className="flex-row justify-between">
+            <Text className="text-gray-600">{t('general.merchantId')}</Text>
+            <Text className="font-medium">{formatAddress(merchant?.merchant_id ?? '')}</Text>
+          </View>
         </Box>
         {/* Amount Information */}
         <View className="w-full items-center rounded-xl bg-gray-50 p-4 dark:bg-gray-800">

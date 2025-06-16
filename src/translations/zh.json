@@ -10,10 +10,12 @@
     "createdAt": "创建在",
     "description": "描述",
     "loading": "加载中",
+    "merchantId": "商人ID",
     "notFound": "未找到",
     "note": "笔记",
     "printReceipt": "打印收据",
     "privacyPolicy": "隐私政策",
+    "status": "地位",
     "termsOfService": "服务条款",
     "walletAddress": "钱包地址",
     "walletBalance": "钱包平衡"

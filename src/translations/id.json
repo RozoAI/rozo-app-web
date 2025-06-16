@@ -10,10 +10,12 @@
     "createdAt": "Dibuat di",
     "description": "Keterangan",
     "loading": "Memuat",
+    "merchantId": "ID Pedagang",
     "notFound": "Tidak ditemukan",
     "note": "Catatan",
     "printReceipt": "Cetak Struk",
     "privacyPolicy": "Kebijakan Privasi",
+    "status": "Status",
     "termsOfService": "Syarat dan Ketentuan",
     "walletAddress": "Alamat dompet",
     "walletBalance": "Keseimbangan dompet"
