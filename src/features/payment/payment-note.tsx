@@ -3,7 +3,6 @@ import { Edit, Plus } from 'lucide-react-native';
 import React, { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Textarea, TextareaInput } from '@/components/textarea';
 import {
   Actionsheet,
   ActionsheetBackdrop,
@@ -14,6 +13,7 @@ import {
 import { Button, ButtonIcon, ButtonText } from '@/components/ui/button';
 import { HStack } from '@/components/ui/hstack';
 import { Text } from '@/components/ui/text';
+import { Textarea, TextareaInput } from '@/components/ui/textarea';
 import { View } from '@/components/ui/view';
 import { VStack } from '@/components/ui/vstack';
 import { cn } from '@/lib';

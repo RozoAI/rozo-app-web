@@ -1,8 +1,5 @@
-/* eslint-disable unused-imports/no-unused-vars */
-/* eslint-disable unused-imports/no-unused-imports */
 import * as Application from 'expo-application';
 import { DollarSign, Languages, Palette } from 'lucide-react-native';
-import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView } from 'react-native-gesture-handler';
 
@@ -19,45 +16,19 @@ import { AccountSection } from '@/features/settings/account-section';
 import { ActionSheetCurrencySwitcher } from '@/features/settings/select-currency';
 import { ActionSheetLanguageSwitcher } from '@/features/settings/select-language';
 import { ActionSheetThemeSwitcher } from '@/features/settings/theme-switcher';
-import { getTokenBalance, transferTokenZeroDev } from '@/modules/dynamic/token-operations';
 import { useApp } from '@/providers/app.provider';
 
+import { WalletAddressCard } from './wallet-address-card';
+import { WalletBalanceCard } from './wallet-balance-card';
+
 export function SettingScreen() {
-  const { logout, primaryWallet, merchantToken } = useApp();
+  const { logout } = useApp();
   const { t } = useTranslation();
-
-  /*  const getBalance = async () => {
-    if (primaryWallet && merchantToken) {
-      const balance = await getTokenBalance(primaryWallet, merchantToken);
-      console.log(balance);
-    }
-  };
-
-  useEffect(() => {
-    if (primaryWallet) {
-      getBalance();
-    }
-  }, [primaryWallet, merchantToken]);
-
-  const testTransfer = async () => {
-    if (primaryWallet && merchantToken) {
-      const result = await transferTokenZeroDev(
-        primaryWallet,
-        '0xD891AC81ab4A1eb21750ba50b4eF3e9eb3DA4ada',
-        '0.1',
-        merchantToken
-      );
-      console.log(result);
-    }
-  }; */
 
   return (
     <SafeAreaView className="flex-1">
       <ScrollView className="flex-1 py-6">
         <View className="mb-6">
-          {/* <Button onPress={testTransfer}>
-            <ButtonText>Test Transfer</ButtonText>
-          </Button> */}
           <Text className="text-2xl font-bold">{t('settings.title')}</Text>
           <Text className="text-sm text-gray-400">{t('settings.description')}</Text>
         </View>
@@ -66,10 +37,10 @@ export function SettingScreen() {
             <AccountSection />
           </VStack>
 
-          {/* <VStack className="items-center justify-between divide-y divide-gray-200 rounded-xl border border-background-300 bg-background-0 px-4 py-2 dark:divide-[#2b2b2b]">
+          <VStack className="items-center justify-between divide-y divide-gray-200 rounded-xl border border-background-300 bg-background-0 px-4 py-2 dark:divide-[#2b2b2b]">
             <WalletAddressCard />
             <WalletBalanceCard />
-          </VStack> */}
+          </VStack>
 
           <VStack className="items-center justify-between divide-y divide-gray-200 rounded-xl border border-background-300 bg-background-0 px-4 py-2 dark:divide-[#2b2b2b]">
             <ActionSheetCurrencySwitcher

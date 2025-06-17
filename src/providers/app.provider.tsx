@@ -81,7 +81,6 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
 
   // Handle wallet information
   const updateWalletInfo = () => {
-    console.log(wallets);
     if (wallets?.userWallets) {
       /* const formattedWallets: UserWallet[] = wallets.userWallets.map((wallet: any) => ({
         address: wallet.address,

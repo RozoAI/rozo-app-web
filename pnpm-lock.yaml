@@ -47,6 +47,9 @@ importers:
       '@gluestack-ui/divider':
         specifier: ~0.1.10
         version: 0.1.10(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@gluestack-ui/form-control':
+        specifier: ^0.1.19
+        version: 0.1.19(react-dom@19.1.0(react@19.1.0))(react-native@0.80.0(@babel/core@7.27.4)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.8)(react@19.1.0))(react@19.1.0)
       '@gluestack-ui/icon':
         specifier: ~0.1.27
         version: 0.1.27(react-dom@19.1.0(react@19.1.0))(react-native@0.80.0(@babel/core@7.27.4)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.8)(react@19.1.0))(react@19.1.0)

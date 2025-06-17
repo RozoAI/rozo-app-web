@@ -5,7 +5,7 @@
  * and gasless (ZeroDev) methods, with loading and error state management.
  */
 
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { type Address } from 'viem';
 
 import { useDynamic } from '@/modules/dynamic/dynamic-client';
@@ -20,6 +20,7 @@ type TransferStatus = {
 };
 
 type UseTokenTransferResult = {
+  isAbleToTransfer: boolean;
   transfer: (toAddress: Address, amount: string, useGasless?: boolean) => Promise<TokenTransferResult>;
   status: TransferStatus;
   resetStatus: () => void;
@@ -139,7 +140,11 @@ export function useTokenTransfer(): UseTokenTransferResult {
     [wallets.primary, merchantToken]
   );
 
+  const isAbleToTransfer = useMemo(() => {
+    return !!(wallets.primary && merchantToken);
+  }, [wallets.primary, merchantToken]);
   return {
+    isAbleToTransfer,
     transfer,
     status,
     resetStatus,
