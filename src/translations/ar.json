@@ -10,10 +10,13 @@
     "createdAt": "تم إنشاؤها في",
     "description": "وصف",
     "loading": "تحميل",
+    "merchantId": "معرف التاجر",
     "notFound": "لم يتم العثور عليها",
     "note": "ملحوظة",
     "printReceipt": "طباعة الإيصال",
     "privacyPolicy": "سياسة الخصوصية",
+    "status": "حالة",
+    "submit": "يُقدِّم",
     "termsOfService": "شروط الخدمة",
     "walletAddress": "عنوان محفظة",
     "walletBalance": "توازن المحفظة"

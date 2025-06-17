@@ -6,7 +6,7 @@ import { TouchableOpacity, View } from 'react-native';
 import { Badge, BadgeText } from '@/components/ui/badge';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
-import { formatCurrency, getStatusActionType } from '@/lib';
+import { getStatusActionType } from '@/lib';
 import { type MerchantOrder } from '@/resources/schema/order';
 
 interface OrderCardProps {
@@ -21,7 +21,7 @@ export function OrderCard({ order, onPress }: OrderCardProps) {
     <TouchableOpacity activeOpacity={0.7} onPress={() => onPress?.(order)}>
       <View className="items-start justify-between rounded-xl border border-background-300 bg-background-0 px-4 py-2">
         {/* Main Order Info */}
-        <View className="mb-3 w-full flex-row items-start justify-between">
+        <View className="w-full flex-row items-start justify-between">
           <View className="flex flex-1 flex-col gap-1.5">
             <View className="flex-row items-center justify-between">
               <Text className="text-sm font-medium text-blue-600 dark:text-blue-400">#{order.order_id.slice(0, 8)}</Text>
@@ -31,7 +31,7 @@ export function OrderCard({ order, onPress }: OrderCardProps) {
               </Badge>
             </View>
             <Text className="text-2xl font-bold text-black dark:text-white">
-              {formatCurrency(Number(order.display_amount) ?? 0, order.display_currency ?? 'USD')}
+              {order.display_amount} {order.display_currency}
             </Text>
             {order.created_at && (
               <View className="flex-row items-center gap-1">

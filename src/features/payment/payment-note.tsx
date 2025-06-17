@@ -1,6 +1,9 @@
+// Start of Selection
+import { Edit, Plus } from 'lucide-react-native';
 import React, { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { Textarea, TextareaInput } from '@/components/textarea';
 import {
   Actionsheet,
   ActionsheetBackdrop,
@@ -8,23 +11,25 @@ import {
   ActionsheetDragIndicator,
   ActionsheetDragIndicatorWrapper,
 } from '@/components/ui/actionsheet';
-import { Button } from '@/components/ui/button';
-import { Input, InputField } from '@/components/ui/input';
+import { Button, ButtonIcon, ButtonText } from '@/components/ui/button';
+import { HStack } from '@/components/ui/hstack';
 import { Text } from '@/components/ui/text';
 import { View } from '@/components/ui/view';
 import { VStack } from '@/components/ui/vstack';
+import { cn } from '@/lib';
 
 type ActionSheetPaymentNoteProps = {
-  value?: string;
-  onAddNote?: (note: string) => void;
+  isEdit?: boolean;
+  onSubmit?: (note: string) => void;
 };
 
-export function ActionSheetPaymentNote({ value, onAddNote }: ActionSheetPaymentNoteProps): React.ReactElement {
-  const [customNote, setCustomNote] = useState<string>(value || '');
+export function ActionSheetPaymentNote({ isEdit = false, onSubmit }: ActionSheetPaymentNoteProps): React.ReactElement {
+  const [tempNote, setTempNote] = useState<string>('');
+  const [note, setNote] = useState<string>('');
   const [showActionsheet, setShowActionsheet] = useState<boolean>(false);
   const { t } = useTranslation();
 
-  const customInputRef = useRef<any>(null);
+  const noteInputRef = useRef<any>(null);
 
   // Callbacks
   const handleClose = useCallback(() => {
@@ -35,24 +40,33 @@ export function ActionSheetPaymentNote({ value, onAddNote }: ActionSheetPaymentN
     setShowActionsheet(true);
     // Focus on input when opened
     setTimeout(() => {
-      customInputRef.current?.focus();
+      noteInputRef.current?.focus();
     }, 100);
   }, []);
 
-  const handleCustomNoteSubmit = useCallback(() => {
-    const trimmedNote = customNote.trim();
-    onAddNote?.(trimmedNote);
-    handleClose();
-  }, [customNote, onAddNote, handleClose]);
+  const handleOnCancelNote = useCallback(() => {
+    setShowActionsheet(false);
+    setNote('');
+  }, []);
 
-  const handleCustomNoteChange = useCallback((text: string) => {
-    setCustomNote(text);
+  const handleOnSubmitNote = useCallback(() => {
+    const trimmedNote = note.trim();
+    setTempNote(trimmedNote);
+    onSubmit?.(trimmedNote);
+    handleClose();
+  }, [note, onSubmit, handleClose]);
+
+  const handleOnChangeNote = useCallback((text: string) => {
+    setNote(text);
   }, []);
 
   return (
     <>
-      <Button className="text-center underline underline-offset-1" variant="link" onPress={handleOpen}>
-        {customNote ? `${t('general.note')}: ${customNote}` : t('general.addNote')}
+      <Button className={cn('text-center')} variant="link" onPress={handleOpen}>
+        <ButtonIcon as={tempNote ? Edit : Plus} className="text-black dark:text-white" />
+        <ButtonText className="text-black dark:text-white">
+          {tempNote ? `${t('general.note')}: ${tempNote}` : t('general.addNote')}
+        </ButtonText>
       </Button>
 
       <Actionsheet isOpen={showActionsheet} onClose={handleClose} trapFocus={false}>
@@ -66,16 +80,25 @@ export function ActionSheetPaymentNote({ value, onAddNote }: ActionSheetPaymentN
             <Text className="text-center text-lg font-semibold">{t('payment.notes.title')}</Text>
 
             <View className="space-y-2">
-              <Input className="rounded-lg">
-                <InputField
-                  ref={customInputRef}
+              <Textarea size="md" isReadOnly={false} className="rounded-xl">
+                <TextareaInput
                   placeholder={t('payment.notes.enterNote')}
-                  value={customNote}
-                  onChangeText={handleCustomNoteChange}
-                  onSubmitEditing={handleCustomNoteSubmit}
+                  ref={noteInputRef}
+                  value={note}
+                  onChangeText={handleOnChangeNote}
+                  onSubmitEditing={handleOnSubmitNote}
                   returnKeyType="done"
                 />
-              </Input>
+              </Textarea>
+
+              <HStack space="md" className="grid grid-cols-2">
+                <Button className="w-full rounded-xl" variant="outline" onPress={isEdit ? handleClose : handleOnCancelNote}>
+                  {isEdit ? 'Close' : 'Cancel'}
+                </Button>
+                <Button className="w-full rounded-xl text-white" onPress={handleOnSubmitNote}>
+                  {t('general.submit')}
+                </Button>
+              </HStack>
             </View>
           </VStack>
         </ActionsheetContent>
@@ -83,3 +106,4 @@ export function ActionSheetPaymentNote({ value, onAddNote }: ActionSheetPaymentN
     </>
   );
 }
+// End of Selection
