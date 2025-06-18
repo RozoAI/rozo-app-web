@@ -50,6 +50,7 @@
     "@expo/html-elements": "0.12.5",
     "@expo/metro-runtime": "5.0.5-canary-20250613-b29d676",
     "@gluestack-ui/actionsheet": "~0.2.53",
+    "@gluestack-ui/alert": "^0.1.16",
     "@gluestack-ui/avatar": "~0.1.18",
     "@gluestack-ui/button": "~1.0.14",
     "@gluestack-ui/divider": "~0.1.10",

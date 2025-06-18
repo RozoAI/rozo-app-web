@@ -50,7 +50,7 @@ export function SettingScreen() {
                     <Icon as={DollarSign} className="mb-auto mt-1 stroke-[#747474]" />
                     <VStack className="items-start" space="xs">
                       <Text size="md">{t('settings.currency.title')}</Text>
-                      <Text size="xs">{curr}</Text>
+                      <Text size="sm">{curr}</Text>
                     </VStack>
                   </HStack>
                   <Icon as={ChevronRightIcon} className="text-gray-400 dark:text-gray-50" />
@@ -67,7 +67,7 @@ export function SettingScreen() {
                     <Icon as={Languages} className="mb-auto mt-1 stroke-[#747474]" />
                     <VStack className="items-start" space="xs">
                       <Text size="md">{t('settings.language.title')}</Text>
-                      <Text size="xs">{lg}</Text>
+                      <Text size="sm">{lg}</Text>
                     </VStack>
                   </HStack>
                   <Icon as={ChevronRightIcon} className="text-gray-400 dark:text-gray-50" />
@@ -83,7 +83,7 @@ export function SettingScreen() {
                     <Icon as={Palette} className="mb-auto mt-1 stroke-[#747474]" />
                     <VStack className="items-start" space="xs">
                       <Text size="md">{t('settings.theme.title')}</Text>
-                      <Text size="xs">{t(`settings.theme.${selectedTheme}`)}</Text>
+                      <Text size="sm">{t(`settings.theme.${selectedTheme}`)}</Text>
                     </VStack>
                   </HStack>
                   <Icon as={ChevronRightIcon} className="text-gray-400 dark:text-gray-50" />
@@ -92,7 +92,7 @@ export function SettingScreen() {
             />
           </VStack>
 
-          <Button variant="solid" size="sm" action="negative" onPress={logout} className="rounded-xl">
+          <Button variant="link" size="sm" action="negative" onPress={logout} className="rounded-xl">
             <ButtonText>{t('settings.logout')}</ButtonText>
           </Button>
 

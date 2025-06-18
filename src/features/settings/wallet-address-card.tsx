@@ -30,7 +30,9 @@ export const WalletAddressCard = () => {
         <VStack className="items-start" space="xs">
           <Text size="md">{t('general.walletAddress')}</Text>
           <View className="flex-row items-center space-x-1">
-            <Text className="text-primary-500">{formatAddress(primaryWallet?.address ?? '')}</Text>
+            <Text className="text-primary-500" size="sm">
+              {formatAddress(primaryWallet?.address ?? '')}
+            </Text>
           </View>
         </VStack>
       </HStack>

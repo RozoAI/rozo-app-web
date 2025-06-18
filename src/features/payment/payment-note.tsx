@@ -91,12 +91,12 @@ export function ActionSheetPaymentNote({ isEdit = false, onSubmit }: ActionSheet
                 />
               </Textarea>
 
-              <HStack space="md" className="grid grid-cols-2">
-                <Button className="w-full rounded-xl" variant="outline" onPress={isEdit ? handleClose : handleOnCancelNote}>
-                  {isEdit ? 'Close' : 'Cancel'}
-                </Button>
-                <Button className="w-full rounded-xl text-white" onPress={handleOnSubmitNote}>
+              <HStack space="sm" className="grid grid-rows-2">
+                <Button className="w-full rounded-xl" onPress={handleOnSubmitNote}>
                   {t('general.submit')}
+                </Button>
+                <Button className="w-full rounded-xl" variant="link" onPress={isEdit ? handleClose : handleOnCancelNote}>
+                  {isEdit ? 'Close' : 'Cancel'}
                 </Button>
               </HStack>
             </View>

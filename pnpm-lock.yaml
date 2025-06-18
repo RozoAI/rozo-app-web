@@ -38,6 +38,9 @@ importers:
       '@gluestack-ui/actionsheet':
         specifier: ~0.2.53
         version: 0.2.53(react-dom@19.1.0(react@19.1.0))(react-native@0.80.0(@babel/core@7.27.4)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.8)(react@19.1.0))(react@19.1.0)
+      '@gluestack-ui/alert':
+        specifier: ^0.1.16
+        version: 0.1.16(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@gluestack-ui/avatar':
         specifier: ~0.1.18
         version: 0.1.18(react-dom@19.1.0(react@19.1.0))(react-native@0.80.0(@babel/core@7.27.4)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.8)(react@19.1.0))(react@19.1.0)
@@ -1224,6 +1227,12 @@ packages:
 
   '@gluestack-ui/actionsheet@0.2.53':
     resolution: {integrity: sha512-93qHvq6BHezJ7wt2lce4OQ38wXCGsDtglj5nlmwo2T41vj4ubOtDVoSUhXT+hfH0EmRr0TxFNeFqIgesO46qVw==}
+    peerDependencies:
+      react: '>=16'
+      react-dom: '>=16'
+
+  '@gluestack-ui/alert@0.1.16':
+    resolution: {integrity: sha512-vE0litmicuKFJFp9TY3mRuZmyH/E24IdHlC0f3FZjfa+AzeOS+bZdKMRix2EYkvBGrA6uNffWUuHeXWQGMRVJQ==}
     peerDependencies:
       react: '>=16'
       react-dom: '>=16'
@@ -9016,6 +9025,11 @@ snapshots:
       react-dom: 19.1.0(react@19.1.0)
     transitivePeerDependencies:
       - react-native
+
+  '@gluestack-ui/alert@0.1.16(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
+    dependencies:
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
 
   '@gluestack-ui/avatar@0.1.18(react-dom@19.1.0(react@19.1.0))(react-native@0.80.0(@babel/core@7.27.4)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.8)(react@19.1.0))(react@19.1.0)':
     dependencies:
