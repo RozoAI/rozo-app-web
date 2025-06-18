@@ -16,32 +16,32 @@ export const WalletBalanceCard = () => {
   const { balance, isLoading, error, refetch } = useWalletBalance();
 
   return (
-    <View className="w-full flex-row items-center justify-between px-2 py-3">
-      <HStack className="items-center" space="md">
-        <Icon as={Coins} className="mb-auto mt-1 stroke-[#747474]" />
-        <VStack className="items-start" space="xs">
-          <Text size="md">{t('general.walletBalance')}</Text>
-          <View className="flex-row items-center space-x-1">
-            {isLoading ? (
-              <ActivityIndicator size="small" color="#3B82F6" />
-            ) : error ? (
-              <Text className="text-sm text-red-500">{error}</Text>
-            ) : (
-              <Text className="font-bold text-primary-500">
-                {balance?.formattedBalance} {balance?.token.label}
-              </Text>
-            )}
-          </View>
-        </VStack>
-      </HStack>
+    <VStack space="md" className="w-full">
+      <View className="w-full flex-row items-center justify-between px-2 py-3">
+        <HStack className="items-center" space="md">
+          <Icon as={Coins} className="mb-auto mt-1 stroke-[#747474]" />
+          <VStack className="items-start" space="xs">
+            <Text size="md">{t('general.walletBalance')}</Text>
+            <View className="flex-row items-center space-x-1">
+              {isLoading ? (
+                <ActivityIndicator size="small" color="#3B82F6" />
+              ) : error ? (
+                <Text className="text-sm text-red-500">{error}</Text>
+              ) : (
+                <Text className="font-bold text-primary-500">
+                  {balance?.formattedBalance} {balance?.token.label}
+                </Text>
+              )}
+            </View>
+          </VStack>
+        </HStack>
 
-      <HStack space="md">
-        <WithdrawActionSheet />
-
-        <Button onPress={refetch} disabled={isLoading} size="xs" variant="link" className="rounded-xl">
+        <Button onPress={refetch} disabled={isLoading} size="xs" variant="outline" className="rounded-full p-2">
           <ButtonIcon as={RefreshCw}></ButtonIcon>
         </Button>
-      </HStack>
-    </View>
+      </View>
+
+      <WithdrawActionSheet />
+    </VStack>
   );
 };

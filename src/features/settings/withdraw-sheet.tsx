@@ -37,10 +37,10 @@ export function WithdrawActionSheet({ onClose }: Props) {
   const { isAbleToTransfer, transfer } = useTokenTransfer();
 
   const [open, setOpen] = useState<boolean>(false);
-  const [tokenAddress, setTokenAddress] = useState('');
+  const [withdrawAddress, setWithdrawAddress] = useState('');
   const [amount, setAmount] = useState('');
   const [errors, setErrors] = useState<{
-    tokenAddress?: string;
+    withdrawAddress?: string;
     amount?: string;
   }>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -51,8 +51,8 @@ export function WithdrawActionSheet({ onClose }: Props) {
   const validateForm = () => {
     const newErrors: typeof errors = {};
 
-    if (!tokenAddress.trim()) {
-      newErrors.tokenAddress = t('validation.required');
+    if (!withdrawAddress.trim()) {
+      newErrors.withdrawAddress = t('validation.required');
     }
 
     // Validate amount
@@ -84,7 +84,7 @@ export function WithdrawActionSheet({ onClose }: Props) {
 
     try {
       if (isAbleToTransfer) {
-        const result = await transfer(tokenAddress as Address, amount, true);
+        const result = await transfer(withdrawAddress as Address, amount, true);
 
         if (result.success) {
           showToast({
@@ -108,7 +108,7 @@ export function WithdrawActionSheet({ onClose }: Props) {
   };
 
   const handleClose = () => {
-    setTokenAddress('');
+    setWithdrawAddress('');
     setAmount('');
     setErrors({});
     setIsSubmitting(false);
@@ -125,8 +125,7 @@ export function WithdrawActionSheet({ onClose }: Props) {
     <>
       <Button
         disabled={balance?.balance ? parseFloat(balance.balance) < 0.01 : true}
-        size="xs"
-        variant="outline"
+        size="md"
         className="rounded-xl"
         onPress={() => setOpen(true)}
       >
@@ -147,25 +146,25 @@ export function WithdrawActionSheet({ onClose }: Props) {
             </Text>
 
             <VStack space="md">
-              <FormControl isInvalid={!!errors.tokenAddress}>
+              <FormControl isInvalid={!!errors.withdrawAddress}>
                 <FormControlLabel>
                   <FormControlLabelText>{t('general.walletAddress')}</FormControlLabelText>
                 </FormControlLabel>
                 <Input>
                   <InputField
                     placeholder={t('withdraw.walletAddressPlaceholder')}
-                    value={tokenAddress}
+                    value={withdrawAddress}
                     onChangeText={(text) => {
-                      setTokenAddress(text);
-                      setErrors((prev) => ({ ...prev, tokenAddress: undefined }));
+                      setWithdrawAddress(text);
+                      setErrors((prev) => ({ ...prev, withdrawAddress: undefined }));
                     }}
                     autoCapitalize="none"
                     autoCorrect={false}
                   />
                 </Input>
-                {errors.tokenAddress && (
+                {errors.withdrawAddress && (
                   <FormControlError>
-                    <FormControlErrorText>{errors.tokenAddress}</FormControlErrorText>
+                    <FormControlErrorText>{errors.withdrawAddress}</FormControlErrorText>
                   </FormControlError>
                 )}
                 <Text size="sm" className="mt-1 text-gray-500">
