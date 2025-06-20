@@ -36,7 +36,6 @@ yarn-error.log
 
 # Local env files
 .env*.local
-.env
 
 # TypeScript
 *.tsbuildinfo
@@ -83,3 +82,4 @@ android/app/rozopos.keystore
 *.aab
 *.keystore
 *.dm
+config.bat
