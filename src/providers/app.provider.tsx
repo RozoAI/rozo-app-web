@@ -1,17 +1,20 @@
+import { ChainEnum } from '@dynamic-labs/sdk-api-core';
+import { useDynamicContext, useDynamicWaas } from '@dynamic-labs/sdk-react-core';
 import { type BaseWallet } from '@dynamic-labs/types';
 import { useRouter } from 'expo-router';
-import React, { useCallback, useContext, useMemo } from 'react';
-import { createContext, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 import { PageLoader } from '@/components/loader/loader';
 import { showToast, storage } from '@/lib';
 import { currencies, type CurrencyConfig } from '@/lib/currencies';
 import { defaultToken, type Token, tokens } from '@/lib/tokens';
-import { dynamicClient, useDynamic } from '@/modules/dynamic/dynamic-client';
-// eslint-disable-next-line import/no-cycle
+import { DYNAMIC_TOKEN_KEY } from '@/modules/axios/client';
 import { useCreateProfile, useGetProfile } from '@/resources/api';
 import { type MerchantProfile } from '@/resources/schema/merchant';
 
+/**
+ * The shape of the authentication context.
+ */
 interface IContextProps {
   isAuthenticated: boolean;
   token: string | undefined;
@@ -21,9 +24,8 @@ interface IContextProps {
   wallets: BaseWallet[];
   primaryWallet: BaseWallet | undefined;
   isAuthLoading: boolean;
+  setMerchant: (merchant: MerchantProfile) => void;
   showAuthModal: () => void;
-  setToken: (token: string | undefined) => void;
-  setMerchant: (merchant: MerchantProfile | undefined) => void;
   logout: () => Promise<void>;
 }
 
@@ -36,9 +38,8 @@ export const AppContext = createContext<IContextProps>({
   wallets: [],
   primaryWallet: undefined,
   isAuthLoading: false,
-  showAuthModal: () => {},
-  setToken: () => {},
   setMerchant: () => {},
+  showAuthModal: () => {},
   logout: async () => {},
 });
 
@@ -46,78 +47,32 @@ interface IProviderProps {
   children: React.ReactNode;
 }
 
-export const TOKEN_KEY = '_auth_token';
-
 export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
   const { refetch: fetchProfile, data: profileData, error: profileError } = useGetProfile();
   const { mutateAsync: createProfile } = useCreateProfile();
-  const { auth, wallets, ui } = useDynamic();
-  const [isLoading, setIsLoading] = useState(true);
-  const [isAuthLoading, setIsAuthLoading] = useState(false);
-  const router = useRouter();
+  const { primaryWallet, user, setShowAuthFlow, handleLogOut } = useDynamicContext();
+  const { createWalletAccount } = useDynamicWaas();
 
+  const [isAppLoading, setIsAppLoading] = useState(true);
+  const [isAuthLoading, setIsAuthLoading] = useState(false);
   const [token, setToken] = useState<string | undefined>();
   const [merchant, setMerchant] = useState<MerchantProfile>();
   const [userWallets, setUserWallets] = useState<BaseWallet[]>([]);
 
-  // Initialize the application with auth state
-  const initApp = async () => {
-    setIsLoading(true);
-    const token = auth?.token;
+  const isAuthenticated = !!user;
+  const router = useRouter();
 
-    // Set token if available
-    if (token) {
-      setToken(token);
-      storage.set(TOKEN_KEY, token);
-    } else {
-      // Clear token if not available
-      setToken(undefined);
-      storage.delete(TOKEN_KEY);
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 3000);
-    }
+  const clearStorage = async () => {
+    await handleLogOut();
+    setMerchant(undefined);
+    setUserWallets([]);
+    setToken(undefined);
+    await storage.delete(DYNAMIC_TOKEN_KEY);
   };
 
-  // Handle wallet information
-  const updateWalletInfo = () => {
-    if (wallets?.userWallets) {
-      /* const formattedWallets: UserWallet[] = wallets.userWallets.map((wallet: any) => ({
-        address: wallet.address,
-        chain: wallet.chain,
-        walletKey: wallet.key,
-        isConnected: wallet.isAuthenticated,
-      })); */
-      setUserWallets(wallets.userWallets);
-    }
-  };
-
-  // Get primary wallet (EVM wallet by default)
-  const primaryWallet = useMemo(() => {
-    return userWallets.find((wallet) => wallet.chain === 'EVM');
-  }, [userWallets]);
-
-  const merchantToken = useMemo(() => {
-    if (merchant?.default_token_id) {
-      return tokens.find((token) => token.key === merchant?.default_token_id);
-    }
-    return defaultToken;
-  }, [merchant]);
-
-  // Get default currency from merchant profile
-  const defaultCurrency = useMemo(() => {
-    const currency = merchant?.default_currency ?? 'USD';
-    return currencies[currency];
-  }, [merchant]);
-
-  // Logout function
-  const logout = async () => {
+  const logout = useCallback(async () => {
     try {
-      await dynamicClient.auth.logout();
-      setToken(undefined);
-      setMerchant(undefined);
-      setUserWallets([]);
-      storage.delete(TOKEN_KEY);
+      await clearStorage();
       router.replace('/login');
     } catch (_err) {
       showToast({
@@ -125,166 +80,141 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
         message: 'Failed to logout',
       });
     }
-  };
+  }, [handleLogOut, router]);
 
-  // Initialize app when auth token changes
-  useEffect(() => {
-    initApp();
-  }, [auth?.token]);
+  const createMerchantProfile = useCallback(
+    async (userData: any) => {
+      setIsAppLoading(true);
+      try {
+        let walletAddress = '';
 
-  // Update wallet information when wallets change
-  useEffect(() => {
-    updateWalletInfo();
-  }, [wallets?.userWallets]);
+        if (primaryWallet) {
+          walletAddress = primaryWallet.address;
+        } else {
+          // Create wallet
+          const wallets = await createWalletAccount([ChainEnum.Evm]);
+          if (wallets && wallets.length > 0 && wallets[0]) {
+            walletAddress = wallets[0].accountAddress;
+          } else {
+            throw new Error('Failed to create wallet');
+          }
+        }
 
-  // Fetch merchant profile when token is available
+        await createProfile({
+          email: userData?.email ?? '',
+          display_name: userData?.email ?? '',
+          description: '',
+          logo_url: '',
+          default_currency: 'USD',
+          default_language: 'EN',
+          default_token_id: defaultToken?.key,
+          wallet_address: walletAddress ?? '',
+        });
+        showToast({ type: 'success', message: 'Welcome to Rozo POS' });
+        await fetchProfile(); // Refetch profile after creation
+        router.navigate('/');
+      } catch (error: any) {
+        logout();
+        setIsAuthLoading(false);
+        showToast({ type: 'danger', message: error?.message ?? 'Failed to create profile' });
+      }
+    },
+    [createProfile, primaryWallet, router, fetchProfile]
+  );
+
   useEffect(() => {
-    if (token) {
-      setIsLoading(true);
-      fetchProfile();
+    const initAuth = async () => {
+      const storedToken = await storage.getString(DYNAMIC_TOKEN_KEY);
+      if (storedToken) {
+        setToken(storedToken);
+        setIsAppLoading(true);
+        await fetchProfile();
+      }
+    };
+
+    if (user) {
+      initAuth();
+    } else {
+      // clearStorage();
+      setIsAppLoading(false);
     }
-  }, [token, fetchProfile]);
+  }, [user]);
 
-  // Handle merchant profile data and errors
+  useEffect(() => {
+    if (primaryWallet) {
+      setUserWallets([primaryWallet as unknown as BaseWallet]);
+    } else {
+      setUserWallets([]);
+    }
+  }, [primaryWallet]);
+
   useEffect(() => {
     if (profileData) {
-      setIsLoading(false);
       setMerchant(profileData);
+      setIsAppLoading(false);
+      setIsAuthLoading(false);
     }
 
     if (profileError) {
-      showToast({
-        type: 'danger',
-        message: profileError?.message ?? 'Failed to get profile',
-      });
-
-      setIsLoading(false);
-      router.replace('/error');
-    }
-  }, [profileData, profileError, router]);
-
-  /**
-   * Show the authentication modal
-   */
-  const showAuthModal = useCallback(() => {
-    ui.auth.show();
-  }, [ui]);
-
-  // No longer need separate handleProfileCreationSuccess function
-  // as we're handling success directly in the createMerchantProfile function
-
-  /**
-   * Create merchant profile with user data
-   */
-  const createMerchantProfile = useCallback(
-    async (user: any) => {
-      try {
-        const evmWallet = userWallets.find((wallet) => wallet.chain === 'EVM');
-
-        await createProfile({
-          email: user?.email ?? '',
-          display_name: user?.email ?? '',
-          description: '',
-          logo_url: '',
-          default_currency: defaultCurrency.code,
-          default_language: 'EN',
-          default_token_id: defaultToken?.key,
-          wallet_address: evmWallet?.address ?? '',
-        });
-
-        // Handle success directly here
-        if (auth.token) {
-          setToken(auth.token);
-          showToast({
-            type: 'success',
-            message: 'Welcome to Rozo POS',
-          });
-          setIsAuthLoading(false);
-          router.navigate('/');
-        }
-      } catch (error: any) {
-        // Handle error directly here
-        showToast({
-          type: 'danger',
-          message: error?.message ?? 'Failed to create profile',
-        });
-        setIsAuthLoading(false);
-      }
-    },
-    [createProfile, userWallets, auth.token, router]
-  );
-
-  // No longer need separate useEffects for profile creation success/error
-  // as we're handling them directly in the createMerchantProfile function
-
-  // Set up auth event listeners
-  useEffect(() => {
-    const authInitHandler = () => {
-      setIsAuthLoading(true);
-    };
-
-    const authSuccessHandler = (user: any) => {
-      setIsAuthLoading(true);
-
-      if (user) {
+      // If profile not found (404) and user is authenticated, create one
+      if (user && profileError.message.includes('multiple (or no) rows returned')) {
         createMerchantProfile(user);
       } else {
-        showToast({
-          type: 'danger',
-          message: 'Failed to login',
-        });
+        clearStorage();
+        showToast({ type: 'danger', message: profileError?.message ?? 'Failed to get profile' });
         setIsAuthLoading(false);
+        // Optional: redirect to an error page or login
+        router.replace('/login');
       }
-    };
+    }
+  }, [profileData, profileError, user, createMerchantProfile, router]);
 
-    const authFailedHandler = () => {
-      showToast({
-        type: 'danger',
-        message: 'Authentication failed',
-      });
-      setIsAuthLoading(false);
-    };
+  const showAuthModal = useCallback(() => {
+    setShowAuthFlow(true);
+  }, [setShowAuthFlow]);
 
-    const authLogoutHandler = () => {
-      setToken(undefined);
-      storage.delete(TOKEN_KEY);
-      router.replace('/login');
-    };
+  const merchantToken = useMemo(() => {
+    if (merchant?.default_token_id) {
+      return tokens.find((token) => token.key === merchant.default_token_id);
+    }
+    return defaultToken;
+  }, [merchant]);
 
-    // Add event listeners
-    auth.on('authInit', authInitHandler);
-    auth.on('authSuccess', authSuccessHandler);
-    auth.on('authFailed', authFailedHandler);
-    auth.on('loggedOut', authLogoutHandler);
-
-    // Clean up event listeners
-    return () => {
-      auth.off('authInit', authInitHandler);
-      auth.off('authSuccess', authSuccessHandler);
-      auth.off('authFailed', authFailedHandler);
-      auth.off('loggedOut', authLogoutHandler);
-    };
-  }, [auth, createMerchantProfile, router]);
+  const defaultCurrency = useMemo(() => {
+    const currencyCode = merchant?.default_currency ?? 'USD';
+    return currencies[currencyCode];
+  }, [merchant]);
 
   const contextPayload = useMemo(
     () => ({
-      isAuthenticated: !!token,
+      isAuthenticated,
       token,
       merchant,
       defaultCurrency,
       merchantToken,
       wallets: userWallets,
+      primaryWallet: primaryWallet as BaseWallet | undefined,
+      isAuthLoading,
+      showAuthModal,
+      logout,
+      setMerchant,
+    }),
+    [
+      isAuthenticated,
+      token,
+      merchant,
+      defaultCurrency,
+      merchantToken,
+      userWallets,
       primaryWallet,
       isAuthLoading,
       showAuthModal,
-      setToken,
-      setMerchant,
       logout,
-    }),
-    [token, merchant, userWallets, primaryWallet, isAuthLoading, showAuthModal]
+      setMerchant,
+    ]
   );
 
-  return <AppContext.Provider value={contextPayload}>{isLoading ? <PageLoader /> : children}</AppContext.Provider>;
+  return <AppContext.Provider value={contextPayload}>{isAppLoading ? <PageLoader /> : children}</AppContext.Provider>;
 };
 
 export const useApp = () => useContext(AppContext);

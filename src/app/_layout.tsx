@@ -1,13 +1,16 @@
 // Import global CSS file
 import '@/styles/global.css';
 
+import { EthereumWalletConnectors } from '@dynamic-labs/ethereum';
+import { ZeroDevSmartWalletConnectors } from '@dynamic-labs/ethereum-aa';
+import { DynamicContextProvider } from '@dynamic-labs/sdk-react-core';
 import { ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen'; // Correct import
+import * as SplashScreen from 'expo-splash-screen';
 import { useColorScheme } from 'nativewind';
-import React, { useCallback, useEffect, useState } from 'react'; // Import hooks
+import React, { useCallback, useEffect, useState } from 'react';
 import { I18nextProvider } from 'react-i18next';
-import { Platform, StyleSheet } from 'react-native'; // Import View
+import { Platform, StyleSheet } from 'react-native';
 import FlashMessage from 'react-native-flash-message';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
@@ -16,7 +19,6 @@ import { GluestackUIProvider } from '@/components/gluestack-ui-provider';
 import { WebFontsLoader } from '@/components/web-fonts-loader';
 import { loadSelectedTheme } from '@/hooks';
 import { darkTheme, defaultTheme } from '@/lib/theme';
-import { dynamicClient } from '@/modules/dynamic/dynamic-client';
 import { configureDynamicDeepLinks } from '@/modules/dynamic/dynamic-linking';
 import i18n from '@/modules/i18n';
 import { AppProvider } from '@/providers/app.provider';
@@ -91,16 +93,20 @@ function Providers({ children, onLayout }: { children: React.ReactNode; onLayout
         {/* The onLayout prop is attached to the absolute root view */}
         <GestureHandlerRootView style={styles.container} className={theme.colorScheme} onLayout={onLayout}>
           <KeyboardProvider>
-            <ThemeProvider value={theme.colorScheme === 'dark' ? darkTheme : defaultTheme}>
-              <QueryProvider>
-                {/* @ts-ignore */}
-                <dynamicClient.reactNative.WebView />
-
-                {/* @ts-ignore */}
-                <FlashMessage position="top" />
-                <AppProvider>{Platform.OS === 'web' ? <WebFontsLoader>{children}</WebFontsLoader> : children}</AppProvider>
-              </QueryProvider>
-            </ThemeProvider>
+            <QueryProvider>
+              <ThemeProvider value={theme.colorScheme === 'dark' ? darkTheme : defaultTheme}>
+                <DynamicContextProvider
+                  settings={{
+                    environmentId: process.env.EXPO_PUBLIC_DYNAMIC_ENVIRONMENT_ID ?? '',
+                    walletConnectors: [EthereumWalletConnectors, ZeroDevSmartWalletConnectors],
+                  }}
+                >
+                  {/* @ts-ignore */}
+                  <FlashMessage position="top" />
+                  <AppProvider>{Platform.OS === 'web' ? <WebFontsLoader>{children}</WebFontsLoader> : children}</AppProvider>
+                </DynamicContextProvider>
+              </ThemeProvider>
+            </QueryProvider>
           </KeyboardProvider>
         </GestureHandlerRootView>
       </GluestackUIProvider>

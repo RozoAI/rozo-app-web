@@ -74,7 +74,6 @@ The app supports different environments:
 - **Data Fetching**: [React Query](https://tanstack.com/query/latest) with React Query Kit
 - **Form Handling**: [React Hook Form](https://react-hook-form.com/)
 - **Validation**: [Zod](https://zod.dev/)
-- **Storage**: [React Native MMKV](https://github.com/mrousavy/react-native-mmkv)
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/) via [Gluestack](https://gluestack.io/)
 
 ## Folder Structure

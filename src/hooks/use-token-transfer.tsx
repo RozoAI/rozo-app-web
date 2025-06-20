@@ -5,10 +5,10 @@
  * and gasless (ZeroDev) methods, with loading and error state management.
  */
 
+import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
 import { useCallback, useMemo, useState } from 'react';
 import { type Address } from 'viem';
 
-import { useDynamic } from '@/modules/dynamic/dynamic-client';
 import { type TokenTransferResult, transferToken, transferTokenZeroDev } from '@/modules/dynamic/token-operations';
 import { useApp } from '@/providers/app.provider';
 
@@ -60,7 +60,7 @@ type UseTokenTransferResult = {
  */
 export function useTokenTransfer(): UseTokenTransferResult {
   const { merchantToken } = useApp();
-  const { wallets } = useDynamic();
+  const { primaryWallet } = useDynamicContext();
 
   const [status, setStatus] = useState<TransferStatus>({
     isLoading: false,
@@ -91,7 +91,7 @@ export function useTokenTransfer(): UseTokenTransferResult {
    */
   const transfer = useCallback(
     async (toAddress: Address, amount: string, useGasless = false): Promise<TokenTransferResult> => {
-      if (!wallets.primary || !merchantToken) {
+      if (!primaryWallet || !merchantToken) {
         const error = new Error('Wallet or token not available');
         setStatus({
           isLoading: false,
@@ -112,8 +112,8 @@ export function useTokenTransfer(): UseTokenTransferResult {
       try {
         // Use either standard or gasless transfer based on parameter
         const result = useGasless
-          ? await transferTokenZeroDev(wallets.primary, toAddress, amount, merchantToken)
-          : await transferToken(wallets.primary, toAddress, amount, merchantToken);
+          ? await transferTokenZeroDev(primaryWallet, toAddress, amount, merchantToken)
+          : await transferToken(primaryWallet, toAddress, amount, merchantToken);
 
         setStatus({
           isLoading: false,
@@ -137,12 +137,12 @@ export function useTokenTransfer(): UseTokenTransferResult {
         };
       }
     },
-    [wallets.primary, merchantToken]
+    [primaryWallet, merchantToken]
   );
 
   const isAbleToTransfer = useMemo(() => {
-    return !!(wallets.primary && merchantToken);
-  }, [wallets.primary, merchantToken]);
+    return !!(primaryWallet && merchantToken);
+  }, [primaryWallet, merchantToken]);
   return {
     isAbleToTransfer,
     transfer,

@@ -29,11 +29,7 @@ if (Platform.OS === 'web') {
   client = client.extend(WebExtension());
 }
 
-// Extend with Viem and properly type the result
-client = client.extend(ViemExtension());
-client = client.extend(ZeroDevExtension());
-
 // Export with proper typing
-export const dynamicClient = client as DynamicClient;
+export const dynamicClient = client.extend(ViemExtension()).extend(ZeroDevExtension()) as DynamicClient;
 
 export const useDynamic = () => useReactiveClient(dynamicClient);

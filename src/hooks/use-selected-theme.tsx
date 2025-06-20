@@ -1,36 +1,55 @@
 import { colorScheme, useColorScheme } from 'nativewind';
-import { useCallback } from 'react';
-import { useMMKVString } from 'react-native-mmkv';
+import { useCallback, useEffect, useState } from 'react';
 
 import { storage } from '@/lib/storage';
 
 const SELECTED_THEME = '_theme';
 export type ColorSchemeType = 'light' | 'dark' | 'system';
+
 /**
- * this hooks should only be used while selecting the theme
- * This hooks will return the selected theme which is stored in MMKV
- * selectedTheme should be one of the following values 'light', 'dark' or 'system'
- * don't use this hooks if you want to use it to style your component based on the theme use useColorScheme from nativewind instead
- *
+ * Loads the selected theme from AsyncStorage and applies it.
+ * @returns A Promise that resolves to the loaded theme or null if not found.
+ */
+export const loadSelectedTheme = async (): Promise<ColorSchemeType | null> => {
+  const theme = await storage.getString(SELECTED_THEME);
+  if (theme) {
+    colorScheme.set(theme as ColorSchemeType);
+    return theme as ColorSchemeType;
+  }
+  return null;
+};
+
+/**
+ * Hook for managing the selected color scheme (theme).
+ * It initializes the theme from AsyncStorage and provides a function to update it.
+ * Note: For styling components based on the current theme, use `useColorScheme` from NativeWind directly.
  */
 export const useSelectedTheme = () => {
-  const { colorScheme: _color, setColorScheme } = useColorScheme();
-  const [theme, _setTheme] = useMMKVString(SELECTED_THEME, storage);
+  const { colorScheme: nativewindTheme, setColorScheme } = useColorScheme();
+  const [selectedTheme, setSelectedThemeState] = useState<ColorSchemeType | undefined | null>(undefined);
 
-  const setSelectedTheme = useCallback(
-    (t: ColorSchemeType) => {
-      setColorScheme(t);
-      _setTheme(t);
+  useEffect(() => {
+    const initTheme = async () => {
+      const loadedTheme = await loadSelectedTheme();
+      if (loadedTheme) {
+        setSelectedThemeState(loadedTheme);
+      } else {
+        // If no theme is in storage, use the current theme from NativeWind (which could be system default)
+        setSelectedThemeState(nativewindTheme);
+      }
+    };
+    initTheme();
+  }, [nativewindTheme]); // Add nativewindTheme as a dependency
+
+  const updateSelectedTheme = useCallback(
+    async (newTheme: ColorSchemeType) => {
+      setColorScheme(newTheme); // Update NativeWind's theme
+      setSelectedThemeState(newTheme); // Update local state
+      console.log(newTheme);
+      await storage.setItem(SELECTED_THEME, newTheme); // Persist to AsyncStorage
     },
-    [setColorScheme, _setTheme]
+    [setColorScheme]
   );
 
-  return { selectedTheme: theme, setSelectedTheme } as const;
-};
-// to be used in the root file to load the selected theme from MMKV
-export const loadSelectedTheme = () => {
-  const theme = storage.getString(SELECTED_THEME);
-  if (theme !== undefined) {
-    colorScheme.set(theme as ColorSchemeType);
-  }
+  return { selectedTheme, setSelectedTheme: updateSelectedTheme } as const;
 };

@@ -45,7 +45,6 @@ src
 - Zustand
 - React Native Keyboard Controller
 - React Native SVG
-- React Native MMKV
 
 ## Naming Conventions
 
@@ -97,15 +96,11 @@ type Props = {
 
 export function Title({ text }: Props) {
   return (
-    <View className="flex-row items-center justify-center  py-4 pb-2">
+    <View className="flex-row items-center justify-center py-4 pb-2">
       <Text className="pr-2 text-2xl">{text}</Text>
       <View className="h-[2px] flex-1 bg-neutral-300" />
 
-      <Image
-        source={require('@assets/images/demo.png')}
-        style={{ width: 24, height: 24 }}
-        contentFit="contain"
-      />
+      <Image source={require('@assets/images/demo.png')} style={{ width: 24, height: 24 }} contentFit="contain" />
     </View>
   );
 }

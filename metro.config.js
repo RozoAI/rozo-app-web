@@ -29,6 +29,7 @@ config.resolver.resolveRequest = function packageExportsResolver(context, module
     }
     throw error;
   }
+
 };
 
 module.exports = withNativeWind(config, { input: './src/styles/global.css' });

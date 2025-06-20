@@ -307,7 +307,6 @@ export async function transferTokenZeroDev(
     }
 
     // Send the transaction
-
     const userOpHash = await kernelClient.sendUserOperation({
       callData: await kernelClient.account.encodeCalls([
         {
@@ -321,20 +320,6 @@ export async function transferTokenZeroDev(
         },
       ]),
     });
-    /* const userOpHash = await kernelClient.sendUserOperation({
-      callData: await kernelClient.account.encodeCalls([
-        {
-          data: '0x',
-          to: zeroAddress,
-          value: BigInt(0),
-        },
-        {
-          data: '0x',
-          to: zeroAddress,
-          value: BigInt(0),
-        },
-      ]),
-    }); */
 
     console.log('Sent UserOperation with hash:', userOpHash);
     const receipt = await kernelClient.waitForUserOperationReceipt({ hash: userOpHash });
