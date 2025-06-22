@@ -8,9 +8,9 @@ import { useColorScheme } from 'nativewind';
 import React, { useCallback, useEffect, useState } from 'react'; // Import hooks
 import { I18nextProvider } from 'react-i18next';
 import { Platform, StyleSheet } from 'react-native'; // Import View
-import FlashMessage from 'react-native-flash-message';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
+import Toast from 'react-native-toast-message';
 
 import { GluestackUIProvider } from '@/components/gluestack-ui-provider';
 import { WebFontsLoader } from '@/components/web-fonts-loader';
@@ -87,6 +87,7 @@ function Providers({ children, onLayout }: { children: React.ReactNode; onLayout
 
   return (
     <I18nextProvider i18n={i18n}>
+      <Toast />
       <GluestackUIProvider mode={theme.colorScheme}>
         {/* The onLayout prop is attached to the absolute root view */}
         <GestureHandlerRootView style={styles.container} className={theme.colorScheme} onLayout={onLayout}>
@@ -96,8 +97,6 @@ function Providers({ children, onLayout }: { children: React.ReactNode; onLayout
                 {/* @ts-ignore */}
                 <dynamicClient.reactNative.WebView />
 
-                {/* @ts-ignore */}
-                <FlashMessage position="top" />
                 <AppProvider>{Platform.OS === 'web' ? <WebFontsLoader>{children}</WebFontsLoader> : children}</AppProvider>
               </QueryProvider>
             </ThemeProvider>

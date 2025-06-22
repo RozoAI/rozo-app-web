@@ -10,16 +10,21 @@
     "createdAt": "Created at",
     "description": "Description",
     "loading": "Loading",
+    "max": "Maximum",
     "merchantId": "Merchant ID",
     "notFound": "Not found",
     "note": "Note",
     "printReceipt": "Print Receipt",
     "privacyPolicy": "Privacy Policy",
+    "processing": "Processing",
     "status": "Status",
     "submit": "Submit",
     "termsOfService": "Terms of Service",
+    "update": "Update",
+    "updating": "Updating",
     "walletAddress": "Wallet Address",
-    "walletBalance": "Wallet Balance"
+    "walletBalance": "Wallet Balance",
+    "withdraw": "Withdraw"
   },
   "home": {
     "title": "Home"
@@ -56,6 +61,16 @@
     "paymentSuccessfulDesc": "Your transaction has been completed successfully",
     "scanToPay": "Scan to Pay",
     "verifyPayment": "Verify Payment"
+  },
+  "profile": {
+    "displayName": "Display Name",
+    "email": "Email",
+    "placeholder": {
+      "displayName": "Enter your display name",
+      "email": "Enter your email"
+    },
+    "title": "Profile",
+    "updateError": "Failed to update profile"
   },
   "settings": {
     "about": "About",
@@ -95,5 +110,22 @@
     "version": "Version",
     "website": "Website"
   },
-  "welcome": "Welcome to Rozo POS"
+  "toast": {
+    "danger": "Error",
+    "info": "Info",
+    "success": "Success"
+  },
+  "validation": {
+    "invalidAmount": "Invalid amount",
+    "maxAmount": "Maximum amount is {{max}}",
+    "minAmount": "Minimum amount is {{min}}",
+    "required": "This field is required"
+  },
+  "welcome": "Welcome to Rozo POS",
+  "withdraw": {
+    "error": "An error occurred during withdrawal",
+    "success": "Withdraw successfully",
+    "supportedOnly": "Supported only {{currency}}",
+    "walletAddressPlaceholder": "Input your Wallet Address"
+  }
 }

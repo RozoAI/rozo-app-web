@@ -113,6 +113,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         ],
       },
     ],
+    [
+      'expo-image-picker',
+      {
+        photosPermission: 'The app needs access to your photos to allow you to upload and share images.',
+      },
+    ],
     'expo-web-browser',
     'expo-localization',
     'expo-router',

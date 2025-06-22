@@ -17,8 +17,13 @@ type Payload = {
 };
 type Response = MerchantProfile;
 
+type UpdateProfilePayload = {
+  display_name?: string;
+  logo?: string | null;
+};
+
 export const useCreateProfile = createMutation<Response, Payload, AxiosError>({
-  mutationFn: async (payload) =>
+  mutationFn: async (payload: Payload) =>
     client({
       url: 'functions/v1/merchants',
       method: 'POST',
@@ -26,9 +31,25 @@ export const useCreateProfile = createMutation<Response, Payload, AxiosError>({
     }).then((response) => response.data.profile),
 });
 
+export const useUpdateProfile = createMutation<Response, UpdateProfilePayload, AxiosError>({
+  mutationFn: async (payload: UpdateProfilePayload) =>
+    client({
+      url: 'functions/v1/merchants',
+      method: 'PUT',
+      data: payload,
+    }).then((response) => response.data.profile),
+});
+
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export const useGetProfile = createQuery<Response, {}, AxiosError>({
   queryKey: ['profile'],
-  fetcher: () => client.get('functions/v1/merchants').then((response) => response.data.profile),
+  fetcher: () =>
+    client
+      .get('functions/v1/merchants', {
+        'axios-retry': {
+          retries: 0,
+        },
+      })
+      .then((response) => response.data.profile),
   enabled: false,
 });
