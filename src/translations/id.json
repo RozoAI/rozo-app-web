@@ -5,9 +5,9 @@
     "amountPaid": "Jumlah Dibayar",
     "backToHome": "Kembali ke Beranda",
     "cancel": "Batal",
-    "close": "Menutup",
-    "copiedToClipboard": "Coppied ke clipboard",
-    "createdAt": "Dibuat di",
+    "close": "Tutup",
+    "copiedToClipboard": "Disalin ke clipboard",
+    "createdAt": "Dibuat pada",
     "description": "Keterangan",
     "loading": "Memuat",
     "max": "Maksimum",
@@ -16,16 +16,18 @@
     "note": "Catatan",
     "printReceipt": "Cetak Struk",
     "privacyPolicy": "Kebijakan Privasi",
-    "processing": "Pengolahan",
+    "processing": "Memproses",
     "status": "Status",
     "submit": "Kirim",
     "termsOfService": "Syarat dan Ketentuan",
+    "update": "Perbarui",
+    "updating": "Memperbarui",
     "walletAddress": "Alamat dompet",
-    "walletBalance": "Keseimbangan dompet",
-    "withdraw": "Menarik"
+    "walletBalance": "Saldo dompet",
+    "withdraw": "Tarik"
   },
   "home": {
-    "title": "Rumah"
+    "title": "Beranda"
   },
   "onboarding": {
     "message": "Selamat datang di Rozo POS"
@@ -57,8 +59,18 @@
     },
     "paymentSuccessful": "Pembayaran Berhasil",
     "paymentSuccessfulDesc": "Transaksi Anda telah berhasil diselesaikan",
-    "scanToPay": "Memindai untuk membayar",
+    "scanToPay": "Pindai untuk membayar",
     "verifyPayment": "Verifikasi Pembayaran"
+  },
+  "profile": {
+    "displayName": "Nama Tampilan",
+    "email": "Email",
+    "placeholder": {
+      "displayName": "Masukkan nama tampilan Anda",
+      "email": "Masukkan email Anda"
+    },
+    "title": "Profil",
+    "updateError": "Gagal memperbarui profil"
   },
   "settings": {
     "about": "Tentang",
@@ -98,6 +110,11 @@
     "version": "Versi",
     "website": "Situs Web"
   },
+  "toast": {
+    "danger": "Kesalahan",
+    "info": "Info",
+    "success": "Berhasil"
+  },
   "validation": {
     "invalidAmount": "Jumlah tidak valid",
     "maxAmount": "Jumlah maksimum adalah {{max}}",
@@ -106,9 +123,9 @@
   },
   "welcome": "Selamat datang di Rozo POS",
   "withdraw": {
-    "error": "Penarikan Kesalahan",
-    "success": "Mundur dengan sukses",
-    "supportedOnly": "Hanya didukung {{currency}}",
+    "error": "Kesalahan Penarikan",
+    "success": "Penarikan berhasil",
+    "supportedOnly": "Hanya mendukung {{currency}}",
     "walletAddressPlaceholder": "Masukkan alamat dompet Anda"
   }
 }

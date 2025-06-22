@@ -16,12 +16,20 @@ type TransferStatus = {
   isLoading: boolean;
   error: string | null;
   transactionHash: string | null;
+  signature: string | null;
   success: boolean;
+};
+
+type TransferOptions = {
+  toAddress: Address;
+  amount: string;
+  useGasless?: boolean;
+  customMessage?: string;
 };
 
 type UseTokenTransferResult = {
   isAbleToTransfer: boolean;
-  transfer: (toAddress: Address, amount: string, useGasless?: boolean) => Promise<TokenTransferResult>;
+  transfer: (options: TransferOptions) => Promise<TokenTransferResult>;
   status: TransferStatus;
   resetStatus: () => void;
 };
@@ -36,9 +44,18 @@ type UseTokenTransferResult = {
  *
  * // Transfer tokens in a component
  * const handleTransfer = async () => {
- *   const result = await transfer('0x1234...5678', '10.5', true); // true for gasless
+ *   const result = await transfer({
+ *     toAddress: '0x1234...5678',
+ *     amount: '10.5',
+ *     useGasless: true, // Optional: use gasless transactions
+ *     customMessage: 'Payment for order #12345' // Optional: custom message to sign
+ *   });
+ *
  *   if (result.success) {
  *     console.log('Transfer successful!');
+ *     if (result.signature) {
+ *       console.log('Message signed with signature:', result.signature);
+ *     }
  *   }
  * };
  *
@@ -50,6 +67,7 @@ type UseTokenTransferResult = {
  *     {status.success && (
  *       <Text className="text-green-500">
  *         Transfer successful! Tx: {status.transactionHash}
+ *         {status.signature && <Text>\nSigned with: {status.signature}</Text>}
  *       </Text>
  *     )}
  *     <Button onPress={handleTransfer} disabled={status.isLoading}>
@@ -66,6 +84,7 @@ export function useTokenTransfer(): UseTokenTransferResult {
     isLoading: false,
     error: null,
     transactionHash: null,
+    signature: null,
     success: false,
   });
 
@@ -77,6 +96,7 @@ export function useTokenTransfer(): UseTokenTransferResult {
       isLoading: false,
       error: null,
       transactionHash: null,
+      signature: null,
       success: false,
     });
   }, []);
@@ -90,13 +110,16 @@ export function useTokenTransfer(): UseTokenTransferResult {
    * @returns Result of the transfer operation
    */
   const transfer = useCallback(
-    async (toAddress: Address, amount: string, useGasless = false): Promise<TokenTransferResult> => {
+    async (options: TransferOptions): Promise<TokenTransferResult> => {
+      const { toAddress, amount, useGasless = false } = options;
+
       if (!wallets.primary || !merchantToken) {
         const error = new Error('Wallet or token not available');
         setStatus({
           isLoading: false,
           error: error.message,
           transactionHash: null,
+          signature: null,
           success: false,
         });
         return { success: false, error };
@@ -106,19 +129,26 @@ export function useTokenTransfer(): UseTokenTransferResult {
         isLoading: true,
         error: null,
         transactionHash: null,
+        signature: null,
         success: false,
       });
 
       try {
         // Use either standard or gasless transfer based on parameter
         const result = useGasless
-          ? await transferTokenZeroDev(wallets.primary, toAddress, amount, merchantToken)
+          ? await transferTokenZeroDev({
+            fromWallet: wallets.primary,
+            toAddress,
+            amount,
+            token: merchantToken,
+          })
           : await transferToken(wallets.primary, toAddress, amount, merchantToken);
 
         setStatus({
           isLoading: false,
           error: null,
           transactionHash: result.transactionHash || null,
+          signature: result.signature || null,
           success: result.success,
         });
 
@@ -129,6 +159,7 @@ export function useTokenTransfer(): UseTokenTransferResult {
           isLoading: false,
           error: errorMessage,
           transactionHash: null,
+          signature: null,
           success: false,
         });
         return {

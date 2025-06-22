@@ -10,32 +10,15 @@ type Payload = {
   description?: string;
 };
 
-type Response = {
-  orders: MerchantOrder[];
-  count: number;
-};
-
-export const useGetOrders = ({ offset, limit, status }: { offset: number; limit: number; status: string }) =>
-  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-  createQuery<Response, {}, AxiosError>({
-    queryKey: ['orders', offset, limit],
-    fetcher: () => {
-      return client
-        .get('functions/v1/orders', {
-          params: {
-            limit,
-            offset,
-            status,
-          },
-        })
-        .then((res) => {
-          return {
-            orders: res.data.orders,
-            count: res.data.count,
-          };
-        });
-    },
-  });
+export const useGetOrders = createQuery<MerchantOrder[], { status: string }, AxiosError>({
+  queryKey: ['orders'],
+  fetcher: ({ status }) =>
+    client
+      .get('functions/v1/orders', {
+        params: { status },
+      })
+      .then((res) => res?.data?.orders ?? []),
+});
 
 export const useGetOrder = createQuery<MerchantOrder, { id: string }, AxiosError>({
   queryKey: ['orders'],

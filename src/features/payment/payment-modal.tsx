@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import QRCode from 'react-qr-code';
 
 import { Button, ButtonText } from '@/components/ui/button';
+import { CurrencyConverter } from '@/components/ui/currency-converter';
 import { Heading } from '@/components/ui/heading';
 import { CloseIcon, Icon } from '@/components/ui/icon';
 import {
@@ -27,7 +28,6 @@ type PaymentModalProps = {
   isOpen: boolean;
   onClose: () => void;
   amount: string;
-  exchangeAmount: string;
   dynamicStyles: DynamicStyles;
   paymentUrl?: string;
   orderId?: string;
@@ -38,7 +38,6 @@ export function PaymentModal({
   isOpen,
   onClose,
   amount,
-  exchangeAmount,
   dynamicStyles,
   orderId,
 }: PaymentModalProps): React.ReactElement {
@@ -108,7 +107,6 @@ export function PaymentModal({
             <PaymentSuccess
               defaultCurrency={defaultCurrency}
               amount={amount}
-              exchangeAmount={exchangeAmount}
               dynamicStyles={dynamicStyles}
               onPrintReceipt={() => {}}
               onBackToHome={handleBackToHome}
@@ -136,9 +134,13 @@ export function PaymentModal({
                   {`${amount} ${defaultCurrency?.code}`}
                 </Text>
                 <View className="mt-1 rounded-lg bg-gray-100 p-2 dark:bg-gray-800">
-                  <Text className={`text-center text-gray-600 dark:text-gray-200 ${dynamicStyles.fontSize.label}`}>
-                    ≈ {exchangeAmount} USD
-                  </Text>
+                  {defaultCurrency?.code !== 'USD' && (
+                    <CurrencyConverter
+                      amount={Number(amount)}
+                      customSourceCurrency={defaultCurrency?.code}
+                      className={`text-center text-gray-600 dark:text-gray-200 ${dynamicStyles.fontSize.label}`}
+                    />
+                  )}
                 </View>
               </View>
             </View>

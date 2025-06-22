@@ -13,7 +13,8 @@ import {
 } from '@/components/ui/actionsheet';
 import { Box } from '@/components/ui/box';
 import { Button, ButtonIcon, ButtonText } from '@/components/ui/button';
-import { Text } from '@/components/ui/text';
+import { Heading } from '@/components/ui/heading';
+import { VStack } from '@/components/ui/vstack';
 import { type MerchantOrderStatus } from '@/resources/schema/order';
 
 type Props = {
@@ -51,20 +52,26 @@ export function FilterOrderActionSheet({ onStatusChange }: Props) {
             <ActionsheetDragIndicator />
           </ActionsheetDragIndicatorWrapper>
 
-          <Box className="w-full p-4">
-            <Text className="mb-4 text-lg font-semibold">{t('order.filterByStatus')}</Text>
+          <VStack className="w-full" space="lg">
+            <Box className="items-center">
+              <Heading size="lg" className="text-typography-950">
+                {t('order.filterByStatus')}
+              </Heading>
+            </Box>
 
-            {orderStatuses.map((status) => (
-              <ActionsheetItem
-                key={status}
-                onPress={() => handleStatusSelect(status)}
-                className="flex-row items-center justify-between py-3"
-              >
-                <ActionsheetItemText className="flex-1">{getStatusLabel(status)}</ActionsheetItemText>
-                {selectedStatus === status && <CheckIcon />}
-              </ActionsheetItem>
-            ))}
-          </Box>
+            <Box>
+              {orderStatuses.map((status) => (
+                <ActionsheetItem
+                  key={status}
+                  onPress={() => handleStatusSelect(status)}
+                  className="flex-row items-center justify-between py-3"
+                >
+                  <ActionsheetItemText className="flex-1">{getStatusLabel(status)}</ActionsheetItemText>
+                  {selectedStatus === status && <CheckIcon />}
+                </ActionsheetItem>
+              ))}
+            </Box>
+          </VStack>
         </ActionsheetContent>
       </Actionsheet>
     </>

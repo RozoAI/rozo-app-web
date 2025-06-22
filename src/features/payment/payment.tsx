@@ -7,6 +7,7 @@ import LogoWhiteSvg from '@/components/svg/logo-white';
 import { SafeAreaView } from '@/components/ui/safe-area-view';
 import { Text } from '@/components/ui/text';
 import { useSelectedTheme } from '@/hooks';
+import { showToast } from '@/lib';
 import { useApp } from '@/providers/app.provider';
 import { useCreateOrder } from '@/resources/api/merchant/orders';
 
@@ -22,7 +23,6 @@ export function PaymentScreen() {
   const { width } = useWindowDimensions();
   const [amount, setAmount] = useState('0');
   const [description, setDescription] = useState('');
-  const [exchangeAmount, setExchangeAmount] = useState('0.00');
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [paymentUrl, setPaymentUrl] = useState<string>();
   const [orderId, setOrderId] = useState<string | undefined>(undefined);
@@ -141,14 +141,14 @@ export function PaymentScreen() {
       setPaymentUrl(response.qrcode);
       setOrderId(response.order_id);
       setIsPaymentModalOpen(true);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error creating order:', error);
+      showToast({ type: 'danger', message: error.message as string });
     }
   };
 
   const handleClosePaymentModal = useCallback(() => {
     setAmount('0');
-    setExchangeAmount('0.00');
     setIsPaymentModalOpen(false);
     setPaymentUrl(undefined);
     setOrderId(undefined);
@@ -169,7 +169,7 @@ export function PaymentScreen() {
 
         <View className={`flex-1 ${dynamicStyles.spacing.containerMargin}`}>
           {/* Amount Display */}
-          <AmountDisplay amount={amount} dynamicStyles={dynamicStyles} onExchangeAmount={setExchangeAmount} />
+          <AmountDisplay amount={amount} dynamicStyles={dynamicStyles} />
 
           {/* Quick Amount Buttons */}
           <View className={`px-2 ${dynamicStyles.spacing.containerMargin}`}>
@@ -224,7 +224,6 @@ export function PaymentScreen() {
             isOpen={isPaymentModalOpen}
             onClose={handleClosePaymentModal}
             amount={amount}
-            exchangeAmount={exchangeAmount}
             dynamicStyles={dynamicStyles}
             paymentUrl={paymentUrl}
             orderId={orderId}

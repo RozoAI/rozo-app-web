@@ -4,7 +4,6 @@ import { Dimensions, Platform } from 'react-native';
 import { Linking } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { twMerge } from 'tailwind-merge';
-import type { StoreApi, UseBoundStore } from 'zustand';
 
 import { currencies } from '@/lib/currencies';
 import { type MerchantOrder } from '@/resources/schema/order';
@@ -43,7 +42,8 @@ export const showToast = ({
     type: type === 'danger' ? 'error' : type,
     text1: t(`toast.${type}`),
     text2: message,
-    visibilityTime: 100000000,
+    visibilityTime: 4000,
+    swipeable: true,
     autoHide: true,
     position: 'top',
     text2Style: {
@@ -72,33 +72,11 @@ export function openLinkInBrowser(url: string) {
   Linking.canOpenURL(url).then((canOpen) => canOpen && Linking.openURL(url));
 }
 
-type WithSelectors<S> = S extends { getState: () => infer T } ? S & { use: { [K in keyof T]: () => T[K] } } : never;
-
-export const createSelectors = <S extends UseBoundStore<StoreApi<object>>>(_store: S) => {
-  let store = _store as WithSelectors<typeof _store>;
-  store.use = {};
-  for (let k of Object.keys(store.getState())) {
-    (store.use as any)[k] = () => store((s) => s[k as keyof typeof s]);
-  }
-
-  return store;
-};
-
 export const formatAmount = (amountUnits: string, tokenSymbol: string): string => {
   // Convert from smallest unit (wei-like) to readable format
   // This is a simplified conversion - you might need more sophisticated logic
   const amount = Number.parseFloat(amountUnits) / Math.pow(10, 18); // Assuming 18 decimals
   return `${amount.toFixed(4)} ${tokenSymbol}`;
-};
-
-export const formatAddress = (address: string): string => {
-  if (address.length <= 10) return address;
-  return `${address.slice(0, 6)}...${address.slice(-4)}`;
-};
-
-export const formatTxHash = (txHash: string): string => {
-  if (txHash.length <= 10) return txHash;
-  return `${txHash.slice(0, 8)}...${txHash.slice(-6)}`;
 };
 
 export const formatDate = (date: Date): string => {
@@ -129,13 +107,13 @@ export function formatCurrency(amount: string | number, currencyCode: string = '
   const config = currencies[currencyCode] || currencies.USD;
   const numAmount = typeof amount === 'string' ? parseFloat(amount) : amount;
 
-  if (isNaN(numAmount)) return `${config.symbol}0`;
+  if (isNaN(numAmount)) return `${config.code}0`;
 
   const parts = numAmount.toFixed(2).split('.');
   const integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, config.thousandSeparator);
   const decimalPart = parts[1];
 
-  return `${config.symbol}${integerPart}${config.decimalSeparator}${decimalPart}`;
+  return `${integerPart}${config.decimalSeparator}${decimalPart} ${config.code}`;
 }
 
 export const getStatusActionType = (status: MerchantOrder['status']): 'success' | 'error' | 'warning' | 'info' | 'muted' => {
@@ -148,4 +126,26 @@ export const getStatusActionType = (status: MerchantOrder['status']): 'success' 
   };
 
   return statusMap[status] || 'muted';
+};
+
+export const getShortId = (text: string, prefixLength = 4, suffixLength: number | null = null): string => {
+  if (!text) return '';
+  if (suffixLength === null) {
+    if (text.length <= prefixLength) return text;
+    return text.slice(0, prefixLength);
+  }
+  if (text.length <= prefixLength + suffixLength) return text;
+  return `${text.slice(0, prefixLength)}...${text.slice(-suffixLength)}`;
+};
+
+/**
+ * Check if a date is today
+ * @param date - The date to check
+ * @returns True if the date is today, false otherwise
+ */
+export const isToday = (date: Date): boolean => {
+  const today = new Date();
+  return (
+    date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear()
+  );
 };

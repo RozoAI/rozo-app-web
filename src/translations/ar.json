@@ -20,6 +20,8 @@
     "status": "حالة",
     "submit": "يُقدِّم",
     "termsOfService": "شروط الخدمة",
+    "update": "Update",
+    "updating": "Updating",
     "walletAddress": "عنوان محفظة",
     "walletBalance": "توازن المحفظة",
     "withdraw": "ينسحب"
@@ -60,6 +62,16 @@
     "scanToPay": "مسح للدفع",
     "verifyPayment": "تحقق من الدفع"
   },
+  "profile": {
+    "displayName": "اسم العرض",
+    "email": "البريد الإلكتروني",
+    "placeholder": {
+      "displayName": "أدخل اسم العرض",
+      "email": "أدخل البريد الإلكتروني"
+    },
+    "title": "الملف الشخصي",
+    "updateError": "فشل تحديث الملف الشخصي"
+  },
   "settings": {
     "about": "حول",
     "account": {
@@ -97,6 +109,11 @@
     "title": "الإعدادات",
     "version": "الإصدار",
     "website": "الموقع الإلكتروني"
+  },
+  "toast": {
+    "danger": "خطأ",
+    "info": "معلومات",
+    "success": "نجاح"
   },
   "validation": {
     "invalidAmount": "مبلغ غير صالح",

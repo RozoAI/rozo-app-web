@@ -5,9 +5,10 @@ import { useTranslation } from 'react-i18next';
 import CheckSvg from '@/components/svg/check';
 import { Box } from '@/components/ui/box';
 import { Button, ButtonText } from '@/components/ui/button';
+import { CurrencyConverter } from '@/components/ui/currency-converter';
 import { Text } from '@/components/ui/text';
 import { View } from '@/components/ui/view';
-import { formatAddress } from '@/lib';
+import { getShortId } from '@/lib';
 import { type CurrencyConfig } from '@/lib/currencies';
 import { type MerchantProfile } from '@/resources/schema/merchant';
 
@@ -15,7 +16,6 @@ import { type DynamicStyles } from './types';
 
 type PaymentSuccessProps = {
   amount: string;
-  exchangeAmount: string;
   dynamicStyles: DynamicStyles;
   onPrintReceipt: () => void;
   onBackToHome: () => void;
@@ -25,7 +25,6 @@ type PaymentSuccessProps = {
 
 export function PaymentSuccess({
   amount,
-  exchangeAmount,
   dynamicStyles,
   // onPrintReceipt,
   onBackToHome,
@@ -61,7 +60,7 @@ export function PaymentSuccess({
 
           <View className="flex-row justify-between">
             <Text className="text-gray-500 dark:text-gray-400">{t('general.merchantId')}: </Text>
-            <Text className="font-medium">{formatAddress(merchant?.merchant_id ?? '')}</Text>
+            <Text className="font-medium">{getShortId(merchant?.merchant_id ?? '', 6, 4)}</Text>
           </View>
         </Box>
         {/* Amount Information */}
@@ -70,11 +69,15 @@ export function PaymentSuccess({
           <Text className={`text-center font-bold text-gray-800 dark:text-gray-200 ${dynamicStyles.fontSize.modalAmount}`}>
             {`${amount} ${defaultCurrency?.code}`}
           </Text>
-          <View className="mt-2 rounded-lg bg-gray-100 p-2 dark:bg-gray-700">
-            <Text className={`text-center text-gray-600 dark:text-gray-300 ${dynamicStyles.fontSize.label}`}>
-              ≈ {exchangeAmount} USD
-            </Text>
-          </View>
+          {defaultCurrency?.code !== 'USD' && (
+            <View className="mt-2 rounded-lg bg-gray-100 p-2 dark:bg-gray-700">
+              <CurrencyConverter
+                amount={Number(amount)}
+                customSourceCurrency={defaultCurrency?.code}
+                className={`text-center text-gray-600 dark:text-gray-200 ${dynamicStyles.fontSize.label}`}
+              />
+            </View>
+          )}
         </View>
       </Box>
 

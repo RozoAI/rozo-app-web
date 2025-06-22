@@ -20,6 +20,8 @@
     "status": "স্থিতি",
     "submit": "জমা দিন",
     "termsOfService": "পরিষেবার শর্তাবলী",
+    "update": "Update",
+    "updating": "Updating",
     "walletAddress": "মানিব্যাগের ঠিকানা",
     "walletBalance": "মানিব্যাগ ভারসাম্য",
     "withdraw": "প্রত্যাহার"
@@ -60,6 +62,16 @@
     "scanToPay": "স্ক্যান করতে স্ক্যান করুন",
     "verifyPayment": "পেমেন্ট যাচাই করুন"
   },
+  "profile": {
+    "displayName": "প্রদর্শন নাম",
+    "email": "ইমেইল",
+    "placeholder": {
+      "displayName": "আপনার প্রদর্শন নাম লিখুন",
+      "email": "আপনার ইমেইল লিখুন"
+    },
+    "title": "প্রোফাইল",
+    "updateError": "প্রোফাইল আপডেট করতে ব্যর্থ হয়েছে"
+  },
   "settings": {
     "about": "সম্পর্কে",
     "account": {
@@ -97,6 +109,11 @@
     "title": "সেটিংস",
     "version": "সংস্করণ",
     "website": "ওয়েবসাইট"
+  },
+  "toast": {
+    "danger": "ত্রুটি",
+    "info": "তথ্য",
+    "success": "সফল"
   },
   "validation": {
     "invalidAmount": "অবৈধ পরিমাণ",

@@ -3,10 +3,10 @@
     "addNote": "Ajouter une note",
     "amount": "Montant",
     "amountPaid": "Montant payé",
-    "backToHome": "Retour à l’accueil",
+    "backToHome": "Retour à l'accueil",
     "cancel": "Annuler",
     "close": "Fermer",
-    "copiedToClipboard": "Coppied dans le presse-papiers",
+    "copiedToClipboard": "Copié dans le presse-papiers",
     "createdAt": "Créé à",
     "description": "Description",
     "loading": "Chargement",
@@ -19,19 +19,21 @@
     "processing": "Traitement",
     "status": "Statut",
     "submit": "Soumettre",
-    "termsOfService": "Conditions d’utilisation",
+    "termsOfService": "Conditions d'utilisation",
+    "update": "Mettre à jour",
+    "updating": "Mise à jour en cours",
     "walletAddress": "Adresse du portefeuille",
-    "walletBalance": "Équilibre du portefeuille",
+    "walletBalance": "Solde du portefeuille",
     "withdraw": "Retirer"
   },
   "home": {
-    "title": "Maison"
+    "title": "Accueil"
   },
   "onboarding": {
     "message": "Bienvenue sur Rozo POS"
   },
   "order": {
-    "filterByStatus": "Filtre par statut",
+    "filterByStatus": "Filtrer par statut",
     "noOrdersYet": "Aucune commande pour le moment",
     "noOrdersYetDesc": "Vos commandes récentes apparaîtront ici dès que vous commencerez à effectuer des transactions.",
     "orderDetails": "Détails de la commande",
@@ -44,7 +46,7 @@
       "pending": "En attente",
       "processing": "En cours"
     },
-    "title": "Ordres"
+    "title": "Commandes"
   },
   "payment": {
     "PaymentQRCode": "QR Code de paiement",
@@ -60,12 +62,22 @@
     "scanToPay": "Scanner pour payer",
     "verifyPayment": "Vérifier le paiement"
   },
+  "profile": {
+    "displayName": "Nom d'affichage",
+    "email": "Email",
+    "placeholder": {
+      "displayName": "Entrez votre nom d'affichage",
+      "email": "Entrez votre email"
+    },
+    "title": "Profil",
+    "updateError": "Échec de la mise à jour du profil"
+  },
   "settings": {
     "about": "À propos",
     "account": {
       "title": "Compte"
     },
-    "app_name": "Nom de l’application",
+    "app_name": "Nom de l'application",
     "currency": {
       "title": "Devise"
     },
@@ -84,10 +96,10 @@
     "privacy": "Politique de confidentialité",
     "rate": "Noter",
     "share": "Partager",
-    "signUp": "S’inscrire",
+    "signUp": "S'inscrire",
     "support": "Support",
     "support_us": "Soutenez-nous",
-    "terms": "Conditions d’utilisation",
+    "terms": "Conditions d'utilisation",
     "theme": {
       "dark": "Sombre",
       "light": "Clair",
@@ -98,6 +110,11 @@
     "version": "Version",
     "website": "Site web"
   },
+  "toast": {
+    "danger": "Erreur",
+    "info": "Info",
+    "success": "Succès"
+  },
   "validation": {
     "invalidAmount": "Montant non valide",
     "maxAmount": "Le montant maximum est {{max}}",
@@ -106,8 +123,8 @@
   },
   "welcome": "Bienvenue sur Rozo POS",
   "withdraw": {
-    "error": "Retirer l'erreur",
-    "success": "Retirer avec succès",
+    "error": "Erreur de retrait",
+    "success": "Retrait effectué avec succès",
     "supportedOnly": "Pris en charge uniquement {{currency}}",
     "walletAddressPlaceholder": "Entrez votre adresse de portefeuille"
   }
