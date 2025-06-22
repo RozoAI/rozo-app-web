@@ -5,8 +5,8 @@
     "amountPaid": "Monto pagado",
     "backToHome": "Volver al inicio",
     "cancel": "Cancelar",
-    "close": "Cerca",
-    "copiedToClipboard": "Coppied to Portapplappappled",
+    "close": "Cerrar",
+    "copiedToClipboard": "Copiado al portapapeles",
     "createdAt": "Creado a",
     "description": "Descripción",
     "loading": "Cargando",
@@ -16,16 +16,18 @@
     "note": "Nota",
     "printReceipt": "Imprimir recibo",
     "privacyPolicy": "Política de privacidad",
-    "processing": "Tratamiento",
+    "processing": "Procesando",
     "status": "Estado",
     "submit": "Entregar",
     "termsOfService": "Términos del servicio",
+    "update": "Actualizar",
+    "updating": "Actualizando",
     "walletAddress": "Dirección de la billetera",
-    "walletBalance": "Equilibrio de billetera",
+    "walletBalance": "Saldo de billetera",
     "withdraw": "Retirar"
   },
   "home": {
-    "title": "Hogar"
+    "title": "Inicio"
   },
   "onboarding": {
     "message": "Bienvenido a Rozo POS"
@@ -59,6 +61,16 @@
     "paymentSuccessfulDesc": "Su transacción se ha completado con éxito",
     "scanToPay": "Escanear para pagar",
     "verifyPayment": "Verificar pago"
+  },
+  "profile": {
+    "displayName": "Nombre para mostrar",
+    "email": "Correo electrónico",
+    "placeholder": {
+      "displayName": "Ingrese su nombre para mostrar",
+      "email": "Ingrese su correo electrónico"
+    },
+    "title": "Perfil",
+    "updateError": "Error al actualizar el perfil"
   },
   "settings": {
     "about": "Acerca de",
@@ -98,6 +110,11 @@
     "version": "Versión",
     "website": "Sitio web"
   },
+  "toast": {
+    "danger": "Error",
+    "info": "Información",
+    "success": "Éxito"
+  },
   "validation": {
     "invalidAmount": "Cantidad no válida",
     "maxAmount": "La cantidad máxima es {{max}}",
@@ -106,8 +123,8 @@
   },
   "welcome": "Bienvenido a Rozo POS",
   "withdraw": {
-    "error": "Error de retirar",
-    "success": "Retirarse con éxito",
+    "error": "Error de retirada",
+    "success": "Retirada exitosa",
     "supportedOnly": "Solo compatible {{currency}}",
     "walletAddressPlaceholder": "Ingrese su dirección de billetera"
   }

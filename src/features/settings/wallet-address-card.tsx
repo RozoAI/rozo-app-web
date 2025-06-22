@@ -8,7 +8,7 @@ import { HStack } from '@/components/ui/hstack';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { VStack } from '@/components/ui/vstack';
-import { formatAddress, showToast } from '@/lib';
+import { getShortId, showToast } from '@/lib';
 import { useApp } from '@/providers/app.provider';
 
 export const WalletAddressCard = () => {
@@ -31,7 +31,7 @@ export const WalletAddressCard = () => {
           <Text size="md">{t('general.walletAddress')}</Text>
           <View className="flex-row items-center space-x-1">
             <Text className="text-primary-500" size="sm">
-              {formatAddress(primaryWallet?.address ?? '')}
+              {getShortId(primaryWallet?.address ?? '', 6, 4)}
             </Text>
           </View>
         </VStack>

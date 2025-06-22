@@ -48,7 +48,6 @@ src
 - Nativewind ( Tailwind CSS for React Native )
 - Expo Router
 - React Query with React Query Kit
-- Zustand
 - React Native Keyboard Controller
 - React Native SVG
 - React Native MMKV

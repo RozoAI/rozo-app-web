@@ -5,27 +5,29 @@
     "amountPaid": "Уплаченная сумма",
     "backToHome": "Назад на главную",
     "cancel": "Отмена",
-    "close": "Закрывать",
-    "copiedToClipboard": "К сожалению в буфер обмена",
+    "close": "Закрыть",
+    "copiedToClipboard": "Скопировано в буфер обмена",
     "createdAt": "Создан в",
     "description": "Описание",
     "loading": "Загрузка",
     "max": "Максимум",
-    "merchantId": "Торговый идентификатор",
+    "merchantId": "Идентификатор продавца",
     "notFound": "Не найдено",
     "note": "Примечание",
     "printReceipt": "Печать чека",
     "privacyPolicy": "Политика конфиденциальности",
     "processing": "Обработка",
     "status": "Статус",
-    "submit": "Представлять на рассмотрение",
+    "submit": "Отправить",
     "termsOfService": "Условия использования",
+    "update": "Обновить",
+    "updating": "Обновление",
     "walletAddress": "Адрес кошелька",
     "walletBalance": "Баланс кошелька",
-    "withdraw": "Отзывать"
+    "withdraw": "Вывести"
   },
   "home": {
-    "title": "Дом"
+    "title": "Главная"
   },
   "onboarding": {
     "message": "Добро пожаловать в Rozo POS"
@@ -44,7 +46,7 @@
       "pending": "В ожидании",
       "processing": "В обработке"
     },
-    "title": "Приказ"
+    "title": "Заказы"
   },
   "payment": {
     "PaymentQRCode": "QR-код оплаты",
@@ -53,12 +55,22 @@
     "enterPaymentAmount": "Введите сумму оплаты",
     "notes": {
       "enterNote": "Введите примечание",
-      "title": "Платежная примечание"
+      "title": "Платежное примечание"
     },
     "paymentSuccessful": "Оплата прошла успешно",
     "paymentSuccessfulDesc": "Ваша транзакция успешно завершена",
-    "scanToPay": "Сканировать, чтобы заплатить",
+    "scanToPay": "Сканировать для оплаты",
     "verifyPayment": "Проверить оплату"
+  },
+  "profile": {
+    "displayName": "Отображаемое имя",
+    "email": "Электронная почта",
+    "placeholder": {
+      "displayName": "Введите отображаемое имя",
+      "email": "Введите вашу электронную почту"
+    },
+    "title": "Профиль",
+    "updateError": "Не удалось обновить профиль"
   },
   "settings": {
     "about": "О нас",
@@ -98,16 +110,21 @@
     "version": "Версия",
     "website": "Веб-сайт"
   },
+  "toast": {
+    "danger": "Ошибка",
+    "info": "Информация",
+    "success": "Успех"
+  },
   "validation": {
     "invalidAmount": "Неверная сумма",
     "maxAmount": "Максимальная сумма {{max}}",
-    "minAmount": "Минимальная сумма равен {{min}}",
+    "minAmount": "Минимальная сумма {{min}}",
     "required": "Это поле обязательно к заполнению"
   },
   "welcome": "Добро пожаловать в Rozo POS",
   "withdraw": {
-    "error": "Снять ошибку",
-    "success": "Успешно уйти",
+    "error": "Ошибка вывода",
+    "success": "Успешно выведено",
     "supportedOnly": "Поддерживается только {{currency}}",
     "walletAddressPlaceholder": "Введите адрес своего кошелька"
   }

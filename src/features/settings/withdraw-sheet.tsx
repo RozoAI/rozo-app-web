@@ -95,7 +95,12 @@ export function WithdrawActionSheet({ onClose, onSuccess, balance }: Props) {
 
     try {
       if (isAbleToTransfer) {
-        const result = await transfer(data.withdrawAddress as Address, data.amount, true);
+        // const result = await transfer(data.withdrawAddress as Address, data.amount, true);
+        const result = await transfer({
+          toAddress: data.withdrawAddress as Address,
+          amount: data.amount,
+          useGasless: true,
+        });
 
         if (result.success) {
           showToast({

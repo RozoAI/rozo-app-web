@@ -19,7 +19,7 @@ import { Text } from '@/components/ui/text';
 import { View } from '@/components/ui/view';
 import { VStack } from '@/components/ui/vstack';
 import { usePaymentStatus } from '@/hooks/use-payment-status';
-import { formatAddress, getStatusActionType } from '@/lib/utils';
+import { getShortId, getStatusActionType } from '@/lib/utils';
 import { useApp } from '@/providers/app.provider';
 import { useGetOrder } from '@/resources/api/merchant/orders';
 
@@ -50,7 +50,7 @@ export const OrderDetailActionSheet = forwardRef<OrderDetailActionSheetRef, Orde
 
     const { isCompleted } = usePaymentStatus(merchant?.merchant_id, orderId ?? undefined);
 
-    // Generate QR code when actionsheet opens and order is pending
+    // Generate QR code when action sheet opens and order is pending
     useEffect(() => {
       if (isOpen && order && order.status === 'PENDING') {
         // End of Selection
@@ -105,7 +105,7 @@ export const OrderDetailActionSheet = forwardRef<OrderDetailActionSheetRef, Orde
                   <Heading size="lg" className="text-typography-950">
                     {t('order.orderDetails')}
                   </Heading>
-                  <Text className="text-sm text-gray-500 dark:text-gray-400">#{order.order_id}</Text>
+                  <Text className="text-sm text-gray-500 dark:text-gray-400">#{getShortId(order.order_id, 6)}</Text>
                 </View>
 
                 {order.status === 'COMPLETED' && (
@@ -148,7 +148,7 @@ export const OrderDetailActionSheet = forwardRef<OrderDetailActionSheetRef, Orde
 
                   <View className="flex-row justify-between">
                     <Text className="text-gray-500 dark:text-gray-400">{t('general.merchantId')}</Text>
-                    <Text className="font-medium">{formatAddress(order.merchant_id)}</Text>
+                    <Text className="font-medium">{getShortId(order.merchant_id, 6, 4)}</Text>
                   </View>
 
                   <View className="flex-row justify-between">
@@ -173,11 +173,13 @@ export const OrderDetailActionSheet = forwardRef<OrderDetailActionSheetRef, Orde
             )}
 
             {/* Actions */}
-            <View className="mt-4">
-              <Button variant="outline" onPress={handleClose} className="w-full">
-                <ButtonText>{t('general.close')}</ButtonText>
-              </Button>
-            </View>
+            {!isLoading && (
+              <View className="mt-4">
+                <Button variant="link" onPress={handleClose} className="w-full">
+                  <ButtonText>{t('general.close')}</ButtonText>
+                </Button>
+              </View>
+            )}
           </VStack>
         </ActionsheetContent>
       </Actionsheet>

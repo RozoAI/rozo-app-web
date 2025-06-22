@@ -111,6 +111,7 @@ export type TokenBalanceResult = {
 export type TokenTransferResult = {
   success: boolean;
   transactionHash?: string;
+  signature?: string;
   error?: Error;
 };
 
@@ -270,12 +271,19 @@ export async function transferToken(
  * - EXPO_PUBLIC_ZERODEV_PAYMASTER: ZeroDev paymaster URL (for gasless transactions)
  */
 // eslint-disable-next-line max-params
-export async function transferTokenZeroDev(
-  fromWallet: BaseWallet,
-  toAddress: string,
-  amount: string,
-  token: Token
-): Promise<TokenTransferResult> {
+/**
+ * Transfer tokens using ZeroDev with optional custom message signing
+ * @param options - Transfer options including wallet, address, amount, token and custom message
+ * @returns TokenTransferResult with transaction hash or error
+ */
+export async function transferTokenZeroDev(options: {
+  fromWallet: BaseWallet;
+  toAddress: string;
+  amount: string;
+  token: Token;
+}): Promise<TokenTransferResult> {
+  const { fromWallet, toAddress, amount, token } = options;
+
   try {
     if (!process.env.EXPO_PUBLIC_ZERODEV_RPC) {
       throw new Error('Missing ZERODEV_RPC');
@@ -307,7 +315,6 @@ export async function transferTokenZeroDev(
     }
 
     // Send the transaction
-
     const userOpHash = await kernelClient.sendUserOperation({
       callData: await kernelClient.account.encodeCalls([
         {
@@ -321,20 +328,6 @@ export async function transferTokenZeroDev(
         },
       ]),
     });
-    /* const userOpHash = await kernelClient.sendUserOperation({
-      callData: await kernelClient.account.encodeCalls([
-        {
-          data: '0x',
-          to: zeroAddress,
-          value: BigInt(0),
-        },
-        {
-          data: '0x',
-          to: zeroAddress,
-          value: BigInt(0),
-        },
-      ]),
-    }); */
 
     console.log('Sent UserOperation with hash:', userOpHash);
     const receipt = await kernelClient.waitForUserOperationReceipt({ hash: userOpHash });

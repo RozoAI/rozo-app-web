@@ -6,45 +6,47 @@
     "backToHome": "मुख्य पृष्ठ पर लौटें",
     "cancel": "रद्द करें",
     "close": "बंद करना",
-    "copiedToClipboard": "क्लिपबोर्ड के लिए मुकाबला किया",
+    "copiedToClipboard": "क्लिपबोर्ड पर कॉपी किया गया",
     "createdAt": "पर बनाया गया",
     "description": "विवरण",
-    "loading": "लोड करना",
+    "loading": "लोड हो रहा है",
     "max": "अधिकतम",
-    "merchantId": "मर्चेंट आईडी",
+    "merchantId": "व्यापारी आईडी",
     "notFound": "नहीं मिला",
     "note": "टिप्पणी",
     "printReceipt": "रसीद प्रिंट करें",
     "privacyPolicy": "गोपनीयता नीति",
     "processing": "प्रसंस्करण",
     "status": "स्थिति",
-    "submit": "जमा करना",
+    "submit": "जमा करें",
     "termsOfService": "सेवा की शर्तें",
-    "walletAddress": "बटुए का पता",
-    "walletBalance": "बटुआ शेष",
-    "withdraw": "निकालना"
+    "update": "अपडेट करें",
+    "updating": "अपडेट हो रहा है",
+    "walletAddress": "वॉलेट का पता",
+    "walletBalance": "वॉलेट शेष",
+    "withdraw": "निकासी"
   },
   "home": {
-    "title": "घर"
+    "title": "होम"
   },
   "onboarding": {
     "message": "Rozo POS में आपका स्वागत है"
   },
   "order": {
     "filterByStatus": "स्थिति से फ़िल्टर करें",
-    "noOrdersYet": "कोई ऑर्डर नहीं",
-    "noOrdersYetDesc": "जैसे ही आप लेन-देन शुरू करेंगे, आपकी ऑर्डर यहां दिखाई देंगी।",
+    "noOrdersYet": "अभी तक कोई ऑर्डर नहीं",
+    "noOrdersYetDesc": "जैसे ही आप लेन-देन शुरू करेंगे, आपके हाल के ऑर्डर यहां दिखाई देंगे।",
     "orderDetails": "ऑर्डर का विवरण",
-    "recentOrders": "हाल की ऑर्डर",
-    "recentOrdersDesc": "नीचे आपकी हाल की ऑर्डर हैं",
+    "recentOrders": "हाल के ऑर्डर",
+    "recentOrdersDesc": "नीचे आपके हाल के ऑर्डर हैं",
     "status": {
       "completed": "पूर्ण",
       "discrepancy": "विसंगति",
       "failed": "विफल",
-      "pending": "बकाया",
+      "pending": "लंबित",
       "processing": "प्रसंस्करण में"
     },
-    "title": "आदेश"
+    "title": "ऑर्डर"
   },
   "payment": {
     "PaymentQRCode": "भुगतान क्यूआर कोड",
@@ -57,8 +59,18 @@
     },
     "paymentSuccessful": "भुगतान सफल रहा",
     "paymentSuccessfulDesc": "आपका लेनदेन सफलतापूर्वक पूरा हो गया है",
-    "scanToPay": "भुगतान करने के लिए स्कैन करना",
+    "scanToPay": "भुगतान करने के लिए स्कैन करें",
     "verifyPayment": "भुगतान सत्यापित करें"
+  },
+  "profile": {
+    "displayName": "प्रदर्शित नाम",
+    "email": "ईमेल",
+    "placeholder": {
+      "displayName": "अपना प्रदर्शित नाम दर्ज करें",
+      "email": "अपना ईमेल दर्ज करें"
+    },
+    "title": "प्रोफ़ाइल",
+    "updateError": "प्रोफ़ाइल अपडेट करने में विफल"
   },
   "settings": {
     "about": "के बारे में",
@@ -98,6 +110,11 @@
     "version": "संस्करण",
     "website": "वेबसाइट"
   },
+  "toast": {
+    "danger": "त्रुटि",
+    "info": "जानकारी",
+    "success": "सफलता"
+  },
   "validation": {
     "invalidAmount": "अमान्य राशि",
     "maxAmount": "अधिकतम राशि {{max}} है",
@@ -106,9 +123,9 @@
   },
   "welcome": "Rozo POS में आपका स्वागत है",
   "withdraw": {
-    "error": "त्रुटि वापस लेना",
-    "success": "सफलतापूर्वक वापस लेना",
+    "error": "निकासी में त्रुटि",
+    "success": "सफलतापूर्वक निकासी",
     "supportedOnly": "केवल {{currency}} समर्थित",
-    "walletAddressPlaceholder": "अपने वॉलेट पते को इनपुट करें"
+    "walletAddressPlaceholder": "अपने वॉलेट का पता दर्ज करें"
   }
 }

@@ -6,7 +6,13 @@ import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Keyboard } from 'react-native';
 
-import { Actionsheet, ActionsheetBackdrop, ActionsheetContent } from '@/components/ui/actionsheet';
+import {
+  Actionsheet,
+  ActionsheetBackdrop,
+  ActionsheetContent,
+  ActionsheetDragIndicator,
+  ActionsheetDragIndicatorWrapper,
+} from '@/components/ui/actionsheet';
 import { Avatar, AvatarFallbackText, AvatarImage } from '@/components/ui/avatar';
 import { Box } from '@/components/ui/box';
 import { Button, ButtonSpinner, ButtonText } from '@/components/ui/button';
@@ -17,11 +23,11 @@ import {
   FormControlLabel,
   FormControlLabelText,
 } from '@/components/ui/form-control';
+import { Heading } from '@/components/ui/heading';
 import { HStack } from '@/components/ui/hstack';
 import { Icon } from '@/components/ui/icon';
 import { Input, InputField } from '@/components/ui/input';
 import { Pressable } from '@/components/ui/pressable';
-import { Text } from '@/components/ui/text';
 import { VStack } from '@/components/ui/vstack';
 import { showToast } from '@/lib';
 import { useApp } from '@/providers/app.provider';
@@ -113,11 +119,17 @@ export function ProfileSheet({ open, onClose }: { open: boolean; onClose: () => 
   return (
     <Actionsheet isOpen={isOpen} onClose={onClose}>
       <ActionsheetBackdrop />
+      <ActionsheetDragIndicatorWrapper>
+        <ActionsheetDragIndicator />
+      </ActionsheetDragIndicatorWrapper>
+
       <ActionsheetContent className="pb-8">
         <VStack className="w-full" space="lg">
-          <Text size="xl" className="text-center font-semibold">
-            {t('profile.title')}
-          </Text>
+          <Box className="items-center">
+            <Heading size="lg" className="text-typography-950">
+              {t('profile.title')}
+            </Heading>
+          </Box>
           <VStack space="lg">
             {/* Avatar Section */}
             <VStack className="items-center justify-center">

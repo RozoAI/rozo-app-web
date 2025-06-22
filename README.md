@@ -70,7 +70,6 @@ The app supports different environments:
 - **Framework**: [Expo](https://expo.dev/)
 - **UI**: [React Native](https://reactnative.dev/) with [Gluestack](https://gluestack.io/)
 - **Navigation**: [Expo Router](https://docs.expo.dev/router/introduction/)
-- **State Management**: [Zustand](https://github.com/pmndrs/zustand)
 - **Data Fetching**: [React Query](https://tanstack.com/query/latest) with React Query Kit
 - **Form Handling**: [React Hook Form](https://react-hook-form.com/)
 - **Validation**: [Zod](https://zod.dev/)
