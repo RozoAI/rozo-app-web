@@ -1,9 +1,8 @@
 import clsx, { type ClassValue } from 'clsx';
-import { AlertCircle, AlertTriangle, CheckCircle, Info } from 'lucide-react-native';
-import React from 'react';
+import { t } from 'i18next';
 import { Dimensions, Platform } from 'react-native';
 import { Linking } from 'react-native';
-import { showMessage } from 'react-native-flash-message';
+import Toast from 'react-native-toast-message';
 import { twMerge } from 'tailwind-merge';
 import type { StoreApi, UseBoundStore } from 'zustand';
 
@@ -29,22 +28,43 @@ export const showToast = ({
   type = 'info',
   message = 'Something went wrong ',
 }: {
-  type: 'danger' | 'success' | 'warning' | 'info';
+  type: 'danger' | 'success' | 'info';
   message: string;
 }) => {
   // Use different icon based on toast type
-  const iconMap = {
-    danger: <AlertCircle />,
-    success: <CheckCircle />,
-    warning: <AlertTriangle />,
-    info: <Info />,
-  };
+  // const iconMap = {
+  //   danger: <AlertCircle />,
+  //   success: <CheckCircle />,
+  //   warning: <AlertTriangle />,
+  //   info: <Info />,
+  // };
 
-  showMessage({
-    message,
-    type,
-    duration: 4000,
-    icon: iconMap[type],
+  Toast.show({
+    type: type === 'danger' ? 'error' : type,
+    text1: t(`toast.${type}`),
+    text2: message,
+    visibilityTime: 100000000,
+    autoHide: true,
+    position: 'top',
+    text2Style: {
+      fontSize: 14,
+      flexShrink: 1,
+      flexWrap: 'wrap',
+      textOverflow: 'unset',
+      overflow: 'visible',
+      paddingBottom: 10,
+      lineHeight: 18,
+
+      // @ts-ignore
+      whiteSpace: 'pre-wrap',
+      // @ts-ignore
+      overflowWrap: 'break-word',
+    },
+    text1Style: {
+      paddingTop: 10,
+      paddingBottom: 5,
+      fontSize: 16,
+    },
   });
 };
 

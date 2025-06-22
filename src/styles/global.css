@@ -12,3 +12,11 @@ body,
   max-width: 480px;
   margin: 0 auto;
 }
+
+[data-testid='toastAnimatedContainer'] {
+  z-index: 99999 !important;
+}
+
+[data-testid='toastAnimatedContainer'] > div {
+  height: auto !important;
+}

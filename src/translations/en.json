@@ -20,6 +20,8 @@
     "status": "Status",
     "submit": "Submit",
     "termsOfService": "Terms of Service",
+    "update": "Update",
+    "updating": "Updating",
     "walletAddress": "Wallet Address",
     "walletBalance": "Wallet Balance",
     "withdraw": "Withdraw"
@@ -60,6 +62,16 @@
     "scanToPay": "Scan to Pay",
     "verifyPayment": "Verify Payment"
   },
+  "profile": {
+    "displayName": "Display Name",
+    "email": "Email",
+    "placeholder": {
+      "displayName": "Enter your display name",
+      "email": "Enter your email"
+    },
+    "title": "Profile",
+    "updateError": "Failed to update profile"
+  },
   "settings": {
     "about": "About",
     "account": {
@@ -98,6 +110,11 @@
     "version": "Version",
     "website": "Website"
   },
+  "toast": {
+    "danger": "Error",
+    "info": "Info",
+    "success": "Success"
+  },
   "validation": {
     "invalidAmount": "Invalid amount",
     "maxAmount": "Maximum amount is {{max}}",
@@ -106,7 +123,7 @@
   },
   "welcome": "Welcome to Rozo POS",
   "withdraw": {
-    "error": "Withdraw error",
+    "error": "An error occurred during withdrawal",
     "success": "Withdraw successfully",
     "supportedOnly": "Supported only {{currency}}",
     "walletAddressPlaceholder": "Input your Wallet Address"

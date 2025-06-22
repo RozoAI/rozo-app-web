@@ -6,8 +6,9 @@ import { createContext, useEffect, useState } from 'react';
 import { PageLoader } from '@/components/loader/loader';
 import { showToast, storage } from '@/lib';
 import { currencies, type CurrencyConfig } from '@/lib/currencies';
+import { AppError } from '@/lib/error';
 import { defaultToken, type Token, tokens } from '@/lib/tokens';
-import { dynamicClient, useDynamic } from '@/modules/dynamic/dynamic-client';
+import { useDynamic } from '@/modules/dynamic/dynamic-client';
 // eslint-disable-next-line import/no-cycle
 import { useCreateProfile, useGetProfile } from '@/resources/api';
 import { type MerchantProfile } from '@/resources/schema/merchant';
@@ -113,7 +114,7 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
   // Logout function
   const logout = async () => {
     try {
-      await dynamicClient.auth.logout();
+      await auth.logout();
       setToken(undefined);
       setMerchant(undefined);
       setUserWallets([]);
@@ -152,14 +153,18 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
       setMerchant(profileData);
     }
 
-    if (profileError) {
-      showToast({
-        type: 'danger',
-        message: profileError?.message ?? 'Failed to get profile',
-      });
+    if (profileError && profileError instanceof AppError) {
+      if (profileError.statusCode >= 400) {
+        logout();
+      } else {
+        showToast({
+          type: 'danger',
+          message: profileError?.message ?? 'Failed to get profile',
+        });
 
-      setIsLoading(false);
-      router.replace('/error');
+        setIsLoading(false);
+        router.replace('/error');
+      }
     }
   }, [profileData, profileError, router]);
 
@@ -179,21 +184,26 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
   const createMerchantProfile = useCallback(
     async (user: any) => {
       try {
-        const evmWallet = userWallets.find((wallet) => wallet.chain === 'EVM');
-
-        await createProfile({
-          email: user?.email ?? '',
-          display_name: user?.email ?? '',
-          description: '',
-          logo_url: '',
-          default_currency: defaultCurrency.code,
-          default_language: 'EN',
-          default_token_id: defaultToken?.key,
-          wallet_address: evmWallet?.address ?? '',
-        });
-
         // Handle success directly here
         if (auth.token) {
+          if (user?.newUser) {
+            const evmWallet = userWallets.find((wallet) => wallet.chain === 'EVM');
+
+            // get oauth data
+            const oauthData = user?.verifiedCredentials?.find((credential: any) => credential.format === 'oauth');
+
+            await createProfile({
+              email: user?.email ?? '',
+              display_name: oauthData?.oauthDisplayName ?? user?.email,
+              description: '',
+              logo_url: oauthData?.oauthAccountPhotos?.[0] ?? '',
+              default_currency: defaultCurrency.code,
+              default_language: 'EN',
+              default_token_id: defaultToken?.key,
+              wallet_address: evmWallet?.address ?? '',
+            });
+          }
+
           setToken(auth.token);
           showToast({
             type: 'success',

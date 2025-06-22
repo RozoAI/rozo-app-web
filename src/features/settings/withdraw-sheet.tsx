@@ -109,9 +109,9 @@ export function WithdrawActionSheet({ onClose, onSuccess, balance }: Props) {
           throw result.error;
         }
       }
-    } catch (error: any) {
+    } catch {
       showToast({
-        message: `${t('withdraw.error')}: ${error.message}`,
+        message: `${t('withdraw.error')}`,
         type: 'danger',
       });
     } finally {
@@ -184,9 +184,9 @@ export function WithdrawActionSheet({ onClose, onSuccess, balance }: Props) {
                 render={({ field: { onChange, value } }) => (
                   <FormControl isInvalid={!!errors.withdrawAddress}>
                     <FormControlLabel>
-                      <FormControlLabelText>{t('general.walletAddress')}</FormControlLabelText>
+                      <FormControlLabelText size="sm">{t('general.walletAddress')}</FormControlLabelText>
                     </FormControlLabel>
-                    <Input>
+                    <Input className="rounded-xl" isInvalid={!!errors.withdrawAddress}>
                       <InputField
                         placeholder={t('withdraw.walletAddressPlaceholder')}
                         value={value}
@@ -210,10 +210,10 @@ export function WithdrawActionSheet({ onClose, onSuccess, balance }: Props) {
                 render={({ field: { onChange, value } }) => (
                   <FormControl isInvalid={!!errors.amount}>
                     <FormControlLabel>
-                      <FormControlLabelText>{t('general.amount')}</FormControlLabelText>
+                      <FormControlLabelText size="sm">{t('general.amount')}</FormControlLabelText>
                     </FormControlLabel>
                     <VStack space="xs">
-                      <Input>
+                      <Input className="rounded-xl" isInvalid={!!errors.amount}>
                         <InputField
                           placeholder="0.00"
                           value={value}
