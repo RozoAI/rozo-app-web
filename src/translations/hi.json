@@ -5,6 +5,7 @@
     "amountPaid": "भरी गई राशि",
     "backToHome": "मुख्य पृष्ठ पर लौटें",
     "cancel": "रद्द करें",
+    "checkConnection": "कृपया अपने कनेक्शन की जांच करें और पुनः प्रयास करें",
     "close": "बंद करना",
     "copiedToClipboard": "क्लिपबोर्ड पर कॉपी किया गया",
     "createdAt": "पर बनाया गया",
@@ -13,6 +14,7 @@
     "max": "अधिकतम",
     "maxCharacters": "अधिकतम {{count}} वर्ण",
     "merchantId": "व्यापारी आईडी",
+    "noConnection": "कोई इंटरनेट कनेक्शन नहीं",
     "notFound": "नहीं मिला",
     "note": "टिप्पणी",
     "printReceipt": "रसीद प्रिंट करें",
@@ -58,8 +60,9 @@
       "enterNote": "नोट दर्ज करें",
       "title": "भुगतान नोट"
     },
-    "paymentSuccessful": "भुगतान सफल रहा",
-    "paymentSuccessfulDesc": "आपका लेनदेन सफलतापूर्वक पूरा हो गया है",
+    "orderNumber": "ऑर्डर नंबर",
+    "paymentSuccessful": "भुगतान सफल",
+    "paymentSuccessfulDesc": "आपका लेन-देन सफलतापूर्वक पूरा हो गया है",
     "scanToPay": "भुगतान करने के लिए स्कैन करें",
     "verifyPayment": "भुगतान सत्यापित करें"
   },
