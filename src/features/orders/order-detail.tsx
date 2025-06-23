@@ -116,9 +116,8 @@ export const OrderDetailActionSheet = forwardRef<OrderDetailActionSheetRef, Orde
 
                 {/* QR Code for Pending Orders */}
                 {order.status === 'PENDING' && (
-                  <View className="items-center">
-                    <Text className="mb-4 text-sm text-gray-500 dark:text-gray-400">{t('payment.scanToPay')}</Text>
-                    <View className="mb-4 size-48 items-center justify-center rounded-xl border bg-white p-3">
+                  <View className="mb-4 items-center">
+                    <View className="mb-2 size-48 items-center justify-center rounded-xl border bg-white p-3">
                       {qrCodeUrl ? (
                         <QRCode value={qrCodeUrl} size={180} />
                       ) : (
@@ -127,42 +126,46 @@ export const OrderDetailActionSheet = forwardRef<OrderDetailActionSheetRef, Orde
                         </View>
                       )}
                     </View>
+                    <Text className="text-sm italic text-gray-500 dark:text-gray-400">{t('payment.scanToPay')}</Text>
                   </View>
                 )}
 
                 {/* Order Details */}
                 <VStack space="sm">
-                  <View className="flex-row justify-between">
-                    <Text className="text-gray-500 dark:text-gray-400">{t('general.amount')}</Text>
-                    <Text className="font-semibold">
-                      {order.display_amount} {order.display_currency}
-                    </Text>
-                  </View>
-
-                  {order.description && (
-                    <View className="flex-row justify-between">
-                      <Text className="text-gray-500 dark:text-gray-400">{t('general.description')}</Text>
-                      <Text className="font-medium">{order.description}</Text>
-                    </View>
-                  )}
-
-                  <View className="flex-row justify-between">
-                    <Text className="text-gray-500 dark:text-gray-400">{t('general.merchantId')}</Text>
-                    <Text className="font-medium">{getShortId(order.merchant_id, 6, 4)}</Text>
-                  </View>
-
-                  <View className="flex-row justify-between">
-                    <Text className="text-gray-500 dark:text-gray-400">{t('general.status')}</Text>
-                    <Text className="font-medium">
+                  <View className="flex-row justify-between gap-2">
+                    <Text className="text-sm text-gray-500 dark:text-gray-400">{t('general.status')}</Text>
+                    <Text className="text-right text-sm">
                       <Badge size="md" variant="solid" action={getStatusActionType(order.status)}>
                         <BadgeText>{t(`order.status.${order.status.toLowerCase()}`)}</BadgeText>
                       </Badge>
                     </Text>
                   </View>
 
-                  <View className="flex-row justify-between">
-                    <Text className="text-gray-500 dark:text-gray-400">{t('general.createdAt')}</Text>
-                    <Text className="font-medium">{format(new Date(order.created_at), 'MMM dd yyyy, HH:mm')}</Text>
+                  <View className="flex-row justify-between gap-2">
+                    <Text className="text-sm text-gray-500 dark:text-gray-400">{t('general.amount')}</Text>
+                    <View className="flex-row items-center gap-1">
+                      <Text className="text-right text-sm font-semibold">
+                        {order.display_amount} {order.display_currency}
+                      </Text>
+                      {order.display_currency !== 'USD' && (
+                        <Text className="text-xs text-gray-500">≈ {Number(order.required_amount_usd).toFixed(2)} USD</Text>
+                      )}
+                    </View>
+                  </View>
+
+                  <View className="flex-row justify-between gap-2">
+                    <Text className="text-sm text-gray-500 dark:text-gray-400">{t('general.createdAt')}</Text>
+                    <Text className="text-right text-sm">{format(new Date(order.created_at), 'MMM dd yyyy, HH:mm')}</Text>
+                  </View>
+
+                  <View className="flex-row justify-between gap-2">
+                    <Text className="text-sm text-gray-500 dark:text-gray-400">{t('general.description')}</Text>
+                    <Text className="text-right text-sm">{order.description === '' ? '-' : order.description}</Text>
+                  </View>
+
+                  <View className="flex-row justify-between gap-2">
+                    <Text className="text-sm text-gray-500 dark:text-gray-400">{t('general.merchantId')}</Text>
+                    <Text className="text-right text-sm">{getShortId(order.merchant_id, 6, 4)}</Text>
                   </View>
                 </VStack>
               </>
