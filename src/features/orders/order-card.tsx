@@ -6,7 +6,7 @@ import { TouchableOpacity, View } from 'react-native';
 import { Badge, BadgeText } from '@/components/ui/badge';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
-import { getStatusActionType } from '@/lib';
+import { getShortId, getStatusActionType } from '@/lib';
 import { type MerchantOrder } from '@/resources/schema/order';
 
 interface OrderCardProps {
@@ -24,7 +24,7 @@ export function OrderCard({ order, onPress }: OrderCardProps) {
         <View className="w-full flex-row items-start justify-between">
           <View className="flex flex-1 flex-col gap-1.5">
             <View className="flex-row items-center justify-between">
-              <Text className="text-sm font-medium text-blue-600 dark:text-blue-400">#{order.order_id.slice(0, 8)}</Text>
+              <Text className="text-sm font-medium text-blue-600 dark:text-blue-400">#{getShortId(order.order_id, 6)}</Text>
 
               <Badge size="md" variant="solid" action={getStatusActionType(order.status)}>
                 <BadgeText>{t(`order.status.${order.status.toLowerCase()}`)}</BadgeText>
