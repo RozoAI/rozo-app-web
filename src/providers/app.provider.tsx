@@ -20,7 +20,7 @@ interface IContextProps {
   defaultCurrency: CurrencyConfig | undefined;
   merchantToken: Token | undefined;
   wallets: BaseWallet[];
-  primaryWallet: BaseWallet | undefined;
+  primaryWallet: BaseWallet | null;
   isAuthLoading: boolean;
   showAuthModal: () => void;
   setToken: (token: string | undefined) => void;
@@ -35,7 +35,7 @@ export const AppContext = createContext<IContextProps>({
   defaultCurrency: undefined,
   merchantToken: undefined,
   wallets: [],
-  primaryWallet: undefined,
+  primaryWallet: null,
   isAuthLoading: false,
   showAuthModal: () => {},
   setToken: () => {},
@@ -93,10 +93,10 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
     }
   };
 
-  // Get primary wallet (EVM wallet by default)
+  // Get primary wallet (EVM Zero Dev wallet by default)
   const primaryWallet = useMemo(() => {
-    return userWallets.find((wallet) => wallet.chain === 'EVM');
-  }, [userWallets]);
+    return wallets?.primary;
+  }, [wallets?.primary]);
 
   const merchantToken = useMemo(() => {
     if (merchant?.default_token_id) {
@@ -187,10 +187,15 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
         // Handle success directly here
         if (auth.token) {
           if (user?.newUser) {
-            const evmWallet = userWallets.find((wallet) => wallet.chain === 'EVM');
+            const evmWallet = userWallets.find((wallet) => wallet.chain === 'EVM' && wallet.key === 'zerodev');
 
             // get oauth data
             const oauthData = user?.verifiedCredentials?.find((credential: any) => credential.format === 'oauth');
+
+            // set primary wallet
+            if (evmWallet) {
+              await wallets.setPrimary({ walletId: evmWallet?.id });
+            }
 
             await createProfile({
               email: user?.email ?? '',
@@ -200,7 +205,7 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
               default_currency: defaultCurrency.code,
               default_language: 'EN',
               default_token_id: defaultToken?.key,
-              wallet_address: evmWallet?.address ?? '',
+              // wallet_address: evmWallet?.address ?? '',
             });
           }
 

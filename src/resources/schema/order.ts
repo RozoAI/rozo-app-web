@@ -58,6 +58,14 @@ export const MerchantOrderSchema = z.object({
   display_amount: z.number(),
   payment_url: z.optional(z.string().url()),
   qrcode: z.optional(z.string().url()),
+  number: z.union([z.string(), z.number()]),
 });
 
+export const OrderResponseSchema = z.object({
+  qrcode: z.string().url(),
+  order_id: z.string(),
+  order_number: z.union([z.string(), z.number()]),
+});
+
+export type OrderResponse = z.infer<typeof OrderResponseSchema>;
 export type MerchantOrder = z.infer<typeof MerchantOrderSchema>;

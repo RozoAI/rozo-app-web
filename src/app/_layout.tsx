@@ -13,6 +13,7 @@ import { KeyboardProvider } from 'react-native-keyboard-controller';
 import Toast from 'react-native-toast-message';
 
 import { GluestackUIProvider } from '@/components/gluestack-ui-provider';
+import { ConnectionStatus } from '@/components/ui/connection-status';
 import { WebFontsLoader } from '@/components/web-fonts-loader';
 import { loadSelectedTheme } from '@/hooks';
 import { darkTheme, defaultTheme } from '@/lib/theme';
@@ -97,7 +98,11 @@ function Providers({ children, onLayout }: { children: React.ReactNode; onLayout
                 {/* @ts-ignore */}
                 <dynamicClient.reactNative.WebView />
 
-                <AppProvider>{Platform.OS === 'web' ? <WebFontsLoader>{children}</WebFontsLoader> : children}</AppProvider>
+                <AppProvider>
+                  {/* Network connection status overlay */}
+                  <ConnectionStatus />
+                  {Platform.OS === 'web' ? <WebFontsLoader>{children}</WebFontsLoader> : children}
+                </AppProvider>
               </QueryProvider>
             </ThemeProvider>
           </KeyboardProvider>

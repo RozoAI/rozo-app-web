@@ -3,7 +3,7 @@ import { createMutation, createQuery } from 'react-query-kit';
 
 // eslint-disable-next-line import/no-cycle
 import { client } from '@/modules/axios/client';
-import { type MerchantOrder } from '@/resources/schema/order';
+import { type MerchantOrder, type OrderResponse } from '@/resources/schema/order';
 
 type Payload = {
   display_amount: number;
@@ -27,16 +27,11 @@ export const useGetOrder = createQuery<MerchantOrder, { id: string }, AxiosError
   enabled: false,
 });
 
-export const useCreateOrder = createMutation<{ qrcode?: string; order_id: string }, Payload, AxiosError>({
+export const useCreateOrder = createMutation<OrderResponse, Payload, AxiosError>({
   mutationFn: async (payload) =>
     client({
       url: 'functions/v1/orders',
       method: 'POST',
       data: payload,
-    }).then((response) => {
-      return {
-        qrcode: response.data.qrcode,
-        order_id: response.data.order_id,
-      };
-    }),
+    }).then((response) => response.data),
 });

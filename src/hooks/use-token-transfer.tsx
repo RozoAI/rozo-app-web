@@ -137,11 +137,11 @@ export function useTokenTransfer(): UseTokenTransferResult {
         // Use either standard or gasless transfer based on parameter
         const result = useGasless
           ? await transferTokenZeroDev({
-            fromWallet: wallets.primary,
-            toAddress,
-            amount,
-            token: merchantToken,
-          })
+              fromWallet: wallets.primary,
+              toAddress,
+              amount,
+              token: merchantToken,
+            })
           : await transferToken(wallets.primary, toAddress, amount, merchantToken);
 
         setStatus({
