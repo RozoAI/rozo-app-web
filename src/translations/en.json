@@ -5,6 +5,7 @@
     "amountPaid": "Amount Paid",
     "backToHome": "Back to Home",
     "cancel": "Cancel",
+    "checkConnection": "Please check your connection and try again",
     "close": "Close",
     "copiedToClipboard": "Coppied to Clipboard",
     "createdAt": "Created at",
@@ -13,6 +14,7 @@
     "max": "Maximum",
     "maxCharacters": "Max {{count}} characters",
     "merchantId": "Merchant ID",
+    "noConnection": "No internet connection",
     "notFound": "Not found",
     "note": "Note",
     "printReceipt": "Print Receipt",
@@ -58,6 +60,7 @@
       "enterNote": "Enter note",
       "title": "Payment Note"
     },
+    "orderNumber": "Order Number",
     "paymentSuccessful": "Payment Successful",
     "paymentSuccessfulDesc": "Your transaction has been completed successfully",
     "scanToPay": "Scan to Pay",

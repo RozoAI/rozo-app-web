@@ -10,6 +10,7 @@ import { useSelectedTheme } from '@/hooks';
 import { showToast } from '@/lib';
 import { useApp } from '@/providers/app.provider';
 import { useCreateOrder } from '@/resources/api/merchant/orders';
+import { type OrderResponse } from '@/resources/schema/order';
 
 import { AmountDisplay } from './amount-display';
 import { PaymentButton } from './payment-button';
@@ -24,8 +25,7 @@ export function PaymentScreen() {
   const [amount, setAmount] = useState('0');
   const [description, setDescription] = useState('');
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
-  const [paymentUrl, setPaymentUrl] = useState<string>();
-  const [orderId, setOrderId] = useState<string | undefined>(undefined);
+  const [createdOrder, setCreatedOrder] = useState<OrderResponse>();
 
   const { selectedTheme } = useSelectedTheme();
 
@@ -144,9 +144,12 @@ export function PaymentScreen() {
       });
 
       resetPayment();
-
-      setPaymentUrl(response.qrcode);
-      setOrderId(response.order_id);
+      setAmount(amount);
+      setCreatedOrder({
+        qrcode: response.qrcode,
+        order_id: response.order_id,
+        order_number: response.order_number,
+      });
       setIsPaymentModalOpen(true);
     } catch (error: any) {
       console.error('Error creating order:', error);
@@ -157,8 +160,7 @@ export function PaymentScreen() {
   const handleClosePaymentModal = useCallback(() => {
     resetPayment();
 
-    setPaymentUrl(undefined);
-    setOrderId(undefined);
+    setCreatedOrder(undefined);
     setIsPaymentModalOpen(false);
   }, []);
 
@@ -231,10 +233,9 @@ export function PaymentScreen() {
           <PaymentModal
             isOpen={isPaymentModalOpen}
             onClose={handleClosePaymentModal}
-            amount={amount}
             dynamicStyles={dynamicStyles}
-            paymentUrl={paymentUrl}
-            orderId={orderId}
+            amount={amount}
+            order={createdOrder}
           />
         </View>
       </SafeAreaView>

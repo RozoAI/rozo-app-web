@@ -20,6 +20,7 @@ import { Text } from '@/components/ui/text';
 import { View } from '@/components/ui/view';
 import { usePaymentStatus } from '@/hooks/use-payment-status';
 import { useApp } from '@/providers/app.provider';
+import { type OrderResponse } from '@/resources/schema/order';
 
 import { PaymentSuccess } from './payment-success';
 import { type DynamicStyles } from './types';
@@ -29,29 +30,21 @@ type PaymentModalProps = {
   onClose: () => void;
   amount: string;
   dynamicStyles: DynamicStyles;
-  paymentUrl?: string;
-  orderId?: string;
+  order?: OrderResponse;
 };
 
-export function PaymentModal({
-  paymentUrl,
-  isOpen,
-  onClose,
-  amount,
-  dynamicStyles,
-  orderId,
-}: PaymentModalProps): React.ReactElement {
+export function PaymentModal({ isOpen, onClose, amount, dynamicStyles, order }: PaymentModalProps): React.ReactElement {
   const { t } = useTranslation();
   const { defaultCurrency, merchant } = useApp();
   const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
   const [showSuccessView, setShowSuccessView] = useState(false);
 
   // Use our custom hook to handle payment status updates
-  const { isCompleted } = usePaymentStatus(merchant?.merchant_id, orderId);
+  const { isCompleted } = usePaymentStatus(merchant?.merchant_id, order?.order_id);
   // Generate QR code when modal opens
   useEffect(() => {
-    if (isOpen && paymentUrl) {
-      setQrCodeUrl(paymentUrl);
+    if (isOpen && order?.qrcode) {
+      setQrCodeUrl(order.qrcode);
     } else {
       setQrCodeUrl(null);
     }
@@ -60,7 +53,7 @@ export function PaymentModal({
     if (isOpen) {
       setShowSuccessView(false);
     }
-  }, [isOpen, paymentUrl]);
+  }, [isOpen, order]);
 
   // Watch for payment status changes
   useEffect(() => {
@@ -91,7 +84,7 @@ export function PaymentModal({
         {!showSuccessView && (
           <ModalHeader className="mb-2">
             <Heading size="md" className="text-typography-950">
-              {t('payment.PaymentQRCode')}
+              {t('payment.scanToPay')}
             </Heading>
             <ModalCloseButton>
               <Icon
@@ -110,7 +103,7 @@ export function PaymentModal({
               dynamicStyles={dynamicStyles}
               onPrintReceipt={() => {}}
               onBackToHome={handleBackToHome}
-              merchant={merchant}
+              order={order}
             />
           ) : (
             <View className="items-center justify-center">
@@ -125,9 +118,17 @@ export function PaymentModal({
                 )}
               </View>
 
+              {/* Order Number */}
+              {order?.order_number && (
+                <View className="mb-4 items-center">
+                  <Text className="text-sm text-gray-500 dark:text-gray-400">{t('payment.orderNumber')} </Text>
+                  <Text className="text-center font-medium text-gray-800 dark:text-gray-200">#{order.order_number}</Text>
+                </View>
+              )}
+
               {/* Amount Information */}
               <View className="mb-6 w-full items-center">
-                <Text className="mb-1 text-gray-500 dark:text-gray-400">{t('payment.amountToPay')}</Text>
+                <Text className="text-sm text-gray-500 dark:text-gray-400">{t('payment.amountToPay')}</Text>
                 <Text
                   className={`text-center font-bold text-gray-800 dark:text-gray-200 ${dynamicStyles.fontSize.modalAmount}`}
                 >

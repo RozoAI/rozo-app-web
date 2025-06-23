@@ -105,7 +105,9 @@ export const OrderDetailActionSheet = forwardRef<OrderDetailActionSheetRef, Orde
                   <Heading size="lg" className="text-typography-950">
                     {t('order.orderDetails')}
                   </Heading>
-                  <Text className="text-sm text-gray-500 dark:text-gray-400">#{getShortId(order.order_id, 6)}</Text>
+                  <Text className="text-sm text-gray-500 dark:text-gray-400">
+                    #{order.number ?? getShortId(order.order_id, 6)}
+                  </Text>
                 </View>
 
                 {order.status === 'COMPLETED' && (
@@ -163,10 +165,10 @@ export const OrderDetailActionSheet = forwardRef<OrderDetailActionSheetRef, Orde
                     <Text className="text-right text-sm">{order.description === '' ? '-' : order.description}</Text>
                   </View>
 
-                  <View className="flex-row justify-between gap-2">
+                  {/* <View className="flex-row justify-between gap-2">
                     <Text className="text-sm text-gray-500 dark:text-gray-400">{t('general.merchantId')}</Text>
                     <Text className="text-right text-sm">{getShortId(order.merchant_id, 6, 4)}</Text>
-                  </View>
+                  </View> */}
                 </VStack>
               </>
             ) : (

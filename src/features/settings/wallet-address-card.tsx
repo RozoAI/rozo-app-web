@@ -37,11 +37,9 @@ export const WalletAddressCard = () => {
         </VStack>
       </HStack>
 
-      {primaryWallet?.isAuthenticated && (
-        <Button onPress={copyToClipboard} size="xs" variant="outline" className="rounded-full p-2">
-          <ButtonIcon as={Copy}></ButtonIcon>
-        </Button>
-      )}
+      <Button onPress={copyToClipboard} size="xs" variant="outline" className="rounded-full p-2">
+        <ButtonIcon as={Copy}></ButtonIcon>
+      </Button>
     </View>
   );
 };

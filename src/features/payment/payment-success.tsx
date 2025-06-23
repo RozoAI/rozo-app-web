@@ -8,9 +8,8 @@ import { Button, ButtonText } from '@/components/ui/button';
 import { CurrencyConverter } from '@/components/ui/currency-converter';
 import { Text } from '@/components/ui/text';
 import { View } from '@/components/ui/view';
-import { getShortId } from '@/lib';
 import { type CurrencyConfig } from '@/lib/currencies';
-import { type MerchantProfile } from '@/resources/schema/merchant';
+import { type OrderResponse } from '@/resources/schema/order';
 
 import { type DynamicStyles } from './types';
 
@@ -20,7 +19,7 @@ type PaymentSuccessProps = {
   onPrintReceipt: () => void;
   onBackToHome: () => void;
   defaultCurrency?: CurrencyConfig;
-  merchant?: MerchantProfile;
+  order?: OrderResponse;
 };
 
 export function PaymentSuccess({
@@ -29,7 +28,7 @@ export function PaymentSuccess({
   // onPrintReceipt,
   onBackToHome,
   defaultCurrency,
-  merchant,
+  order,
 }: PaymentSuccessProps): React.ReactElement {
   const { t } = useTranslation();
   const router = useRouter();
@@ -58,10 +57,12 @@ export function PaymentSuccess({
           </Text>
           <Text className="text-center text-gray-500 dark:text-gray-400">{t('payment.paymentSuccessfulDesc')}</Text>
 
-          <View className="flex-row justify-between">
-            <Text className="text-gray-500 dark:text-gray-400">{t('general.merchantId')}: </Text>
-            <Text className="font-medium">{getShortId(merchant?.merchant_id ?? '', 6, 4)}</Text>
-          </View>
+          {order?.order_number && (
+            <View className="mt-4 flex-col items-center">
+              <Text className="text-gray-500 dark:text-gray-400">{t('payment.orderNumber')} </Text>
+              <Text className="font-medium">#{order?.order_number}</Text>
+            </View>
+          )}
         </Box>
         {/* Amount Information */}
         <View className="w-full items-center rounded-xl bg-gray-50 p-4 dark:bg-gray-800">

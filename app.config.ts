@@ -1,28 +1,11 @@
 /* eslint-disable unused-imports/no-unused-vars */
 /* eslint-disable max-lines-per-function */
 import type { ConfigContext, ExpoConfig } from '@expo/config';
-import type { AppIconBadgeConfig } from 'app-icon-badge/types';
 
 const version = process.env.EXPO_PUBLIC_VERSION ?? '0.0.1';
 const appEnv = process.env.EXPO_PUBLIC_APP_ENV ?? 'development';
 
 const isProduction = appEnv === 'production';
-
-const appIconBadgeConfig: AppIconBadgeConfig = {
-  enabled: !isProduction,
-  badges: [
-    {
-      text: appEnv,
-      type: 'banner',
-      color: 'white',
-    },
-    {
-      text: version ?? '0.0.0',
-      type: 'ribbon',
-      color: 'white',
-    },
-  ],
-};
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
@@ -123,7 +106,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     'expo-localization',
     'expo-router',
     'expo-secure-store',
-    // ['app-icon-badge', appIconBadgeConfig],
     ['react-native-edge-to-edge'],
   ],
   extra: {

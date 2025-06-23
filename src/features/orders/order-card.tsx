@@ -24,7 +24,9 @@ export function OrderCard({ order, onPress }: OrderCardProps) {
         <View className="w-full flex-row items-start justify-between">
           <View className="flex flex-1 flex-col gap-1.5">
             <View className="flex-row items-center justify-between">
-              <Text className="text-sm font-medium text-blue-600 dark:text-blue-400">#{getShortId(order.order_id, 6)}</Text>
+              <Text className="text-sm font-medium text-blue-600 dark:text-blue-400">
+                #{order.number ?? getShortId(order.order_id, 6)}
+              </Text>
 
               <Badge size="md" variant="solid" action={getStatusActionType(order.status)}>
                 <BadgeText>{t(`order.status.${order.status.toLowerCase()}`)}</BadgeText>
