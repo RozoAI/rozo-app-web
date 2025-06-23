@@ -5,6 +5,7 @@
     "amountPaid": "المبلغ المدفوع",
     "backToHome": "العودة إلى الرئيسية",
     "cancel": "إلغاء",
+    "checkConnection": "يرجى التحقق من اتصالك والمحاولة مرة أخرى",
     "close": "يغلق",
     "copiedToClipboard": "coppied إلى الحافظة",
     "createdAt": "تم إنشاؤها في",
@@ -13,6 +14,7 @@
     "max": "الحد الأقصى",
     "maxCharacters": "الحد الأقصى {{count}} حرف",
     "merchantId": "معرف التاجر",
+    "noConnection": "لا يوجد اتصال بالإنترنت",
     "notFound": "لم يتم العثور عليها",
     "note": "ملحوظة",
     "printReceipt": "طباعة الإيصال",
@@ -58,6 +60,7 @@
       "enterNote": "أدخل الملاحظة",
       "title": "مذكرة الدفع"
     },
+    "orderNumber": "رقم الطلب",
     "paymentSuccessful": "تم الدفع بنجاح",
     "paymentSuccessfulDesc": "تم إتمام معاملتك بنجاح",
     "scanToPay": "مسح للدفع",

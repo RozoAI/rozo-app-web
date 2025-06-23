@@ -5,6 +5,7 @@
     "amountPaid": "Valor Pago",
     "backToHome": "Voltar para Início",
     "cancel": "Cancelar",
+    "checkConnection": "Por favor, verifique sua conexão e tente novamente",
     "close": "Fechar",
     "copiedToClipboard": "Copiado para a área de transferência",
     "createdAt": "Criado em",
@@ -13,6 +14,7 @@
     "max": "Máximo",
     "maxCharacters": "Máximo {{count}} caracteres",
     "merchantId": "ID do comerciante",
+    "noConnection": "Sem conexão com a internet",
     "notFound": "Não encontrado",
     "note": "Observação",
     "printReceipt": "Imprimir Recibo",
@@ -58,7 +60,8 @@
       "enterNote": "Digite a nota",
       "title": "Nota de pagamento"
     },
-    "paymentSuccessful": "Pagamento Realizado",
+    "orderNumber": "Número do pedido",
+    "paymentSuccessful": "Pagamento bem-sucedido",
     "paymentSuccessfulDesc": "Sua transação foi concluída com sucesso",
     "scanToPay": "Digitalizar para pagar",
     "verifyPayment": "Verificar Pagamento"

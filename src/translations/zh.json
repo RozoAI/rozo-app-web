@@ -5,6 +5,7 @@
     "amountPaid": "已付金额",
     "backToHome": "返回主页",
     "cancel": "取消",
+    "checkConnection": "请检查您的连接并重试",
     "close": "关闭",
     "copiedToClipboard": "已复制到剪贴板",
     "createdAt": "创建于",
@@ -12,7 +13,8 @@
     "loading": "加载中",
     "max": "最大值",
     "maxCharacters": "最多 {{count}} 个字符",
-    "merchantId": "商户ID",
+    "merchantId": "商家ID",
+    "noConnection": "无网络连接",
     "notFound": "未找到",
     "note": "备注",
     "printReceipt": "打印收据",
@@ -58,9 +60,10 @@
       "enterNote": "输入备注",
       "title": "付款备注"
     },
-    "paymentSuccessful": "付款成功",
+    "orderNumber": "订单号",
+    "paymentSuccessful": "支付成功",
     "paymentSuccessfulDesc": "您的交易已成功完成",
-    "scanToPay": "扫码付款",
+    "scanToPay": "扫码支付",
     "verifyPayment": "验证付款"
   },
   "profile": {
