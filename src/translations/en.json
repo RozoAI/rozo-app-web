@@ -11,6 +11,7 @@
     "description": "Description",
     "loading": "Loading",
     "max": "Maximum",
+    "maxCharacters": "Max {{count}} characters",
     "merchantId": "Merchant ID",
     "notFound": "Not found",
     "note": "Note",

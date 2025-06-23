@@ -11,6 +11,7 @@
     "description": "وصف",
     "loading": "تحميل",
     "max": "الحد الأقصى",
+    "maxCharacters": "الحد الأقصى {{count}} حرف",
     "merchantId": "معرف التاجر",
     "notFound": "لم يتم العثور عليها",
     "note": "ملحوظة",

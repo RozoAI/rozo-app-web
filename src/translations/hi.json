@@ -11,6 +11,7 @@
     "description": "विवरण",
     "loading": "लोड हो रहा है",
     "max": "अधिकतम",
+    "maxCharacters": "अधिकतम {{count}} वर्ण",
     "merchantId": "व्यापारी आईडी",
     "notFound": "नहीं मिला",
     "note": "टिप्पणी",

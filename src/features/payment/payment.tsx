@@ -130,6 +130,11 @@ export function PaymentScreen() {
   //   setAmount(value);
   // }, []);
 
+  const resetPayment = useCallback(() => {
+    setAmount('0');
+    setDescription('');
+  }, []);
+
   const handleOpenPaymentModal = async () => {
     try {
       const response = await createOrder({
@@ -137,6 +142,8 @@ export function PaymentScreen() {
         display_currency: defaultCurrency?.code ?? 'USD',
         description: description,
       });
+
+      resetPayment();
 
       setPaymentUrl(response.qrcode);
       setOrderId(response.order_id);
@@ -148,10 +155,11 @@ export function PaymentScreen() {
   };
 
   const handleClosePaymentModal = useCallback(() => {
-    setAmount('0');
-    setIsPaymentModalOpen(false);
+    resetPayment();
+
     setPaymentUrl(undefined);
     setOrderId(undefined);
+    setIsPaymentModalOpen(false);
   }, []);
 
   const handleNote = useCallback((note: string) => {
@@ -178,7 +186,7 @@ export function PaymentScreen() {
               dynamicStyles={dynamicStyles}
               onSelectQuickAmount={handleQuickAmount}
             /> */}
-            <ActionSheetPaymentNote onSubmit={handleNote} isEdit={description !== ''} />
+            <ActionSheetPaymentNote onSubmit={handleNote} value={description} isEdit={description !== ''} />
           </View>
         </View>
 

@@ -11,6 +11,7 @@
     "description": "বর্ণনা",
     "loading": "লোড হচ্ছে",
     "max": "সর্বাধিক",
+    "maxCharacters": "সর্বাধিক {{count}} অক্ষর",
     "merchantId": "বণিক আইডি",
     "notFound": "পাওয়া যায় নি",
     "note": "দ্রষ্টব্য",
