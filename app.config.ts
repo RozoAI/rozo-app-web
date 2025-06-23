@@ -2,7 +2,7 @@
 /* eslint-disable max-lines-per-function */
 import type { ConfigContext, ExpoConfig } from '@expo/config';
 
-const version = process.env.EXPO_PUBLIC_VERSION ?? '0.0.1';
+const version = process.env.EXPO_PUBLIC_VERSION ?? '0.0.2';
 const appEnv = process.env.EXPO_PUBLIC_APP_ENV ?? 'development';
 
 const isProduction = appEnv === 'production';
