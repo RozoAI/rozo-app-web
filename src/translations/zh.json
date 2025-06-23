@@ -11,6 +11,7 @@
     "description": "描述",
     "loading": "加载中",
     "max": "最大值",
+    "maxCharacters": "最多 {{count}} 个字符",
     "merchantId": "商户ID",
     "notFound": "未找到",
     "note": "备注",

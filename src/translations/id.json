@@ -11,6 +11,7 @@
     "description": "Keterangan",
     "loading": "Memuat",
     "max": "Maksimum",
+    "maxCharacters": "Maksimal {{count}} karakter",
     "merchantId": "ID Pedagang",
     "notFound": "Tidak ditemukan",
     "note": "Catatan",

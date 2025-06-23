@@ -11,6 +11,7 @@
     "description": "Описание",
     "loading": "Загрузка",
     "max": "Максимум",
+    "maxCharacters": "Максимум {{count}} символов",
     "merchantId": "Идентификатор продавца",
     "notFound": "Не найдено",
     "note": "Примечание",

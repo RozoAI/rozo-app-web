@@ -11,6 +11,7 @@
     "description": "Descrição",
     "loading": "Carregando",
     "max": "Máximo",
+    "maxCharacters": "Máximo {{count}} caracteres",
     "merchantId": "ID do comerciante",
     "notFound": "Não encontrado",
     "note": "Observação",

@@ -1,7 +1,10 @@
 // Start of Selection
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Edit, Plus } from 'lucide-react-native';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { z } from 'zod';
 
 import {
   Actionsheet,
@@ -21,55 +24,79 @@ import { cn } from '@/lib';
 type ActionSheetPaymentNoteProps = {
   isEdit?: boolean;
   onSubmit?: (note: string) => void;
+  value?: string;
 };
 
-export function ActionSheetPaymentNote({ isEdit = false, onSubmit }: ActionSheetPaymentNoteProps): React.ReactElement {
-  const [tempNote, setTempNote] = useState<string>('');
-  const [note, setNote] = useState<string>('');
-  const [showActionsheet, setShowActionsheet] = useState<boolean>(false);
+// Form schema with Zod validation
+const noteFormSchema = z.object({
+  note: z.string().max(100, 'Note cannot exceed 100 characters'),
+});
+
+type NoteFormValues = z.infer<typeof noteFormSchema>;
+
+export function ActionSheetPaymentNote({
+  isEdit = false,
+  value,
+  onSubmit,
+}: ActionSheetPaymentNoteProps): React.ReactElement {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const { t } = useTranslation();
 
-  const noteInputRef = useRef<any>(null);
+  // React Hook Form setup with Zod validation
+  const {
+    control,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors, isValid },
+  } = useForm<NoteFormValues>({
+    resolver: zodResolver(noteFormSchema),
+    defaultValues: {
+      note: value ?? '',
+    },
+  });
 
   // Callbacks
   const handleClose = useCallback(() => {
-    setShowActionsheet(false);
+    setIsOpen(false);
   }, []);
 
   const handleOpen = useCallback(() => {
-    setShowActionsheet(true);
-    // Focus on input when opened
-    setTimeout(() => {
-      noteInputRef.current?.focus();
-    }, 100);
+    setIsOpen(true);
   }, []);
 
   const handleOnCancelNote = useCallback(() => {
-    setShowActionsheet(false);
-    setNote('');
-  }, []);
+    reset();
+    setIsOpen(false);
+  }, [reset]);
 
-  const handleOnSubmitNote = useCallback(() => {
-    const trimmedNote = note.trim();
-    setTempNote(trimmedNote);
-    onSubmit?.(trimmedNote);
-    handleClose();
-  }, [note, onSubmit, handleClose]);
+  const handleOnSubmitNote = useCallback(
+    handleSubmit((data) => {
+      const trimmedNote = data.note.trim();
+      onSubmit?.(trimmedNote);
+      handleClose();
+    }),
+    [onSubmit, handleClose]
+  );
 
-  const handleOnChangeNote = useCallback((text: string) => {
-    setNote(text);
-  }, []);
+  useEffect(() => {
+    if (isOpen) {
+      reset({ note: value ?? '' });
+    }
+  }, [value, isOpen]);
 
   return (
     <>
       <Button className={cn('text-center')} variant="link" onPress={handleOpen}>
-        <ButtonIcon as={tempNote ? Edit : Plus} className="text-black dark:text-white" />
+        <ButtonIcon as={value ? Edit : Plus} className="text-black dark:text-white" />
         <ButtonText className="text-black dark:text-white">
-          {tempNote ? `${t('general.note')}: ${tempNote}` : t('general.addNote')}
+          {value
+            ? `${t('general.note')}: ${value.length > 20 ? `${value.substring(0, 20)}...` : value}`
+            : t('general.addNote')}
         </ButtonText>
       </Button>
 
-      <Actionsheet isOpen={showActionsheet} onClose={handleClose} trapFocus={false}>
+      <Actionsheet isOpen={isOpen} onClose={handleClose} trapFocus={false}>
         <ActionsheetBackdrop />
         <ActionsheetContent>
           <ActionsheetDragIndicatorWrapper>
@@ -81,22 +108,33 @@ export function ActionSheetPaymentNote({ isEdit = false, onSubmit }: ActionSheet
 
             <View className="space-y-2">
               <Textarea size="md" isReadOnly={false} className="rounded-xl">
-                <TextareaInput
-                  placeholder={t('payment.notes.enterNote')}
-                  ref={noteInputRef}
-                  value={note}
-                  onChangeText={handleOnChangeNote}
-                  onSubmitEditing={handleOnSubmitNote}
-                  returnKeyType="done"
+                <Controller
+                  control={control}
+                  name="note"
+                  render={({ field: { onChange, value } }) => (
+                    <TextareaInput
+                      placeholder={t('payment.notes.enterNote')}
+                      value={value}
+                      onChangeText={onChange}
+                      onSubmitEditing={handleOnSubmitNote}
+                      returnKeyType="done"
+                      maxLength={100}
+                    />
+                  )}
                 />
               </Textarea>
+              <HStack className="justify-between px-1">
+                <Text className="text-xs text-neutral-500">{t('general.maxCharacters', { count: 100 })}</Text>
+                <Text className="text-xs text-neutral-500">{watch('note')?.length || 0}/100</Text>
+              </HStack>
+              {errors.note && <Text className="text-sm text-red-500">{errors.note.message}</Text>}
 
               <HStack space="sm" className="grid grid-rows-2">
-                <Button className="w-full rounded-xl" onPress={handleOnSubmitNote}>
-                  {t('general.submit')}
+                <Button variant="solid" className="w-full rounded-xl" onPress={handleOnSubmitNote} isDisabled={!isValid}>
+                  <ButtonText className="text-white">{t('general.submit')}</ButtonText>
                 </Button>
                 <Button className="w-full rounded-xl" variant="link" onPress={isEdit ? handleClose : handleOnCancelNote}>
-                  {isEdit ? 'Close' : 'Cancel'}
+                  <ButtonText>{isEdit ? t('general.close') : t('general.cancel')}</ButtonText>
                 </Button>
               </HStack>
             </View>
