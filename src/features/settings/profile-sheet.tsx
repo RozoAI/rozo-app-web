@@ -119,11 +119,11 @@ export function ProfileSheet({ open, onClose }: { open: boolean; onClose: () => 
   return (
     <Actionsheet isOpen={isOpen} onClose={onClose}>
       <ActionsheetBackdrop />
-      <ActionsheetDragIndicatorWrapper>
-        <ActionsheetDragIndicator />
-      </ActionsheetDragIndicatorWrapper>
 
-      <ActionsheetContent className="pb-8">
+      <ActionsheetContent>
+        <ActionsheetDragIndicatorWrapper>
+          <ActionsheetDragIndicator />
+        </ActionsheetDragIndicatorWrapper>
         <VStack className="w-full" space="lg">
           <Box className="items-center">
             <Heading size="lg" className="text-typography-950">

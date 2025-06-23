@@ -69,6 +69,7 @@ export function RecentOrdersScreen() {
                         onPress={(order) => handleOrderPress(order.order_id)}
                       />
                     )}
+                    scrollEnabled={false}
                     contentContainerClassName="gap-4"
                   />
                 </View>
