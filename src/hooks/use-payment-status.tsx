@@ -1,4 +1,6 @@
+import * as Speech from 'expo-speech';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Platform } from 'react-native';
 
 import type { PaymentCompletedEvent } from '@/modules/pusher/pusher';
@@ -14,6 +16,7 @@ type PaymentStatus = 'pending' | 'completed' | 'failed';
 export function usePaymentStatus(merchantId?: string, orderId?: string) {
   const [status, setStatus] = useState<PaymentStatus>('pending');
   const isWeb = Platform.OS === 'web';
+  const { t } = useTranslation();
 
   const { refetch, data, isLoading } = useGetOrder({
     variables: { id: orderId ?? '' },
@@ -23,6 +26,24 @@ export function usePaymentStatus(merchantId?: string, orderId?: string) {
   // Function to manually check payment status
   const checkPaymentStatus = () => {
     refetch();
+  };
+
+  const speakPaymentStatus = ({
+    amount,
+    currency,
+    language,
+    onEnd,
+  }: {
+    amount: number;
+    currency: string;
+    language: string;
+    onEnd?: () => void;
+  }) => {
+    const thingToSay = t('payment.voiceSuccess', { amount: amount, currency: currency });
+    Speech.speak(thingToSay, {
+      language: language,
+      onDone: onEnd,
+    });
   };
 
   useEffect(() => {
@@ -81,6 +102,7 @@ export function usePaymentStatus(merchantId?: string, orderId?: string) {
     status,
     isLoading,
     checkPaymentStatus,
+    speakPaymentStatus,
     isPending: status === 'pending',
     isCompleted: status === 'completed',
     isFailed: status === 'failed',

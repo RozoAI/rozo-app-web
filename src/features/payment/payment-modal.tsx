@@ -1,4 +1,3 @@
-import * as Speech from 'expo-speech';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import QRCode from 'react-qr-code';
@@ -44,7 +43,7 @@ export function PaymentModal({ isOpen, onClose, amount, dynamicStyles, order }: 
   const [isSpeechEnabled, setIsSpeechEnabled] = useState(true);
 
   // Use our custom hook to handle payment status updates
-  const { isCompleted } = usePaymentStatus(merchant?.merchant_id, order?.order_id);
+  const { isCompleted, speakPaymentStatus } = usePaymentStatus(merchant?.merchant_id, order?.order_id);
   // Generate QR code when modal opens
   useEffect(() => {
     if (isOpen && order?.qrcode) {
@@ -66,11 +65,13 @@ export function PaymentModal({ isOpen, onClose, amount, dynamicStyles, order }: 
       setIsSuccessPayment(true);
 
       // Speak the amount
-
-      const thingToSay = t('payment.voiceSuccess', { amount: amount, currency: defaultCurrency?.code });
-      Speech.speak(thingToSay, {
-        language: language,
-        onDone: () => setIsSpeechEnabled(false),
+      speakPaymentStatus({
+        amount: Number(amount),
+        currency: defaultCurrency?.code ?? 'USD',
+        language,
+        onEnd: () => {
+          setIsSpeechEnabled(false);
+        },
       });
     }
   }, [isCompleted, isSpeechEnabled]);
