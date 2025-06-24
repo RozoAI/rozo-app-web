@@ -1,5 +1,5 @@
 import * as Speech from 'expo-speech';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform } from 'react-native';
 
@@ -53,7 +53,6 @@ export function usePaymentStatus(merchantId?: string, orderId?: string) {
     if (!merchantId || !orderId) return;
 
     const channelName = merchantId;
-    let isMounted = true;
 
     // Setup Pusher channel and event binding
     const setupPusher = async () => {
@@ -61,7 +60,7 @@ export function usePaymentStatus(merchantId?: string, orderId?: string) {
         // Subscribe to the channel with event handler for payment_completed event
         // The subscribeToChannel function handles platform differences internally
         await subscribeToChannel(channelName, 'payment_completed', (data: PaymentCompletedEvent) => {
-          if (data.order_id === orderId && isMounted) {
+          if (data.order_id === orderId) {
             setStatus('completed');
             console.log(`Payment completed for order ${orderId}`);
           }
@@ -77,7 +76,8 @@ export function usePaymentStatus(merchantId?: string, orderId?: string) {
 
     // Cleanup function
     return () => {
-      isMounted = false;
+      setStatus('pending'); // Reset status when unmounted
+
       if (channelName) {
         // Unsubscribe from channel
         const cleanup = async () => {
@@ -100,13 +100,16 @@ export function usePaymentStatus(merchantId?: string, orderId?: string) {
     }
   }, [data]);
 
-  return {
-    status,
-    isLoading,
-    checkPaymentStatus,
-    speakPaymentStatus,
-    isPending: status === 'pending',
-    isCompleted: status === 'completed',
-    isFailed: status === 'failed',
-  };
+  return useMemo(
+    () => ({
+      status,
+      isLoading,
+      checkPaymentStatus,
+      speakPaymentStatus,
+      isPending: status === 'pending',
+      isCompleted: status === 'completed',
+      isFailed: status === 'failed',
+    }),
+    [status, isLoading]
+  );
 }
