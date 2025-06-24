@@ -1,6 +1,9 @@
 import { MMKV } from 'react-native-mmkv';
 
-export const storage = new MMKV();
+export const storage = new MMKV({
+  id: 'rozo-pos-storage',
+  encryptionKey: process.env.MMKV_ENCRYPTION_KEY,
+});
 
 export function getItem<T>(key: string): T | null {
   const value = storage.getString(key);
