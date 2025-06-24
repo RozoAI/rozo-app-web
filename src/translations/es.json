@@ -27,7 +27,11 @@
     "updating": "Actualizando",
     "walletAddress": "Dirección de la billetera",
     "walletBalance": "Saldo de billetera",
-    "withdraw": "Retirar"
+    "withdraw": "Retirar",
+    "information": "Información",
+    "manualWithdraw1": "La retirada manual transferirá todo su saldo. \nDespués de confirmar, comuníquese con el equipo de Rozo en",
+    "manualWithdraw2": "Para completar el proceso.",
+    "manualWithdraw": "Retirarse manual"
   },
   "home": {
     "title": "Inicio"

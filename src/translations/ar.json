@@ -27,7 +27,11 @@
     "updating": "Updating",
     "walletAddress": "عنوان محفظة",
     "walletBalance": "توازن المحفظة",
-    "withdraw": "ينسحب"
+    "withdraw": "ينسحب",
+    "information": "معلومة",
+    "manualWithdraw1": "السحب اليدوي سوف ينقل توازنك بالكامل. \nبعد التأكيد ، يرجى الاتصال بفريق روزو على",
+    "manualWithdraw2": "لإكمال العملية.",
+    "manualWithdraw": "انسحاب يدوي"
   },
   "home": {
     "title": "بيت"

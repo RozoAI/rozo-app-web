@@ -27,7 +27,11 @@
     "updating": "Atualizando",
     "walletAddress": "Endereço da carteira",
     "walletBalance": "Balanço da carteira",
-    "withdraw": "Retirar"
+    "withdraw": "Retirar",
+    "information": "Informação",
+    "manualWithdraw1": "A retirada manual transferirá todo o seu saldo. \nDepois de confirmar, entre em contato com a equipe Rozo em",
+    "manualWithdraw2": "Para concluir o processo.",
+    "manualWithdraw": "Retirada manual"
   },
   "home": {
     "title": "Início"

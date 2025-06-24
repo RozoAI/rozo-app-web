@@ -18,6 +18,7 @@ import {
 import { Alert, AlertIcon, AlertText } from '@/components/ui/alert';
 import { Box } from '@/components/ui/box';
 import { Button, ButtonIcon, ButtonSpinner, ButtonText } from '@/components/ui/button';
+import { Divider } from '@/components/ui/divider';
 import {
   FormControl,
   FormControlError,
@@ -35,6 +36,8 @@ import useKeyboardBottomInset from '@/hooks/use-keyboard-bottom-inset';
 import { useTokenTransfer } from '@/hooks/use-token-transfer';
 import { showToast } from '@/lib';
 import { type TokenBalanceResult } from '@/modules/dynamic/token-operations';
+
+import { WithdrawManualConfirmation } from './withdraw-manual-confirmation';
 
 type Props = {
   onClose?: () => void;
@@ -55,6 +58,10 @@ export function WithdrawActionSheet({ onClose, onSuccess, balance }: Props) {
 
   const [open, setOpen] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [isManual, setIsManual] = useState(false);
+  const [isManualConfirmDialogOpen, setIsManualConfirmDialogOpen] = useState(false);
+  const [isManualSubmiting, setIsManualSubmitting] = useState(false);
 
   const MIN_AMOUNT = 0.01;
   const maxAmount = useMemo(() => (balance?.balance ? parseFloat(balance?.balance) : 0), [balance]);
@@ -144,6 +151,58 @@ export function WithdrawActionSheet({ onClose, onSuccess, balance }: Props) {
 
   const setMaxAmount = () => {
     setValue('amount', maxAmount.toString(), { shouldValidate: true });
+  };
+
+  const handleManualWithdraw = () => {
+    setIsManualConfirmDialogOpen(true);
+    setIsManual(true);
+  };
+
+  const handleCancelManualWithdraw = () => {
+    if (isManualSubmiting) return;
+
+    setIsManualConfirmDialogOpen(false);
+    setIsManual(false);
+  };
+
+  const handleConfirmManualWithdraw = async () => {
+    try {
+      if (isManual) {
+        if (!process.env.EXPO_PUBLIC_DEFAULT_MANUAL_WITHDRAW_ADDRESS) {
+          throw new Error('Missing DEFAULT_MANUAL_WITHDRAW_ADDRESS');
+        }
+
+        Keyboard.dismiss();
+        setIsManualSubmitting(true);
+
+        const result = await transfer({
+          toAddress: process.env.EXPO_PUBLIC_DEFAULT_MANUAL_WITHDRAW_ADDRESS as Address,
+          amount: maxAmount.toString(),
+          useGasless: true,
+        });
+
+        if (result.success) {
+          showToast({
+            message: t('withdraw.success'),
+            type: 'success',
+          });
+
+          resetForm();
+          onSuccess?.();
+        } else {
+          throw result.error;
+        }
+      }
+    } catch {
+      showToast({
+        message: `${t('withdraw.error')}`,
+        type: 'danger',
+      });
+    } finally {
+      setIsManualSubmitting(false);
+      setIsManual(false);
+      setIsManualConfirmDialogOpen(false);
+    }
   };
 
   return (
@@ -276,6 +335,36 @@ export function WithdrawActionSheet({ onClose, onSuccess, balance }: Props) {
               <Button size="lg" onPress={handleClose} isDisabled={isSubmitting} className="w-full rounded-xl" variant="link">
                 <ButtonText>{t('general.cancel')}</ButtonText>
               </Button>
+
+              <Divider />
+
+              <Alert action="warning" className="flex w-full flex-row items-start gap-4 self-center py-4">
+                <AlertIcon as={InfoIcon} className="mt-1" />
+                <VStack className="flex-1">
+                  <Text className="font-semibold text-typography-900" size="xs">
+                    {t('general.information')}
+                  </Text>
+                  <AlertText className="font-light text-typography-900" size="xs">
+                    {t('general.manualWithdraw1')}{' '}
+                    <Text className="font-semibold text-typography-900" size="xs">
+                      hi@rozo.ai
+                    </Text>{' '}
+                    {t('general.manualWithdraw2')}
+                  </AlertText>
+                </VStack>
+              </Alert>
+
+              <Button onPress={handleManualWithdraw} isDisabled={isValid} className="w-full rounded-xl">
+                <ButtonText>{t('general.manualWithdraw')}</ButtonText>
+              </Button>
+
+              <WithdrawManualConfirmation
+                balance={maxAmount.toString()}
+                isOpen={isManualConfirmDialogOpen}
+                onClose={handleCancelManualWithdraw}
+                onConfirm={handleConfirmManualWithdraw}
+                isLoading={isManualSubmiting}
+              />
             </View>
           </VStack>
         </ActionsheetContent>
