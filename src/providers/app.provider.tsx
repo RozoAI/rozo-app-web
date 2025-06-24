@@ -232,13 +232,13 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
   // No longer need separate useEffects for profile creation success/error
   // as we're handling them directly in the createMerchantProfile function
 
-  // Set up auth event listeners
-  useEffect(() => {
-    const authInitHandler = () => {
-      setIsAuthLoading(true);
-    };
+  // Define event handlers outside of useEffect
+  const authInitHandler = useCallback(() => {
+    setIsAuthLoading(true);
+  }, []);
 
-    const authSuccessHandler = (user: any) => {
+  const authSuccessHandler = useCallback(
+    (user: any) => {
       setIsAuthLoading(true);
 
       if (user) {
@@ -250,36 +250,29 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
         });
         setIsAuthLoading(false);
       }
-    };
+    },
+    [createMerchantProfile]
+  );
 
-    const authFailedHandler = () => {
-      showToast({
-        type: 'danger',
-        message: 'Authentication failed',
-      });
-      setIsAuthLoading(false);
-    };
+  const authFailedHandler = useCallback(() => {
+    showToast({
+      type: 'danger',
+      message: 'Authentication failed',
+    });
+    setIsAuthLoading(false);
+  }, []);
 
-    const authLogoutHandler = () => {
-      setToken(undefined);
-      storage.delete(TOKEN_KEY);
-      router.replace('/login');
-    };
+  const authLogoutHandler = useCallback(() => {
+    setToken(undefined);
+    storage.delete(TOKEN_KEY);
+    router.replace('/login');
+  }, [router]);
 
-    // Add event listeners
-    auth.on('authInit', authInitHandler);
-    auth.on('authSuccess', authSuccessHandler);
-    auth.on('authFailed', authFailedHandler);
-    auth.on('loggedOut', authLogoutHandler);
-
-    // Clean up event listeners
-    return () => {
-      auth.off('authInit', authInitHandler);
-      auth.off('authSuccess', authSuccessHandler);
-      auth.off('authFailed', authFailedHandler);
-      auth.off('loggedOut', authLogoutHandler);
-    };
-  }, [auth, createMerchantProfile, router]);
+  // Register event listeners
+  auth.on('authInit', authInitHandler);
+  auth.on('authSuccess', authSuccessHandler);
+  auth.on('authFailed', authFailedHandler);
+  auth.on('loggedOut', authLogoutHandler);
 
   const contextPayload = useMemo(
     () => ({

@@ -1,4 +1,5 @@
-import { CheckIcon } from 'lucide-react-native';
+import { t } from 'i18next';
+import { CheckIcon, ChevronRightIcon, DollarSign } from 'lucide-react-native';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import {
@@ -10,8 +11,10 @@ import {
   ActionsheetItem,
   ActionsheetItemText,
 } from '@/components/ui/actionsheet';
+import { Icon } from '@/components/ui/icon';
 import { Pressable } from '@/components/ui/pressable';
 import { Spinner } from '@/components/ui/spinner';
+import { Text } from '@/components/ui/text';
 import { View } from '@/components/ui/view';
 import { showToast } from '@/lib';
 import { currencies as currencyList, defaultCurrency } from '@/lib/currencies';
@@ -23,17 +26,13 @@ type CurrencyOption = {
   label: string;
 };
 
-type ActionSheetCurrencySwitcherProps = {
-  trigger: (curr: string) => React.ReactNode;
-  defaultValue?: string;
-  value?: string;
-};
-
-export function ActionSheetCurrencySwitcher({ trigger, value }: ActionSheetCurrencySwitcherProps): React.ReactElement {
-  const [selectedValue, setSelectedValue] = useState<string | undefined>(value);
+export function ActionSheetCurrencySwitcher(): React.ReactElement {
   const [showActionsheet, setShowActionsheet] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  // Store the current currency code in state
+  const [currentCurrency, setCurrentCurrency] = useState<string | undefined>(undefined);
 
-  const { mutate: updateProfile, data, error, isPending } = useCreateProfile();
+  const { mutate: updateProfile, data, error } = useCreateProfile();
   const { merchant, setMerchant } = useApp();
 
   // Memoize currencies to prevent unnecessary re-renders
@@ -53,44 +52,47 @@ export function ActionSheetCurrencySwitcher({ trigger, value }: ActionSheetCurre
     });
   }, [currencies]);
 
-  // Update selected value when merchant data changes
+  // Update current currency when merchant data changes
   useEffect(() => {
     if (merchant?.default_currency) {
-      setSelectedValue(merchant.default_currency.toLowerCase());
+      setCurrentCurrency(merchant.default_currency.toUpperCase());
+      setIsLoading(false);
     }
-  }, [merchant?.default_currency]);
+  }, [merchant]);
 
   // Handle API response
   useEffect(() => {
     if (data) {
       setMerchant(data);
-      setSelectedValue(data.default_currency.toLowerCase());
+      // Update the current currency from the API response
+      if (data.default_currency) {
+        setCurrentCurrency(data.default_currency.toUpperCase());
+      }
 
       showToast({
         message: 'Currency updated successfully',
         type: 'success',
       });
+      setIsLoading(false);
     } else if (error) {
       showToast({
         message: 'Failed to update currency',
         type: 'danger',
       });
+      setIsLoading(false);
     }
   }, [data, error, setMerchant]);
 
-  // Memoized values
-  const initialLabel = useMemo(() => {
-    return currencies.find((curr) => curr.code === selectedValue?.toUpperCase())?.label || '-';
-  }, [currencies, selectedValue]);
+  // Get the currency label based on the current code
+  const currencyLabel = useMemo(() => {
+    return currencies.find((curr) => curr.code === currentCurrency)?.label || '-';
+  }, [currencies, currentCurrency]);
 
-  const selectedLabel = useMemo(() => {
-    return currencies.find((curr) => curr.code === selectedValue?.toUpperCase())?.label || initialLabel;
-  }, [currencies, selectedValue, initialLabel]);
-
+  // Set the initial focus reference for the actionsheet
   const initialFocusRef = useMemo(() => {
-    const currentCurrency = selectedValue?.toUpperCase() ?? defaultCurrency?.code;
-    return itemRefs.current[currentCurrency];
-  }, [selectedValue]);
+    const code = currentCurrency || defaultCurrency?.code;
+    return itemRefs.current[code];
+  }, [currentCurrency]);
 
   // Callbacks
   const handleClose = useCallback(() => setShowActionsheet(false), []);
@@ -102,6 +104,10 @@ export function ActionSheetCurrencySwitcher({ trigger, value }: ActionSheetCurre
 
       // eslint-disable-next-line unused-imports/no-unused-vars
       const { created_at, ...rest } = merchant;
+      setIsLoading(true);
+      // Optimistically update the UI
+      setCurrentCurrency(value.toUpperCase());
+
       updateProfile({
         ...rest,
         default_currency: value.toUpperCase(),
@@ -115,7 +121,7 @@ export function ActionSheetCurrencySwitcher({ trigger, value }: ActionSheetCurre
   // Memoized currency item renderer
   const renderCurrencyItem = useCallback(
     (curr: CurrencyOption) => {
-      const isActive = curr.code === selectedValue?.toUpperCase();
+      const isActive = curr.code === currentCurrency;
       return (
         <ActionsheetItem
           key={curr.code}
@@ -130,18 +136,29 @@ export function ActionSheetCurrencySwitcher({ trigger, value }: ActionSheetCurre
         </ActionsheetItem>
       );
     },
-    [selectedValue, handleCurrencyChange]
+    [currentCurrency, handleCurrencyChange]
   );
 
   return (
     <>
       <Pressable onPress={handleOpen} className="relative w-full">
-        {trigger(selectedLabel ?? initialLabel)}
-        {isPending && (
-          <View className="absolute inset-x-0 top-0 z-10 flex size-full items-center justify-center bg-white/50 py-2">
-            <Spinner />
+        <View>
+          <View className="w-full flex-1 flex-row items-center justify-between gap-4 px-2 py-3">
+            <View className="flex-row items-center gap-2">
+              <Icon as={DollarSign} className="mb-auto mt-1 stroke-[#747474]" />
+              <View className="flex-col items-start gap-1">
+                <Text size="md">{t('settings.currency.title')}</Text>
+                <Text size="sm">{currencyLabel}</Text>
+              </View>
+            </View>
+            <Icon as={ChevronRightIcon} className="text-gray-400 dark:text-gray-50" />
           </View>
-        )}
+          {isLoading && (
+            <View className="absolute inset-x-0 top-0 z-10 flex size-full items-center justify-center bg-white/50 py-2">
+              <Spinner />
+            </View>
+          )}
+        </View>
       </Pressable>
 
       <Actionsheet isOpen={showActionsheet} onClose={handleClose} trapFocus={false} initialFocusRef={initialFocusRef}>

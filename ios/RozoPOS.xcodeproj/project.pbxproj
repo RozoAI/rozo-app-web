@@ -7,33 +7,41 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		06284ABF74D74D92895B62CC /* Roboto_800ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1557E4B498D1472087E8E118 /* Roboto_800ExtraBold.ttf */; };
+		0D66F4993F7B48D09D0B1F3D /* Roboto_600SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CDA79BBDCB2341F497A9283F /* Roboto_600SemiBold.ttf */; };
+		1147352FE9554077928CAB7F /* Roboto_500Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 16B7D489FE7C4C8097A0B4FB /* Roboto_500Medium.ttf */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
+		6753C783A190498D4CA413C6 /* libPods-RozoPOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3B206C36F5E1AFCB18814C3 /* libPods-RozoPOS.a */; };
+		76205F91B629423794D83A24 /* Roboto_400Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A6D5962604804C04BC7B23CA /* Roboto_400Regular.ttf */; };
+		8FF517057D19FC5AC73614FF /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 0470220D5963A9A63245837C /* PrivacyInfo.xcprivacy */; };
+		99865FFDE24145F3A93D699A /* Roboto_300Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5B30A85E01F54AD4B8941FCA /* Roboto_300Light.ttf */; };
+		AB341715E07A484FA5B0A2DB /* Roboto_700Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E7E4F4E881024B75AFE28972 /* Roboto_700Bold.ttf */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
+		D278953283768FE3239F5A3E /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D07FED3271245162CBAA31 /* ExpoModulesProvider.swift */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
-		A833FB44FDB54D27B0E7F564 /* Roboto_300Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 68577FE274FF4FF8BAB763AE /* Roboto_300Light.ttf */; };
-		AF171C8E06FE42FDADA02DBE /* Roboto_400Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86A219B7F24041FEA4D4C0DA /* Roboto_400Regular.ttf */; };
-		FDA34029D1B84E50A2DC93DE /* Roboto_500Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 396E5307A0AB4A958167C599 /* Roboto_500Medium.ttf */; };
-		F09728203CAC4256B24801C8 /* Roboto_600SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E3931C72FFE43FA896C1F53 /* Roboto_600SemiBold.ttf */; };
-		6A35C0D81163485DA3F7D67A /* Roboto_700Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1311D8D26C8B4522BB332F49 /* Roboto_700Bold.ttf */; };
-		B1ADBF2E8CB34852A3C154A0 /* Roboto_800ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ED1ED08DB4DC412A9562A0A8 /* Roboto_800ExtraBold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0470220D5963A9A63245837C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = RozoPOS/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* RozoPOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RozoPOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = RozoPOS/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = RozoPOS/Info.plist; sourceTree = "<group>"; };
+		1557E4B498D1472087E8E118 /* Roboto_800ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = Roboto_800ExtraBold.ttf; path = "../node_modules/@expo-google-fonts/roboto/800ExtraBold/Roboto_800ExtraBold.ttf"; sourceTree = "<group>"; };
+		16B7D489FE7C4C8097A0B4FB /* Roboto_500Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = Roboto_500Medium.ttf; path = "../node_modules/@expo-google-fonts/roboto/500Medium/Roboto_500Medium.ttf"; sourceTree = "<group>"; };
+		35D07FED3271245162CBAA31 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-RozoPOS/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		5B30A85E01F54AD4B8941FCA /* Roboto_300Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = Roboto_300Light.ttf; path = "../node_modules/@expo-google-fonts/roboto/300Light/Roboto_300Light.ttf"; sourceTree = "<group>"; };
+		70C68B87D3316EA15323DAE3 /* Pods-RozoPOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RozoPOS.release.xcconfig"; path = "Target Support Files/Pods-RozoPOS/Pods-RozoPOS.release.xcconfig"; sourceTree = "<group>"; };
+		A6D5962604804C04BC7B23CA /* Roboto_400Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = Roboto_400Regular.ttf; path = "../node_modules/@expo-google-fonts/roboto/400Regular/Roboto_400Regular.ttf"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = RozoPOS/SplashScreen.storyboard; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
+		CDA79BBDCB2341F497A9283F /* Roboto_600SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = Roboto_600SemiBold.ttf; path = "../node_modules/@expo-google-fonts/roboto/600SemiBold/Roboto_600SemiBold.ttf"; sourceTree = "<group>"; };
+		E3B206C36F5E1AFCB18814C3 /* libPods-RozoPOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RozoPOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E483CF3C884D67F6314BB7F8 /* Pods-RozoPOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RozoPOS.debug.xcconfig"; path = "Target Support Files/Pods-RozoPOS/Pods-RozoPOS.debug.xcconfig"; sourceTree = "<group>"; };
+		E7E4F4E881024B75AFE28972 /* Roboto_700Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = Roboto_700Bold.ttf; path = "../node_modules/@expo-google-fonts/roboto/700Bold/Roboto_700Bold.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = RozoPOS/AppDelegate.swift; sourceTree = "<group>"; };
 		F11748442D0722820044C1D9 /* RozoPOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "RozoPOS-Bridging-Header.h"; path = "RozoPOS/RozoPOS-Bridging-Header.h"; sourceTree = "<group>"; };
-		68577FE274FF4FF8BAB763AE /* Roboto_300Light.ttf */ = {isa = PBXFileReference; name = "Roboto_300Light.ttf"; path = "../node_modules/@expo-google-fonts/roboto/300Light/Roboto_300Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		86A219B7F24041FEA4D4C0DA /* Roboto_400Regular.ttf */ = {isa = PBXFileReference; name = "Roboto_400Regular.ttf"; path = "../node_modules/@expo-google-fonts/roboto/400Regular/Roboto_400Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		396E5307A0AB4A958167C599 /* Roboto_500Medium.ttf */ = {isa = PBXFileReference; name = "Roboto_500Medium.ttf"; path = "../node_modules/@expo-google-fonts/roboto/500Medium/Roboto_500Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		9E3931C72FFE43FA896C1F53 /* Roboto_600SemiBold.ttf */ = {isa = PBXFileReference; name = "Roboto_600SemiBold.ttf"; path = "../node_modules/@expo-google-fonts/roboto/600SemiBold/Roboto_600SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		1311D8D26C8B4522BB332F49 /* Roboto_700Bold.ttf */ = {isa = PBXFileReference; name = "Roboto_700Bold.ttf"; path = "../node_modules/@expo-google-fonts/roboto/700Bold/Roboto_700Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		ED1ED08DB4DC412A9562A0A8 /* Roboto_800ExtraBold.ttf */ = {isa = PBXFileReference; name = "Roboto_800ExtraBold.ttf"; path = "../node_modules/@expo-google-fonts/roboto/800ExtraBold/Roboto_800ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,12 +49,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6753C783A190498D4CA413C6 /* libPods-RozoPOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E60583E4B1B69220214ABB3 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E483CF3C884D67F6314BB7F8 /* Pods-RozoPOS.debug.xcconfig */,
+				70C68B87D3316EA15323DAE3 /* Pods-RozoPOS.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		13B07FAE1A68108700A75B9A /* RozoPOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -56,6 +75,7 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
+				0470220D5963A9A63245837C /* PrivacyInfo.xcprivacy */,
 			);
 			name = RozoPOS;
 			sourceTree = "<group>";
@@ -64,6 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
+				E3B206C36F5E1AFCB18814C3 /* libPods-RozoPOS.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -82,7 +103,9 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				BA9B0C1B9586417A896CBF63 /* Resources */,
+				9945F07A661D43268647463B /* Resources */,
+				0E60583E4B1B69220214ABB3 /* Pods */,
+				BCA1A0FF5CBA48CF24CB8C33 /* ExpoModulesProviders */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -97,6 +120,20 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		9945F07A661D43268647463B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5B30A85E01F54AD4B8941FCA /* Roboto_300Light.ttf */,
+				A6D5962604804C04BC7B23CA /* Roboto_400Regular.ttf */,
+				16B7D489FE7C4C8097A0B4FB /* Roboto_500Medium.ttf */,
+				CDA79BBDCB2341F497A9283F /* Roboto_600SemiBold.ttf */,
+				E7E4F4E881024B75AFE28972 /* Roboto_700Bold.ttf */,
+				1557E4B498D1472087E8E118 /* Roboto_800ExtraBold.ttf */,
+			);
+			name = Resources;
+			path = "";
+			sourceTree = "<group>";
+		};
 		BB2F792B24A3F905000567C9 /* Supporting */ = {
 			isa = PBXGroup;
 			children = (
@@ -106,19 +143,21 @@
 			path = RozoPOS/Supporting;
 			sourceTree = "<group>";
 		};
-		BA9B0C1B9586417A896CBF63 /* Resources */ = {
-			isa = "PBXGroup";
+		BCA1A0FF5CBA48CF24CB8C33 /* ExpoModulesProviders */ = {
+			isa = PBXGroup;
 			children = (
-				68577FE274FF4FF8BAB763AE /* Roboto_300Light.ttf */,
-				86A219B7F24041FEA4D4C0DA /* Roboto_400Regular.ttf */,
-				396E5307A0AB4A958167C599 /* Roboto_500Medium.ttf */,
-				9E3931C72FFE43FA896C1F53 /* Roboto_600SemiBold.ttf */,
-				1311D8D26C8B4522BB332F49 /* Roboto_700Bold.ttf */,
-				ED1ED08DB4DC412A9562A0A8 /* Roboto_800ExtraBold.ttf */,
+				C95FF0B7BB91EDE965D7B120 /* RozoPOS */,
 			);
-			name = Resources;
+			name = ExpoModulesProviders;
 			sourceTree = "<group>";
-			path = "";
+		};
+		C95FF0B7BB91EDE965D7B120 /* RozoPOS */ = {
+			isa = PBXGroup;
+			children = (
+				35D07FED3271245162CBAA31 /* ExpoModulesProvider.swift */,
+			);
+			name = RozoPOS;
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -128,11 +167,13 @@
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "RozoPOS" */;
 			buildPhases = (
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
+				C90553724E7FD4F5DF3ED6A9 /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
+				39CFE6810B2CAE08FE09FBA5 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -182,12 +223,13 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				A833FB44FDB54D27B0E7F564 /* Roboto_300Light.ttf in Resources */,
-				AF171C8E06FE42FDADA02DBE /* Roboto_400Regular.ttf in Resources */,
-				FDA34029D1B84E50A2DC93DE /* Roboto_500Medium.ttf in Resources */,
-				F09728203CAC4256B24801C8 /* Roboto_600SemiBold.ttf in Resources */,
-				6A35C0D81163485DA3F7D67A /* Roboto_700Bold.ttf in Resources */,
-				B1ADBF2E8CB34852A3C154A0 /* Roboto_800ExtraBold.ttf in Resources */,
+				99865FFDE24145F3A93D699A /* Roboto_300Light.ttf in Resources */,
+				76205F91B629423794D83A24 /* Roboto_400Regular.ttf in Resources */,
+				1147352FE9554077928CAB7F /* Roboto_500Medium.ttf in Resources */,
+				0D66F4993F7B48D09D0B1F3D /* Roboto_600SemiBold.ttf in Resources */,
+				AB341715E07A484FA5B0A2DB /* Roboto_700Bold.ttf in Resources */,
+				06284ABF74D74D92895B62CC /* Roboto_800ExtraBold.ttf in Resources */,
+				8FF517057D19FC5AC73614FF /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -231,6 +273,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		39CFE6810B2CAE08FE09FBA5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RozoPOS/Pods-RozoPOS-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RozoPOS/Pods-RozoPOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -238,20 +298,67 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-RozoPOS/Pods-RozoPOS-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/EXApplication/ExpoApplication_privacy.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/EXConstants.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/ExpoConstants_privacy.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/EXUpdates/EXUpdates.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/RCTI18nStrings.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/ExpoFileSystem/ExpoFileSystem_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/ExpoLocalization/ExpoLocalization_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/ExpoSystemUI/ExpoSystemUI_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/RCT-Folly/RCT-Folly_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/RNSVG/RNSVGFilters.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/ReachabilitySwift/ReachabilitySwift.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/React-Core_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-cxxreact/React-cxxreact_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/SDWebImage/SDWebImage.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/boost/boost_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/expo-dev-launcher/EXDevLauncher.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/expo-dev-menu/EXDevMenu.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/glog/glog_privacy.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoApplication_privacy.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EXConstants.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoConstants_privacy.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EXUpdates.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RCTI18nStrings.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoFileSystem_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoLocalization_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoSystemUI_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RCT-Folly_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RNSVGFilters.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ReachabilitySwift.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/React-Core_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/React-cxxreact_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SDWebImage.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/boost_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EXDevLauncher.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EXDevMenu.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/glog_privacy.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RozoPOS/Pods-RozoPOS-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		C90553724E7FD4F5DF3ED6A9 /* [Expo] Configure project */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "[Expo] Configure project";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-RozoPOS/expo-configure-project.sh\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -261,6 +368,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */,
+				D278953283768FE3239F5A3E /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,9 +377,11 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E483CF3C884D67F6314BB7F8 /* Pods-RozoPOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = RozoPOS/RozoPOS.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -290,22 +400,24 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "ai.rozo.pos";
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
+				PRODUCT_BUNDLE_IDENTIFIER = ai.rozo.pos;
 				PRODUCT_NAME = "RozoPOS";
 				SWIFT_OBJC_BRIDGING_HEADER = "RozoPOS/RozoPOS-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				VERSIONING_SYSTEM = "apple-generic";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				CODE_SIGN_ENTITLEMENTS = RozoPOS/RozoPOS.entitlements;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 70C68B87D3316EA15323DAE3 /* Pods-RozoPOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = RozoPOS/RozoPOS.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = RozoPOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
@@ -319,13 +431,13 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "ai.rozo.pos";
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
+				PRODUCT_BUNDLE_IDENTIFIER = ai.rozo.pos;
 				PRODUCT_NAME = "RozoPOS";
 				SWIFT_OBJC_BRIDGING_HEADER = "RozoPOS/RozoPOS-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-				VERSIONING_SYSTEM = "apple-generic";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				CODE_SIGN_ENTITLEMENTS = RozoPOS/RozoPOS.entitlements;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};
@@ -381,10 +493,17 @@
 					/usr/lib/swift,
 					"$(inherited)",
 				);
-				LIBRARY_SEARCH_PATHS = "\"$(inherited)\"";
+				LIBRARY_SEARCH_PATHS = "$(SDKROOT)/usr/lib/swift\"$(inherited)\"";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
+				USE_HERMES = true;
 			};
 			name = Debug;
 		};
@@ -433,9 +552,15 @@
 					/usr/lib/swift,
 					"$(inherited)",
 				);
-				LIBRARY_SEARCH_PATHS = "\"$(inherited)\"";
+				LIBRARY_SEARCH_PATHS = "$(SDKROOT)/usr/lib/swift\"$(inherited)\"";
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
+				USE_HERMES = true;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

@@ -51,7 +51,7 @@ const networksData: readonly Network[] = [
     tokens: [
       {
         key: 'USDC_BASE',
-        label: 'USDC Base',
+        label: 'USDC',
         networkKey: 'base',
         address: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
         decimal: 6,

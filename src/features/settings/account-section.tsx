@@ -1,9 +1,10 @@
+import { ChevronRightIcon } from 'lucide-react-native';
 import React, { useRef } from 'react';
 
 import { Avatar, AvatarFallbackText, AvatarImage } from '@/components/ui/avatar';
 import { Box } from '@/components/ui/box';
 import { Heading } from '@/components/ui/heading';
-import { ChevronRightIcon, Icon } from '@/components/ui/icon';
+import { Icon } from '@/components/ui/icon';
 import { Pressable } from '@/components/ui/pressable';
 import { Text } from '@/components/ui/text';
 import { VStack } from '@/components/ui/vstack';

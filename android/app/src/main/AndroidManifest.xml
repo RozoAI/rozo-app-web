@@ -27,8 +27,6 @@
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="rozopos"/>
-        <data android:scheme="exp+rozoai-pos"/>
-        <data android:scheme="exp+rozo-pos"/>
         <data android:scheme="exp+rozo-pos"/>
       </intent-filter>
       <intent-filter android:autoVerify="true" data-generated="true">

@@ -218,12 +218,14 @@ export function ActionSheetLanguageSwitcher({ trigger }: ActionSheetLanguageSwit
   return (
     <>
       <Pressable onPress={handleOpen} className="relative w-full">
-        {trigger(selectedLabel ?? initialLabel)}
-        {isPending && (
-          <View className="absolute inset-x-0 top-0 z-10 flex size-full items-center justify-center bg-white/50 py-2 dark:bg-white/20">
-            <Spinner />
-          </View>
-        )}
+        <View>
+          {trigger(selectedLabel ?? initialLabel)}
+          {isPending && (
+            <View className="absolute inset-x-0 top-0 z-10 flex size-full items-center justify-center bg-white/50 py-2 dark:bg-white/20">
+              <Spinner />
+            </View>
+          )}
+        </View>
       </Pressable>
 
       <Actionsheet isOpen={showActionsheet} onClose={handleClose} trapFocus={false} initialFocusRef={initialFocusRef}>
