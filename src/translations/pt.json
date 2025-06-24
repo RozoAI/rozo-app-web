@@ -64,7 +64,8 @@
     "paymentSuccessful": "Pagamento bem-sucedido",
     "paymentSuccessfulDesc": "Sua transação foi concluída com sucesso",
     "scanToPay": "Digitalizar para pagar",
-    "verifyPayment": "Verificar Pagamento"
+    "verifyPayment": "Verificar Pagamento",
+    "voiceSuccess": "Você recebeu {{amount}} {{currency}} pelo Rozo"
   },
   "profile": {
     "displayName": "Nome de exibição",

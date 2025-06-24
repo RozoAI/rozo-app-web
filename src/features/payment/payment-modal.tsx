@@ -66,11 +66,10 @@ export function PaymentModal({ isOpen, onClose, amount, dynamicStyles, order }: 
       setIsSuccessPayment(true);
 
       // Speak the amount
-      const thingToSay = `You have received ${amount} ${defaultCurrency?.code} by "Rozo"`;
+
+      const thingToSay = t('payment.voiceSuccess', { amount: amount, currency: defaultCurrency?.code });
       Speech.speak(thingToSay, {
         language: language,
-        rate: 0.8,
-        pitch: 1,
         onDone: () => setIsSpeechEnabled(false),
       });
     }
