@@ -1,3 +1,4 @@
+import * as Speech from 'expo-speech';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import QRCode from 'react-qr-code';
@@ -19,6 +20,7 @@ import { Spinner } from '@/components/ui/spinner';
 import { Text } from '@/components/ui/text';
 import { View } from '@/components/ui/view';
 import { usePaymentStatus } from '@/hooks/use-payment-status';
+import { useSelectedLanguage } from '@/hooks/use-selected-language';
 import { useApp } from '@/providers/app.provider';
 import { type OrderResponse } from '@/resources/schema/order';
 
@@ -37,7 +39,9 @@ export function PaymentModal({ isOpen, onClose, amount, dynamicStyles, order }: 
   const { t } = useTranslation();
   const { defaultCurrency, merchant } = useApp();
   const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
-  const [showSuccessView, setShowSuccessView] = useState(false);
+  const [isSuccessPayment, setIsSuccessPayment] = useState(false);
+  const { language } = useSelectedLanguage();
+  const [isSpeechEnabled, setIsSpeechEnabled] = useState(true);
 
   // Use our custom hook to handle payment status updates
   const { isCompleted } = usePaymentStatus(merchant?.merchant_id, order?.order_id);
@@ -51,29 +55,31 @@ export function PaymentModal({ isOpen, onClose, amount, dynamicStyles, order }: 
 
     // Reset states when modal opens
     if (isOpen) {
-      setShowSuccessView(false);
+      setIsSuccessPayment(false);
     }
   }, [isOpen, order]);
 
   // Watch for payment status changes
   useEffect(() => {
-    if (isCompleted) {
+    if (isCompleted && isSpeechEnabled) {
       // Show success view after a brief delay
-      setTimeout(() => {
-        setShowSuccessView(true);
-      }, 500);
-    }
-  }, [isCompleted]);
+      setIsSuccessPayment(true);
 
-  // Handle payment verification
-  // const handleVerifyPayment = useCallback(() => {
-  //   checkPaymentStatus();
-  // }, [checkPaymentStatus]);
+      // Speak the amount
+      const thingToSay = `You have received ${amount} ${defaultCurrency?.code} by "Rozo"`;
+      Speech.speak(thingToSay, {
+        language: language,
+        rate: 0.8,
+        pitch: 1,
+        onDone: () => setIsSpeechEnabled(false),
+      });
+    }
+  }, [isCompleted, isSpeechEnabled]);
 
   // Handle back to home
   const handleBackToHome = useCallback(() => {
     // Reset states
-    setShowSuccessView(false);
+    setIsSuccessPayment(false);
     onClose();
   }, [onClose]);
 
@@ -81,7 +87,7 @@ export function PaymentModal({ isOpen, onClose, amount, dynamicStyles, order }: 
     <Modal isOpen={isOpen} onClose={onClose} size="lg">
       <ModalBackdrop />
       <ModalContent>
-        {!showSuccessView && (
+        {!isSuccessPayment && (
           <ModalHeader className="mb-2">
             <Heading size="md" className="text-typography-950">
               {t('payment.scanToPay')}
@@ -95,8 +101,8 @@ export function PaymentModal({ isOpen, onClose, amount, dynamicStyles, order }: 
             </ModalCloseButton>
           </ModalHeader>
         )}
-        <ModalBody className={showSuccessView ? '!m-0' : ''}>
-          {showSuccessView ? (
+        <ModalBody className={isSuccessPayment ? '!m-0' : ''}>
+          {isSuccessPayment ? (
             <PaymentSuccess
               defaultCurrency={defaultCurrency}
               amount={amount}
@@ -147,7 +153,7 @@ export function PaymentModal({ isOpen, onClose, amount, dynamicStyles, order }: 
             </View>
           )}
         </ModalBody>
-        {!showSuccessView && (
+        {!isSuccessPayment && (
           <ModalFooter className="flex w-full flex-col items-center gap-2">
             <>
               {/* <Button

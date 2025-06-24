@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useRef } from 'react';
 
 import { Avatar, AvatarFallbackText, AvatarImage } from '@/components/ui/avatar';
 import { Box } from '@/components/ui/box';
@@ -8,16 +7,16 @@ import { ChevronRightIcon, Icon } from '@/components/ui/icon';
 import { Pressable } from '@/components/ui/pressable';
 import { Text } from '@/components/ui/text';
 import { VStack } from '@/components/ui/vstack';
-import { ProfileSheet } from '@/features/settings/profile-sheet';
+import { ProfileSheet, type ProfileSheetRefType } from '@/features/settings/profile-sheet';
 import { useApp } from '@/providers/app.provider';
 
 export function AccountSection() {
   const { merchant } = useApp();
-  const [sheetOpen, setSheetOpen] = useState(false);
+  const profileSheetRef = useRef<ProfileSheetRefType>(null);
 
   return (
     <VStack space="sm" className="w-full">
-      <Pressable onPress={() => setSheetOpen(true)} className="flex flex-row items-center justify-between">
+      <Pressable onPress={() => profileSheetRef.current?.open()} className="flex flex-row items-center justify-between">
         <Box className="flex-row items-center">
           <Avatar className="mr-2" size="sm">
             <AvatarFallbackText>{merchant?.display_name?.slice(0, 2) || '-'}</AvatarFallbackText>
@@ -40,7 +39,7 @@ export function AccountSection() {
         <Icon as={ChevronRightIcon} className="text-gray-400 dark:text-gray-50" />
       </Pressable>
 
-      <ProfileSheet open={sheetOpen} onClose={() => setSheetOpen(false)} />
+      <ProfileSheet ref={profileSheetRef} />
     </VStack>
   );
 }
