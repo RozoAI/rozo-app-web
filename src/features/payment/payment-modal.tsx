@@ -66,7 +66,6 @@ export function PaymentModal({ isOpen, onClose, amount, dynamicStyles, order }: 
 
   // Watch for payment status changes
   useEffect(() => {
-    console.log(status);
     if (status === 'completed') {
       // Show success view after a brief delay
       refetch();
@@ -87,14 +86,14 @@ export function PaymentModal({ isOpen, onClose, amount, dynamicStyles, order }: 
       // Speak the amount
       speakPaymentStatus({
         amount: Number(amount),
-        currency: defaultCurrency?.code ?? 'USD',
+        currency: defaultCurrency?.voice ?? 'Dollar',
         language,
       });
     }
   }, [fetchData]);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="lg">
+    <Modal isOpen={isOpen} onClose={onClose} size="lg" closeOnOverlayClick={false}>
       <ModalBackdrop />
       <ModalContent>
         {!isSuccessPayment && (

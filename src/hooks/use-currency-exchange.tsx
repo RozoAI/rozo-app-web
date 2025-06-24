@@ -1,15 +1,14 @@
 import { useCallback, useEffect, useState } from 'react';
-import { MMKV } from 'react-native-mmkv';
 
+import { storage } from '@/lib';
 import { isToday } from '@/lib/utils';
 import { useApp } from '@/providers/app.provider';
 // eslint-disable-next-line import/no-unresolved
 import { fetchExchangeRates } from '@/resources/api/merchant/exchange';
 
 // Storage instance for caching exchange rates
-const storage = new MMKV();
-const EXCHANGE_RATES_KEY = 'exchange_rates';
-const EXCHANGE_RATES_TIMESTAMP_KEY = 'exchange_rates_timestamp';
+const EXCHANGE_RATES_KEY = '_exchange_rates';
+const EXCHANGE_RATES_TIMESTAMP_KEY = '_exchange_rates_timestamp';
 
 type ExchangeRates = Record<string, number>;
 

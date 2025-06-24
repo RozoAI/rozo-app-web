@@ -20,6 +20,7 @@ import { View } from '@/components/ui/view';
 import { VStack } from '@/components/ui/vstack';
 import { usePaymentStatus } from '@/hooks/use-payment-status';
 import { useSelectedLanguage } from '@/hooks/use-selected-language';
+import { currencies } from '@/lib/currencies';
 import { getShortId, getStatusActionType } from '@/lib/utils';
 import { useApp } from '@/providers/app.provider';
 import { useGetOrder } from '@/resources/api/merchant/orders';
@@ -86,7 +87,7 @@ export const OrderDetailActionSheet = forwardRef<OrderDetailActionSheetRef, Orde
       if (order?.status === 'COMPLETED') {
         speakPaymentStatus({
           amount: Number(order?.display_amount ?? 0),
-          currency: order?.display_currency ?? 'USD',
+          currency: currencies[order?.display_currency ?? 'USD'].voice,
           language,
         });
       }
