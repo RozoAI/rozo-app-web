@@ -21,6 +21,7 @@ import { View } from '@/components/ui/view';
 import { usePaymentStatus } from '@/hooks/use-payment-status';
 import { useSelectedLanguage } from '@/hooks/use-selected-language';
 import { useApp } from '@/providers/app.provider';
+import { useGetOrder } from '@/resources/api';
 import { type OrderResponse } from '@/resources/schema/order';
 
 import { PaymentSuccess } from './payment-success';
@@ -40,10 +41,14 @@ export function PaymentModal({ isOpen, onClose, amount, dynamicStyles, order }: 
   const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
   const [isSuccessPayment, setIsSuccessPayment] = useState(false);
   const { language } = useSelectedLanguage();
-  const [isSpeechEnabled, setIsSpeechEnabled] = useState(true);
+
+  const { data: fetchData, refetch } = useGetOrder({
+    variables: { id: order?.order_id ?? '' },
+    enabled: !!order?.order_id,
+  });
 
   // Use our custom hook to handle payment status updates
-  const { isCompleted, speakPaymentStatus } = usePaymentStatus(merchant?.merchant_id, order?.order_id);
+  const { status, speakPaymentStatus } = usePaymentStatus(merchant?.merchant_id, order?.order_id);
   // Generate QR code when modal opens
   useEffect(() => {
     if (isOpen && order?.qrcode) {
@@ -60,21 +65,12 @@ export function PaymentModal({ isOpen, onClose, amount, dynamicStyles, order }: 
 
   // Watch for payment status changes
   useEffect(() => {
-    if (isCompleted && isSpeechEnabled) {
+    console.log(status);
+    if (status === 'completed') {
       // Show success view after a brief delay
-      setIsSuccessPayment(true);
-
-      // Speak the amount
-      speakPaymentStatus({
-        amount: Number(amount),
-        currency: defaultCurrency?.code ?? 'USD',
-        language,
-        onEnd: () => {
-          setIsSpeechEnabled(false);
-        },
-      });
+      refetch();
     }
-  }, [isCompleted, isSpeechEnabled]);
+  }, [status]);
 
   // Handle back to home
   const handleBackToHome = useCallback(() => {
@@ -82,6 +78,19 @@ export function PaymentModal({ isOpen, onClose, amount, dynamicStyles, order }: 
     setIsSuccessPayment(false);
     onClose();
   }, [onClose]);
+
+  useEffect(() => {
+    if (fetchData?.status === 'COMPLETED') {
+      setIsSuccessPayment(true);
+
+      // Speak the amount
+      speakPaymentStatus({
+        amount: Number(amount),
+        currency: defaultCurrency?.code ?? 'USD',
+        language,
+      });
+    }
+  }, [fetchData]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="lg">

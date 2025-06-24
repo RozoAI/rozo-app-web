@@ -40,7 +40,6 @@ export const OrderDetailActionSheet = forwardRef<OrderDetailActionSheetRef, Orde
     const [orderId, setOrderId] = useState<string | null>(null);
     const { merchant } = useApp();
     const { language } = useSelectedLanguage();
-    const [isSpeechEnabled, setIsSpeechEnabled] = useState(true);
 
     const {
       data: order,
@@ -51,7 +50,7 @@ export const OrderDetailActionSheet = forwardRef<OrderDetailActionSheetRef, Orde
       enabled: !!orderId,
     });
 
-    const { isCompleted, speakPaymentStatus } = usePaymentStatus(merchant?.merchant_id, orderId ?? undefined);
+    const { status, speakPaymentStatus } = usePaymentStatus(merchant?.merchant_id, orderId ?? undefined);
 
     // Generate QR code when action sheet opens and order is pending
     useEffect(() => {
@@ -71,29 +70,27 @@ export const OrderDetailActionSheet = forwardRef<OrderDetailActionSheetRef, Orde
     }));
 
     useEffect(() => {
-      if (isCompleted && isSpeechEnabled) {
+      if (status === 'completed') {
         // Show success view after a brief delay
-        setTimeout(() => {
-          refetch();
-
-          // Speak the amount
-          speakPaymentStatus({
-            amount: Number(order?.display_amount ?? 0),
-            currency: order?.display_currency ?? 'USD',
-            language,
-            onEnd: () => {
-              setIsSpeechEnabled(false);
-            },
-          });
-        }, 500);
+        refetch();
       }
-    }, [isCompleted, isSpeechEnabled]);
+    }, [status]);
 
     const handleClose = useCallback(() => {
       setIsOpen(false);
       setOrderId(null);
       onClose?.();
     }, [onClose]);
+
+    useEffect(() => {
+      if (order?.status === 'COMPLETED') {
+        speakPaymentStatus({
+          amount: Number(order?.display_amount ?? 0),
+          currency: order?.display_currency ?? 'USD',
+          language,
+        });
+      }
+    }, [order]);
 
     if (!orderId) return null;
 
