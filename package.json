@@ -92,6 +92,7 @@
     "expo-localization": "16.1.6-canary-20250613-b29d676",
     "expo-router": "5.2.0-canary-20250613-b29d676",
     "expo-secure-store": "14.2.4-canary-20250613-b29d676",
+    "expo-speech": "13.1.8-canary-20250613-b29d676",
     "expo-splash-screen": "0.30.9",
     "expo-status-bar": "2.2.4-canary-20250613-b29d676",
     "expo-system-ui": "5.0.9-canary-20250613-b29d676",

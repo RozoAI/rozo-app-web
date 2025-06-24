@@ -64,7 +64,8 @@
     "paymentSuccessful": "পেমেন্ট সফল হয়েছে",
     "paymentSuccessfulDesc": "আপনার লেনদেন সফলভাবে সম্পন্ন হয়েছে",
     "scanToPay": "স্ক্যান করতে স্ক্যান করুন",
-    "verifyPayment": "পেমেন্ট যাচাই করুন"
+    "verifyPayment": "পেমেন্ট যাচাই করুন",
+    "voiceSuccess": "আপনি Rozo-এর মাধ্যমে {{amount}} {{currency}} পেয়েছেন"
   },
   "profile": {
     "displayName": "প্রদর্শন নাম",

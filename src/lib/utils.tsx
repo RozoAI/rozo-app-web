@@ -109,9 +109,11 @@ export function formatCurrency(amount: string | number, currencyCode: string = '
 
   if (isNaN(numAmount)) return `${config.code}0`;
 
-  const parts = numAmount.toFixed(2).split('.');
+  const toFixed = (n: number, fixed: number) => ~~(Math.pow(10, fixed) * n) / Math.pow(10, fixed);
+
+  const parts = String(toFixed(numAmount, 2)).split('.');
   const integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, config.thousandSeparator);
-  const decimalPart = parts[1];
+  const decimalPart = parts[1] || '00';
 
   return `${integerPart}${config.decimalSeparator}${decimalPart} ${config.code}`;
 }

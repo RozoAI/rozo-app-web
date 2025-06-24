@@ -64,7 +64,8 @@
     "paymentSuccessful": "Оплата прошла успешно",
     "paymentSuccessfulDesc": "Ваша транзакция успешно завершена",
     "scanToPay": "Сканировать для оплаты",
-    "verifyPayment": "Проверить оплату"
+    "verifyPayment": "Проверить оплату",
+    "voiceSuccess": "Вы получили {{amount}} {{currency}} через Rozo"
   },
   "profile": {
     "displayName": "Отображаемое имя",

@@ -19,6 +19,7 @@ import { Text } from '@/components/ui/text';
 import { View } from '@/components/ui/view';
 import { VStack } from '@/components/ui/vstack';
 import { usePaymentStatus } from '@/hooks/use-payment-status';
+import { useSelectedLanguage } from '@/hooks/use-selected-language';
 import { getShortId, getStatusActionType } from '@/lib/utils';
 import { useApp } from '@/providers/app.provider';
 import { useGetOrder } from '@/resources/api/merchant/orders';
@@ -38,6 +39,8 @@ export const OrderDetailActionSheet = forwardRef<OrderDetailActionSheetRef, Orde
     const [isOpen, setIsOpen] = useState(false);
     const [orderId, setOrderId] = useState<string | null>(null);
     const { merchant } = useApp();
+    const { language } = useSelectedLanguage();
+    const [isSpeechEnabled, setIsSpeechEnabled] = useState(true);
 
     const {
       data: order,
@@ -48,7 +51,7 @@ export const OrderDetailActionSheet = forwardRef<OrderDetailActionSheetRef, Orde
       enabled: !!orderId,
     });
 
-    const { isCompleted } = usePaymentStatus(merchant?.merchant_id, orderId ?? undefined);
+    const { isCompleted, speakPaymentStatus } = usePaymentStatus(merchant?.merchant_id, orderId ?? undefined);
 
     // Generate QR code when action sheet opens and order is pending
     useEffect(() => {
@@ -68,13 +71,23 @@ export const OrderDetailActionSheet = forwardRef<OrderDetailActionSheetRef, Orde
     }));
 
     useEffect(() => {
-      if (isCompleted) {
+      if (isCompleted && isSpeechEnabled) {
         // Show success view after a brief delay
         setTimeout(() => {
           refetch();
+
+          // Speak the amount
+          speakPaymentStatus({
+            amount: Number(order?.display_amount ?? 0),
+            currency: order?.display_currency ?? 'USD',
+            language,
+            onEnd: () => {
+              setIsSpeechEnabled(false);
+            },
+          });
         }, 500);
       }
-    }, [isCompleted]);
+    }, [isCompleted, isSpeechEnabled]);
 
     const handleClose = useCallback(() => {
       setIsOpen(false);

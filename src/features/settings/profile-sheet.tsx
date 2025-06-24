@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as ImagePicker from 'expo-image-picker';
 import { CameraIcon } from 'lucide-react-native';
-import { useEffect, useState } from 'react';
+import { forwardRef, useImperativeHandle, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Keyboard } from 'react-native';
@@ -34,15 +34,20 @@ import { useApp } from '@/providers/app.provider';
 import { useUpdateProfile } from '@/resources/api';
 import { type UpdateMerchantProfile, UpdateMerchantProfileSchema } from '@/resources/schema/merchant';
 
-// Define the form schema using Zod
+// Define the ProfileSheet ref interface
+export type ProfileSheetRefType = {
+  open: () => void;
+  close: () => void;
+};
 
-export function ProfileSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
+// Define the form schema using Zod
+export const ProfileSheet = forwardRef<ProfileSheetRefType>((_, ref) => {
   const { merchant, setMerchant } = useApp();
   const { t } = useTranslation();
 
   const { mutateAsync: updateProfile } = useUpdateProfile();
 
-  const [isOpen, setIsOpen] = useState(open);
+  const [isOpen, setIsOpen] = useState(false);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(merchant?.logo_url || null);
   const [avatarBase64, setAvatarBase64] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -88,7 +93,7 @@ export function ProfileSheet({ open, onClose }: { open: boolean; onClose: () => 
         setAvatarPreview(res.logo_url);
 
         setMerchant(res);
-        setIsOpen(false);
+        setIsOpen(false); // Close sheet after successful update
       })
       .catch((err) => {
         showToast({
@@ -101,23 +106,23 @@ export function ProfileSheet({ open, onClose }: { open: boolean; onClose: () => 
       });
   };
 
-  useEffect(() => {
-    setIsOpen(open);
-  }, [open]);
-
-  useEffect(() => {
-    // reset when sheet is opened
-    if (open) {
+  // Expose methods to parent component via ref
+  useImperativeHandle(ref, () => ({
+    open: () => {
+      setIsOpen(true);
+      // Reset form values when opened
       setValue('display_name', merchant?.display_name || '');
       setValue('email', merchant?.email || '');
-
       setAvatarBase64(null);
       setAvatarPreview(merchant?.logo_url || null);
-    }
-  }, [open, merchant]);
+    },
+    close: () => {
+      setIsOpen(false);
+    },
+  }));
 
   return (
-    <Actionsheet isOpen={isOpen} onClose={onClose}>
+    <Actionsheet isOpen={isOpen} onClose={() => setIsOpen(false)}>
       <ActionsheetBackdrop />
 
       <ActionsheetContent>
@@ -209,7 +214,7 @@ export function ProfileSheet({ open, onClose }: { open: boolean; onClose: () => 
               {isSubmitting && <ButtonSpinner />}
               <ButtonText>{isSubmitting ? t('general.updating') : t('general.update')}</ButtonText>
             </Button>
-            <Button onPress={onClose} isDisabled={isSubmitting} className="w-full rounded-xl" variant="link">
+            <Button onPress={() => setIsOpen(false)} isDisabled={isSubmitting} className="w-full rounded-xl" variant="link">
               <ButtonText>{t('general.cancel')}</ButtonText>
             </Button>
           </HStack>
@@ -217,4 +222,4 @@ export function ProfileSheet({ open, onClose }: { open: boolean; onClose: () => 
       </ActionsheetContent>
     </Actionsheet>
   );
-}
+});

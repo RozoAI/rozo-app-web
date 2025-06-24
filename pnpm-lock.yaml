@@ -164,6 +164,9 @@ importers:
       expo-secure-store:
         specifier: 14.2.4-canary-20250613-b29d676
         version: 14.2.4-canary-20250613-b29d676(expo@54.0.0-canary-20250613-b29d676(@babel/core@7.27.4)(@expo/metro-runtime@5.0.5-canary-20250613-b29d676(react-native@0.80.0(@babel/core@7.27.4)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.8)(react@19.1.0)))(react-native-webview@13.13.5(react-native@0.80.0(@babel/core@7.27.4)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.8)(react@19.1.0))(react@19.1.0))(react-native@0.80.0(@babel/core@7.27.4)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.8)(react@19.1.0))(react@19.1.0))
+      expo-speech:
+        specifier: 13.1.8-canary-20250613-b29d676
+        version: 13.1.8-canary-20250613-b29d676(expo@54.0.0-canary-20250613-b29d676(@babel/core@7.27.4)(@expo/metro-runtime@5.0.5-canary-20250613-b29d676(react-native@0.80.0(@babel/core@7.27.4)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.8)(react@19.1.0)))(react-native-webview@13.13.5(react-native@0.80.0(@babel/core@7.27.4)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.8)(react@19.1.0))(react@19.1.0))(react-native@0.80.0(@babel/core@7.27.4)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.8)(react@19.1.0))(react@19.1.0))
       expo-splash-screen:
         specifier: 0.30.9
         version: 0.30.9(expo@54.0.0-canary-20250613-b29d676(@babel/core@7.27.4)(@expo/metro-runtime@5.0.5-canary-20250613-b29d676(react-native@0.80.0(@babel/core@7.27.4)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.8)(react@19.1.0)))(react-native-webview@13.13.5(react-native@0.80.0(@babel/core@7.27.4)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.8)(react@19.1.0))(react@19.1.0))(react-native@0.80.0(@babel/core@7.27.4)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.8)(react@19.1.0))(react@19.1.0))
@@ -3868,6 +3871,11 @@ packages:
 
   expo-secure-store@14.2.4-canary-20250613-b29d676:
     resolution: {integrity: sha512-93UfvqSgK8SUIf6uk/SxkfmbEiEqWbOg8I1weyp9UhOz3MF/7Lcq5+NqD9hyaindl6Vpr6w3/R1UaiAn6fqqKw==}
+    peerDependencies:
+      expo: 54.0.0-canary-20250613-b29d676
+
+  expo-speech@13.1.8-canary-20250613-b29d676:
+    resolution: {integrity: sha512-bOr2NhAb5lVIkuW2LeL7puu5eO27B8xA5usYpHnOdmBN+DYPRAhmA3NtvvWuaF3bp58goaEgMyUpSMehesZKxA==}
     peerDependencies:
       expo: 54.0.0-canary-20250613-b29d676
 
@@ -11950,6 +11958,10 @@ snapshots:
       - supports-color
 
   expo-secure-store@14.2.4-canary-20250613-b29d676(expo@54.0.0-canary-20250613-b29d676(@babel/core@7.27.4)(@expo/metro-runtime@5.0.5-canary-20250613-b29d676(react-native@0.80.0(@babel/core@7.27.4)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.8)(react@19.1.0)))(react-native-webview@13.13.5(react-native@0.80.0(@babel/core@7.27.4)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.8)(react@19.1.0))(react@19.1.0))(react-native@0.80.0(@babel/core@7.27.4)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.8)(react@19.1.0))(react@19.1.0)):
+    dependencies:
+      expo: 54.0.0-canary-20250613-b29d676(@babel/core@7.27.4)(@expo/metro-runtime@5.0.5-canary-20250613-b29d676(react-native@0.80.0(@babel/core@7.27.4)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.8)(react@19.1.0)))(react-native-webview@13.13.5(react-native@0.80.0(@babel/core@7.27.4)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.8)(react@19.1.0))(react@19.1.0))(react-native@0.80.0(@babel/core@7.27.4)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.8)(react@19.1.0))(react@19.1.0)
+
+  expo-speech@13.1.8-canary-20250613-b29d676(expo@54.0.0-canary-20250613-b29d676(@babel/core@7.27.4)(@expo/metro-runtime@5.0.5-canary-20250613-b29d676(react-native@0.80.0(@babel/core@7.27.4)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.8)(react@19.1.0)))(react-native-webview@13.13.5(react-native@0.80.0(@babel/core@7.27.4)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.8)(react@19.1.0))(react@19.1.0))(react-native@0.80.0(@babel/core@7.27.4)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.8)(react@19.1.0))(react@19.1.0)):
     dependencies:
       expo: 54.0.0-canary-20250613-b29d676(@babel/core@7.27.4)(@expo/metro-runtime@5.0.5-canary-20250613-b29d676(react-native@0.80.0(@babel/core@7.27.4)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.8)(react@19.1.0)))(react-native-webview@13.13.5(react-native@0.80.0(@babel/core@7.27.4)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.8)(react@19.1.0))(react@19.1.0))(react-native@0.80.0(@babel/core@7.27.4)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.8)(react@19.1.0))(react@19.1.0)
 
