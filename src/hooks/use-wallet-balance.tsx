@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { getTokenBalance, type TokenBalanceResult } from '@/modules/dynamic/token-operations';
 import { useApp } from '@/providers/app.provider';
@@ -44,10 +44,13 @@ export function useWalletBalance(): UseWalletBalanceResult {
     }
   }, []);
 
-  return {
-    balance,
-    isLoading,
-    error,
-    refetch: fetchBalance,
-  };
+  return useMemo(
+    () => ({
+      balance,
+      isLoading,
+      error,
+      refetch: fetchBalance,
+    }),
+    [balance, isLoading, error]
+  );
 }

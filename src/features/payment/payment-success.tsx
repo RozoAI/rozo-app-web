@@ -45,8 +45,8 @@ export function PaymentSuccess({
   };
 
   return (
-    <View className="items-center justify-between gap-4">
-      <Box className="flex flex-col items-center justify-center gap-6">
+    <View className="w-full items-center justify-between gap-4">
+      <View className="flex w-full flex-col items-center justify-center gap-6">
         {/* Success Icon */}
         <CheckSvg width={200} height={150} />
 
@@ -80,7 +80,7 @@ export function PaymentSuccess({
             </View>
           )}
         </View>
-      </Box>
+      </View>
 
       {/* Action Buttons */}
       <View className="w-full gap-3">

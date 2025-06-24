@@ -14,7 +14,7 @@ import { WithdrawActionSheet } from './withdraw-sheet';
 
 export const WalletBalanceCard = () => {
   const { t } = useTranslation();
-  const { balance, isLoading, error, refetch } = useWalletBalance();
+  const { balance, isLoading, refetch } = useWalletBalance();
 
   return (
     <VStack space="sm" className="w-full">
@@ -24,18 +24,16 @@ export const WalletBalanceCard = () => {
           <VStack className="items-start" space="xs">
             <Text size="md">{t('general.walletBalance')}</Text>
             <View className="flex-row items-center space-x-1">
-              {isLoading ? (
-                <Spinner />
-              ) : error ? (
-                <Text className="text-sm text-red-500" size="sm">
-                  {error}
-                </Text>
-              ) : (
-                <Text className="font-bold text-primary-500" size="sm">
-                  {balance?.formattedBalance} {balance?.token.label}
-                </Text>
-              )}
+              <Text className="font-bold text-primary-500" size="sm">
+                {balance?.formattedBalance ?? '0'} {balance?.token.label ?? 'USDC'}
+              </Text>
             </View>
+
+            {isLoading && (
+              <View className="absolute inset-x-0 top-0 z-10 flex size-full items-center justify-center bg-white/50 py-2">
+                <Spinner />
+              </View>
+            )}
           </VStack>
         </HStack>
 

@@ -15,6 +15,7 @@ import {
   ActionsheetItemText,
 } from '@/components/ui/actionsheet';
 import { Pressable } from '@/components/ui/pressable';
+import { View } from '@/components/ui/view';
 import { useSelectedTheme } from '@/hooks';
 import { cn } from '@/lib';
 
@@ -59,7 +60,7 @@ export function ActionSheetThemeSwitcher({ trigger }: { trigger: (them: ModeType
   return (
     <>
       <Pressable onPress={() => setShowActionsheet(true)} className="w-full">
-        {trigger((selectedTheme ?? 'system') as ModeType)}
+        <View>{trigger((selectedTheme ?? 'system') as ModeType)}</View>
       </Pressable>
 
       <Actionsheet isOpen={showActionsheet} onClose={handleClose} trapFocus={false} initialFocusRef={initialFocusRef}>

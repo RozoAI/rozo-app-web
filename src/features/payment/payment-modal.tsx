@@ -1,3 +1,4 @@
+import { XIcon } from 'lucide-react-native';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import QRCode from 'react-qr-code';
@@ -5,7 +6,7 @@ import QRCode from 'react-qr-code';
 import { Button, ButtonText } from '@/components/ui/button';
 import { CurrencyConverter } from '@/components/ui/currency-converter';
 import { Heading } from '@/components/ui/heading';
-import { CloseIcon, Icon } from '@/components/ui/icon';
+import { Icon } from '@/components/ui/icon';
 import {
   Modal,
   ModalBackdrop,
@@ -103,7 +104,7 @@ export function PaymentModal({ isOpen, onClose, amount, dynamicStyles, order }: 
             </Heading>
             <ModalCloseButton>
               <Icon
-                as={CloseIcon}
+                as={XIcon}
                 size="md"
                 className="stroke-background-400 group-[:active]/modal-close-button:stroke-background-900 group-[:focus-visible]/modal-close-button:stroke-background-900 group-[:hover]/modal-close-button:stroke-background-700"
               />
@@ -123,11 +124,11 @@ export function PaymentModal({ isOpen, onClose, amount, dynamicStyles, order }: 
           ) : (
             <View className="items-center justify-center">
               {/* QR Code */}
-              <View className="mb-4 size-64 items-center justify-center rounded-xl border bg-white p-3">
+              <View className="mb-4 size-48 items-center justify-center rounded-xl border bg-white p-3">
                 {qrCodeUrl ? (
-                  <QRCode value={qrCodeUrl} size={256} />
+                  <QRCode value={qrCodeUrl} size={180} />
                 ) : (
-                  <View className="items-center justify-center">
+                  <View className="mb-4 items-center justify-center">
                     <Spinner />
                   </View>
                 )}
