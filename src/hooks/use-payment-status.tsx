@@ -28,7 +28,7 @@ export function usePaymentStatus(merchantId?: string, orderId?: string) {
     refetch();
   };
 
-  const speakPaymentStatus = ({
+  const speakPaymentStatus = async ({
     amount,
     currency,
     language,
@@ -42,6 +42,8 @@ export function usePaymentStatus(merchantId?: string, orderId?: string) {
     const thingToSay = t('payment.voiceSuccess', { amount: amount, currency: currency });
     Speech.speak(thingToSay, {
       language: language,
+      pitch: 0.8,
+      rate: 0.8,
       onDone: onEnd,
     });
   };
