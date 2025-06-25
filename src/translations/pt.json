@@ -32,6 +32,11 @@
   "home": {
     "title": "Início"
   },
+  "login": {
+    "description": "Sistema de ponto de venda simples e eficiente",
+    "loading": "Carregando",
+    "signIn": "Entrar"
+  },
   "onboarding": {
     "message": "Bem-vindo ao Rozo POS"
   },

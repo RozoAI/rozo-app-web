@@ -1,6 +1,7 @@
 import { format } from 'date-fns';
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import QRCode from 'react-qr-code';
 
 import CheckSvg from '@/components/svg/check';
@@ -20,6 +21,7 @@ import { View } from '@/components/ui/view';
 import { VStack } from '@/components/ui/vstack';
 import { usePaymentStatus } from '@/hooks/use-payment-status';
 import { useSelectedLanguage } from '@/hooks/use-selected-language';
+import { currencies } from '@/lib/currencies';
 import { getShortId, getStatusActionType } from '@/lib/utils';
 import { useApp } from '@/providers/app.provider';
 import { useGetOrder } from '@/resources/api/merchant/orders';
@@ -35,11 +37,13 @@ type OrderDetailActionSheetProps = {
 export const OrderDetailActionSheet = forwardRef<OrderDetailActionSheetRef, OrderDetailActionSheetProps>(
   ({ onClose }, ref) => {
     const { t } = useTranslation();
+    const insets = useSafeAreaInsets();
+    const { merchant } = useApp();
+    const { language } = useSelectedLanguage();
+
     const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
     const [isOpen, setIsOpen] = useState(false);
     const [orderId, setOrderId] = useState<string | null>(null);
-    const { merchant } = useApp();
-    const { language } = useSelectedLanguage();
 
     const {
       data: order,
@@ -86,7 +90,7 @@ export const OrderDetailActionSheet = forwardRef<OrderDetailActionSheetRef, Orde
       if (order?.status === 'COMPLETED') {
         speakPaymentStatus({
           amount: Number(order?.display_amount ?? 0),
-          currency: order?.display_currency ?? 'USD',
+          currency: currencies[order?.display_currency ?? 'USD'].voice,
           language,
         });
       }
@@ -97,12 +101,12 @@ export const OrderDetailActionSheet = forwardRef<OrderDetailActionSheetRef, Orde
     return (
       <Actionsheet isOpen={isOpen} onClose={handleClose}>
         <ActionsheetBackdrop />
-        <ActionsheetContent className="max-h-[80%]">
+        <ActionsheetContent style={{ paddingBottom: insets.bottom }}>
           <ActionsheetDragIndicatorWrapper>
             <ActionsheetDragIndicator />
           </ActionsheetDragIndicatorWrapper>
 
-          <VStack className="w-full p-4" space="md">
+          <VStack className="w-full" space="lg">
             {isLoading ? (
               <View className="items-center justify-center py-8">
                 <Spinner size="large" />

@@ -32,6 +32,11 @@
   "home": {
     "title": "首页"
   },
+  "login": {
+    "description": "简单高效的销售点系统",
+    "loading": "加载中",
+    "signIn": "登录"
+  },
   "onboarding": {
     "message": "欢迎使用 Rozo POS"
   },

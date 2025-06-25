@@ -32,6 +32,11 @@
   "home": {
     "title": "بيت"
   },
+  "login": {
+    "description": "نظام نقاط البيع بسيط وفعال",
+    "loading": "تحميل",
+    "signIn": "تسجيل الدخول"
+  },
   "onboarding": {
     "message": "مرحبًا بك في Rozo POS"
   },

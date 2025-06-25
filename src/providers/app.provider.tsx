@@ -4,7 +4,8 @@ import React, { useCallback, useContext, useMemo } from 'react';
 import { createContext, useEffect, useState } from 'react';
 
 import { PageLoader } from '@/components/loader/loader';
-import { showToast, storage } from '@/lib';
+import { useSelectedLanguage } from '@/hooks/use-selected-language';
+import { getItem, removeItem, setItem, showToast, storage } from '@/lib';
 import { currencies, type CurrencyConfig } from '@/lib/currencies';
 import { AppError } from '@/lib/error';
 import { defaultToken, type Token, tokens } from '@/lib/tokens';
@@ -48,6 +49,7 @@ interface IProviderProps {
 }
 
 export const TOKEN_KEY = '_auth_token';
+export const MERCHANT_KEY = '_merchant_profile';
 
 export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
   const { refetch: fetchProfile, data: profileData, error: profileError } = useGetProfile();
@@ -56,23 +58,58 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthLoading, setIsAuthLoading] = useState(false);
   const router = useRouter();
+  const { language } = useSelectedLanguage();
 
   const [token, setToken] = useState<string | undefined>();
   const [merchant, setMerchant] = useState<MerchantProfile>();
   const [userWallets, setUserWallets] = useState<BaseWallet[]>([]);
+
+  // Function to store merchant data in storage
+  const storeMerchantData = useCallback((merchantData: MerchantProfile) => {
+    setItem<MerchantProfile>(MERCHANT_KEY, merchantData);
+  }, []);
+
+  // Function to clear merchant data from storage
+  const clearMerchantData = useCallback(() => {
+    removeItem(MERCHANT_KEY);
+  }, []);
+
+  // Enhanced setMerchant function that also updates storage
+  const handleSetMerchant = useCallback(
+    (merchantData: MerchantProfile | undefined) => {
+      setMerchant(merchantData);
+      if (merchantData) {
+        storeMerchantData(merchantData);
+      } else {
+        clearMerchantData();
+      }
+    },
+    [storeMerchantData, clearMerchantData]
+  );
 
   // Initialize the application with auth state
   const initApp = async () => {
     setIsLoading(true);
     const token = auth?.token;
 
+    // Check for cached merchant data
+    const cachedMerchant = getItem<MerchantProfile>(MERCHANT_KEY);
+
     // Set token if available
     if (token) {
       setToken(token);
       storage.set(TOKEN_KEY, token);
+
+      // If we have cached merchant data, use it immediately to speed up initial load
+      if (cachedMerchant) {
+        setMerchant(cachedMerchant);
+        // Still fetch fresh data in the background
+        fetchProfile();
+      }
     } else {
-      // Clear token if not available
+      // Clear token and merchant data if not available
       setToken(undefined);
+      // clearMerchantData();
       storage.delete(TOKEN_KEY);
       setTimeout(() => {
         setIsLoading(false);
@@ -118,7 +155,9 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
       setToken(undefined);
       setMerchant(undefined);
       setUserWallets([]);
+      // Clear both token and merchant data from storage
       storage.delete(TOKEN_KEY);
+      clearMerchantData();
       router.replace('/login');
     } catch (_err) {
       showToast({
@@ -150,7 +189,8 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
   useEffect(() => {
     if (profileData) {
       setIsLoading(false);
-      setMerchant(profileData);
+      // Update merchant data in state and storage
+      handleSetMerchant(profileData);
     }
 
     if (profileError && profileError instanceof AppError) {
@@ -187,15 +227,15 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
         // Handle success directly here
         if (auth.token) {
           if (user?.newUser) {
-            const evmWallet = userWallets.find((wallet) => wallet.chain === 'EVM' && wallet.key === 'zerodev');
+            // const evmWallet = userWallets.find((wallet) => wallet.chain === 'EVM' && wallet.key === 'zerodev');
 
             // get oauth data
             const oauthData = user?.verifiedCredentials?.find((credential: any) => credential.format === 'oauth');
 
             // set primary wallet
-            if (evmWallet) {
-              await wallets.setPrimary({ walletId: evmWallet?.id });
-            }
+            // if (evmWallet) {
+            //   await wallets.setPrimary({ walletId: evmWallet?.id });
+            // }
 
             await createProfile({
               email: user?.email ?? '',
@@ -203,7 +243,7 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
               description: '',
               logo_url: oauthData?.oauthAccountPhotos?.[0] ?? '',
               default_currency: defaultCurrency.code,
-              default_language: 'EN',
+              default_language: language ?? 'en',
               default_token_id: defaultToken?.key,
               // wallet_address: evmWallet?.address ?? '',
             });
@@ -215,6 +255,8 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
             message: 'Welcome to Rozo POS',
           });
           setIsAuthLoading(false);
+          // Fetch profile data after successful login
+          fetchProfile();
           router.navigate('/');
         }
       } catch (error: any) {
@@ -262,17 +304,11 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
     setIsAuthLoading(false);
   }, []);
 
-  const authLogoutHandler = useCallback(() => {
-    setToken(undefined);
-    storage.delete(TOKEN_KEY);
-    router.replace('/login');
-  }, [router]);
-
   // Register event listeners
   auth.on('authInit', authInitHandler);
   auth.on('authSuccess', authSuccessHandler);
   auth.on('authFailed', authFailedHandler);
-  auth.on('loggedOut', authLogoutHandler);
+  auth.on('loggedOut', logout);
 
   const contextPayload = useMemo(
     () => ({
@@ -286,10 +322,10 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
       isAuthLoading,
       showAuthModal,
       setToken,
-      setMerchant,
+      setMerchant: handleSetMerchant,
       logout,
     }),
-    [token, merchant, userWallets, primaryWallet, isAuthLoading, showAuthModal]
+    [token, merchant, userWallets, primaryWallet, isAuthLoading, showAuthModal, handleSetMerchant]
   );
 
   return <AppContext.Provider value={contextPayload}>{isLoading ? <PageLoader /> : children}</AppContext.Provider>;

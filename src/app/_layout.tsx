@@ -15,7 +15,7 @@ import Toast from 'react-native-toast-message';
 import { GluestackUIProvider } from '@/components/gluestack-ui-provider';
 import { ConnectionStatus } from '@/components/ui/connection-status';
 import { WebFontsLoader } from '@/components/web-fonts-loader';
-import { loadSelectedTheme } from '@/hooks';
+import { loadSelectedTheme } from '@/hooks/use-selected-theme';
 import { darkTheme, defaultTheme } from '@/lib/theme';
 import { dynamicClient } from '@/modules/dynamic/dynamic-client';
 import { configureDynamicDeepLinks } from '@/modules/dynamic/dynamic-linking';
@@ -92,20 +92,17 @@ function Providers({ children, onLayout }: { children: React.ReactNode; onLayout
       <GluestackUIProvider mode={theme.colorScheme}>
         {/* The onLayout prop is attached to the absolute root view */}
         <GestureHandlerRootView style={styles.container} className={theme.colorScheme} onLayout={onLayout}>
-          <KeyboardProvider>
-            <ThemeProvider value={theme.colorScheme === 'dark' ? darkTheme : defaultTheme}>
-              <QueryProvider>
-                {/* @ts-ignore */}
-                <dynamicClient.reactNative.WebView />
-
-                <AppProvider>
-                  {/* Network connection status overlay */}
-                  <ConnectionStatus />
-                  {Platform.OS === 'web' ? <WebFontsLoader>{children}</WebFontsLoader> : children}
-                </AppProvider>
-              </QueryProvider>
-            </ThemeProvider>
-          </KeyboardProvider>
+          <ThemeProvider value={theme.colorScheme === 'dark' ? darkTheme : defaultTheme}>
+            <QueryProvider>
+              {/* Network connection status overlay */}
+              <ConnectionStatus />
+              {/* @ts-ignore */}
+              <dynamicClient.reactNative.WebView />
+              <KeyboardProvider>
+                <AppProvider>{Platform.OS === 'web' ? <WebFontsLoader>{children}</WebFontsLoader> : children}</AppProvider>
+              </KeyboardProvider>
+            </QueryProvider>
+          </ThemeProvider>
         </GestureHandlerRootView>
       </GluestackUIProvider>
     </I18nextProvider>

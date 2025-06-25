@@ -99,7 +99,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     [
       'expo-image-picker',
       {
-        photosPermission: 'The app needs access to your photos to allow you to upload and share images.',
+        photosPermission: 'The app needs access to your photos to allow you to upload merchant logo.',
+        cameraPermission: 'The app needs access to your camera to allow you to upload merchant logo.',
       },
     ],
     'expo-web-browser',

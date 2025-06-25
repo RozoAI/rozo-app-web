@@ -1,5 +1,7 @@
+import { t } from 'i18next';
 import { CheckIcon } from 'lucide-react-native';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import {
   Actionsheet,
@@ -10,9 +12,12 @@ import {
   ActionsheetItem,
   ActionsheetItemText,
 } from '@/components/ui/actionsheet';
+import { Box } from '@/components/ui/box';
+import { Heading } from '@/components/ui/heading';
 import { Pressable } from '@/components/ui/pressable';
 import { Spinner } from '@/components/ui/spinner';
 import { View } from '@/components/ui/view';
+import { VStack } from '@/components/ui/vstack';
 import { useSelectedLanguage } from '@/hooks/use-selected-language';
 import { showToast } from '@/lib';
 import { type Language } from '@/modules/i18n/resources';
@@ -94,10 +99,30 @@ export const languages: readonly LanguageOption[] = [
 
 type ActionSheetLanguageSwitcherProps = {
   trigger: (lg: string) => React.ReactNode;
+  /**
+   * Whether to update the API when language changes
+   * @default true
+   */
+  updateApi?: boolean;
+  /**
+   * Callback when language changes
+   */
+  onChange?: (language: Language) => void;
+  /**
+   * Initial language value
+   * @default from useSelectedLanguage
+   */
+  initialLanguage?: Language;
 };
 
-export function ActionSheetLanguageSwitcher({ trigger }: ActionSheetLanguageSwitcherProps): React.ReactElement {
-  const { language, setLanguage } = useSelectedLanguage();
+export function ActionSheetLanguageSwitcher({
+  trigger,
+  updateApi = true,
+  onChange,
+  initialLanguage,
+}: ActionSheetLanguageSwitcherProps): React.ReactElement {
+  const { language: contextLanguage, setLanguage } = useSelectedLanguage();
+  const language = initialLanguage || contextLanguage;
   // Find the display language code based on the current language
   const findDisplayLanguage = (lang: Language): DisplayLanguageCode => {
     const found = languages.find((lg) => lg.value === lang);
@@ -107,8 +132,9 @@ export function ActionSheetLanguageSwitcher({ trigger }: ActionSheetLanguageSwit
   const [selectedValue, setSelectedValue] = useState<DisplayLanguageCode>(findDisplayLanguage(language || 'en'));
   const [showActionsheet, setShowActionsheet] = useState<boolean>(false);
 
-  const { mutateAsync: createProfile, data, isPending, error } = useCreateProfile();
+  const { mutateAsync: updateProfile, data, isPending, error } = useCreateProfile();
   const { merchant, setMerchant } = useApp();
+  const insets = useSafeAreaInsets();
 
   // Create refs once and store them
   const itemRefs = useRef<Record<string, React.RefObject<any>>>({});
@@ -122,18 +148,25 @@ export function ActionSheetLanguageSwitcher({ trigger }: ActionSheetLanguageSwit
     });
   }, []);
 
-  // Update selected value when merchant data changes
+  // Update selected value when merchant data or initialLanguage changes
   useEffect(() => {
-    if (merchant?.default_language) {
+    if (initialLanguage) {
+      // If initialLanguage is provided, use that
+      const displayLang = findDisplayLanguage(initialLanguage);
+      setSelectedValue(displayLang);
+    } else if (merchant?.default_language) {
+      // Otherwise use merchant's language if available
       // Convert the merchant's language to our display language code
       const displayLang =
         languages.find((lg) => lg.value === (merchant.default_language.toLowerCase() as Language))?.key || 'EN';
       setSelectedValue(displayLang);
     }
-  }, [merchant?.default_language]);
+  }, [merchant?.default_language, initialLanguage, findDisplayLanguage]);
 
-  // Handle API response
+  // Handle API response - only when updateApi is true
   useEffect(() => {
+    if (!updateApi) return;
+
     if (data) {
       setMerchant(data);
       // Find the corresponding language value for the display language code
@@ -144,13 +177,18 @@ export function ActionSheetLanguageSwitcher({ trigger }: ActionSheetLanguageSwit
       });
 
       setLanguage(languageValue);
+
+      // Call onChange callback if provided
+      if (onChange) {
+        onChange(languageValue);
+      }
     } else if (error) {
       showToast({
         message: 'Failed to update language',
         type: 'danger',
       });
     }
-  }, [data, error]);
+  }, [data, error, updateApi, onChange, setLanguage, setMerchant]);
 
   // Memoized values
   const initialLabel = useMemo(() => {
@@ -176,22 +214,34 @@ export function ActionSheetLanguageSwitcher({ trigger }: ActionSheetLanguageSwit
 
   const handleLanguageChange = useCallback(
     (displayCode: DisplayLanguageCode) => {
-      if (!merchant?.email) return;
-
       // Find the language option that matches the display code
       const languageOption = languages.find((lg) => lg.key === displayCode);
       if (!languageOption) return;
 
-      // eslint-disable-next-line unused-imports/no-unused-vars
-      const { created_at, ...rest } = merchant;
-      createProfile({
-        ...rest,
-        default_language: displayCode,
-      });
+      // Set selected value immediately for UI feedback
+      setSelectedValue(displayCode);
+
+      // Update API if enabled and merchant exists
+      if (updateApi && merchant?.email) {
+        // eslint-disable-next-line unused-imports/no-unused-vars
+        const { created_at, ...rest } = merchant;
+        updateProfile({
+          ...rest,
+          default_language: displayCode,
+        });
+      } else {
+        // If not updating API, still update language immediately
+        setLanguage(languageOption.value);
+
+        // Call onChange callback if provided
+        if (onChange) {
+          onChange(languageOption.value);
+        }
+      }
 
       handleClose();
     },
-    [createProfile, handleClose, merchant]
+    [updateApi, updateProfile, handleClose, merchant, onChange, setLanguage]
   );
 
   // Memoized language item renderer
@@ -220,7 +270,7 @@ export function ActionSheetLanguageSwitcher({ trigger }: ActionSheetLanguageSwit
       <Pressable onPress={handleOpen} className="relative w-full">
         <View>
           {trigger(selectedLabel ?? initialLabel)}
-          {isPending && (
+          {updateApi && isPending && (
             <View className="absolute inset-x-0 top-0 z-10 flex size-full items-center justify-center bg-white/50 py-2 dark:bg-white/20">
               <Spinner />
             </View>
@@ -230,11 +280,18 @@ export function ActionSheetLanguageSwitcher({ trigger }: ActionSheetLanguageSwit
 
       <Actionsheet isOpen={showActionsheet} onClose={handleClose} trapFocus={false} initialFocusRef={initialFocusRef}>
         <ActionsheetBackdrop />
-        <ActionsheetContent>
+        <ActionsheetContent style={{ paddingBottom: insets.bottom }}>
           <ActionsheetDragIndicatorWrapper>
             <ActionsheetDragIndicator />
           </ActionsheetDragIndicatorWrapper>
-          {languages.map(renderLanguageItem)}
+          <VStack space="lg" className="w-full">
+            <Box className="items-center">
+              <Heading size="lg" className="text-typography-950">
+                {t('settings.language.title')}
+              </Heading>
+            </Box>
+            <Box className="w-full">{languages.map(renderLanguageItem)}</Box>
+          </VStack>
         </ActionsheetContent>
       </Actionsheet>
     </>

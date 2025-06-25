@@ -66,7 +66,6 @@ export function PaymentModal({ isOpen, onClose, amount, dynamicStyles, order }: 
 
   // Watch for payment status changes
   useEffect(() => {
-    console.log(status);
     if (status === 'completed') {
       // Show success view after a brief delay
       refetch();
@@ -87,14 +86,14 @@ export function PaymentModal({ isOpen, onClose, amount, dynamicStyles, order }: 
       // Speak the amount
       speakPaymentStatus({
         amount: Number(amount),
-        currency: defaultCurrency?.code ?? 'USD',
+        currency: defaultCurrency?.voice ?? 'Dollar',
         language,
       });
     }
   }, [fetchData]);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="lg">
+    <Modal isOpen={isOpen} onClose={onClose} size="lg" closeOnOverlayClick={false}>
       <ModalBackdrop />
       <ModalContent>
         {!isSuccessPayment && (
@@ -124,9 +123,9 @@ export function PaymentModal({ isOpen, onClose, amount, dynamicStyles, order }: 
           ) : (
             <View className="items-center justify-center">
               {/* QR Code */}
-              <View className="mb-4 size-48 items-center justify-center rounded-xl border bg-white p-3">
+              <View className="mb-4 size-60 items-center justify-center rounded-xl border bg-white p-2">
                 {qrCodeUrl ? (
-                  <QRCode value={qrCodeUrl} size={180} />
+                  <QRCode value={qrCodeUrl} size={150} />
                 ) : (
                   <View className="mb-4 items-center justify-center">
                     <Spinner />
@@ -150,15 +149,15 @@ export function PaymentModal({ isOpen, onClose, amount, dynamicStyles, order }: 
                 >
                   {`${amount} ${defaultCurrency?.code}`}
                 </Text>
-                <View className="mt-1 rounded-lg bg-gray-100 p-2 dark:bg-gray-800">
-                  {defaultCurrency?.code !== 'USD' && (
+                {defaultCurrency?.code !== 'USD' && (
+                  <View className="mt-1 rounded-lg bg-gray-100 p-2 dark:bg-gray-800">
                     <CurrencyConverter
                       amount={Number(amount)}
                       customSourceCurrency={defaultCurrency?.code}
                       className={`text-center text-gray-600 dark:text-gray-200 ${dynamicStyles.fontSize.label}`}
                     />
-                  )}
-                </View>
+                  </View>
+                )}
               </View>
             </View>
           )}

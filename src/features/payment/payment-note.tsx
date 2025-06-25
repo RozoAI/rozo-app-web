@@ -4,6 +4,7 @@ import { Edit, Plus } from 'lucide-react-native';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { z } from 'zod';
 
 import {
@@ -13,12 +14,15 @@ import {
   ActionsheetDragIndicator,
   ActionsheetDragIndicatorWrapper,
 } from '@/components/ui/actionsheet';
+import { Box } from '@/components/ui/box';
 import { Button, ButtonIcon, ButtonText } from '@/components/ui/button';
+import { Heading } from '@/components/ui/heading';
 import { HStack } from '@/components/ui/hstack';
 import { Text } from '@/components/ui/text';
 import { Textarea, TextareaInput } from '@/components/ui/textarea';
 import { View } from '@/components/ui/view';
 import { VStack } from '@/components/ui/vstack';
+import useKeyboardBottomInset from '@/hooks/use-keyboard-bottom-inset';
 import { cn } from '@/lib';
 
 type ActionSheetPaymentNoteProps = {
@@ -41,6 +45,8 @@ export function ActionSheetPaymentNote({
 }: ActionSheetPaymentNoteProps): React.ReactElement {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { t } = useTranslation();
+  const bottomInset = useKeyboardBottomInset();
+  const insets = useSafeAreaInsets();
 
   // React Hook Form setup with Zod validation
   const {
@@ -98,15 +104,19 @@ export function ActionSheetPaymentNote({
 
       <Actionsheet isOpen={isOpen} onClose={handleClose} trapFocus={false}>
         <ActionsheetBackdrop />
-        <ActionsheetContent>
+        <ActionsheetContent style={{ paddingBottom: bottomInset + insets.bottom }}>
           <ActionsheetDragIndicatorWrapper>
             <ActionsheetDragIndicator />
           </ActionsheetDragIndicatorWrapper>
 
-          <VStack space="md" className="w-full">
-            <Text className="text-center text-lg font-semibold">{t('payment.notes.title')}</Text>
+          <VStack space="lg" className="w-full">
+            <Box className="items-center">
+              <Heading size="lg" className="text-typography-950">
+                {t('payment.notes.title')}
+              </Heading>
+            </Box>
 
-            <View className="space-y-2">
+            <View className="flex-col gap-2">
               <Textarea size="md" isReadOnly={false} className="rounded-xl">
                 <Controller
                   control={control}
@@ -129,14 +139,25 @@ export function ActionSheetPaymentNote({
               </HStack>
               {errors.note && <Text className="text-sm text-red-500">{errors.note.message}</Text>}
 
-              <HStack space="sm" className="grid grid-rows-2">
-                <Button variant="solid" className="w-full rounded-xl" onPress={handleOnSubmitNote} isDisabled={!isValid}>
+              <View className="mt-4 flex-col gap-2">
+                <Button
+                  size="lg"
+                  variant="solid"
+                  className="w-full rounded-xl"
+                  onPress={handleOnSubmitNote}
+                  isDisabled={!isValid}
+                >
                   <ButtonText className="text-white">{t('general.submit')}</ButtonText>
                 </Button>
-                <Button className="w-full rounded-xl" variant="link" onPress={isEdit ? handleClose : handleOnCancelNote}>
+                <Button
+                  size="lg"
+                  className="w-full rounded-xl"
+                  variant="link"
+                  onPress={isEdit ? handleClose : handleOnCancelNote}
+                >
                   <ButtonText>{isEdit ? t('general.close') : t('general.cancel')}</ButtonText>
                 </Button>
-              </HStack>
+              </View>
             </View>
           </VStack>
         </ActionsheetContent>

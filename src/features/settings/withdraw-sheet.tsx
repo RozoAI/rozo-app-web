@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Keyboard } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { type Address } from 'viem';
 import { z } from 'zod';
 
@@ -15,6 +16,7 @@ import {
   ActionsheetDragIndicatorWrapper,
 } from '@/components/ui/actionsheet';
 import { Alert, AlertIcon, AlertText } from '@/components/ui/alert';
+import { Box } from '@/components/ui/box';
 import { Button, ButtonIcon, ButtonSpinner, ButtonText } from '@/components/ui/button';
 import {
   FormControl,
@@ -23,10 +25,13 @@ import {
   FormControlLabel,
   FormControlLabelText,
 } from '@/components/ui/form-control';
+import { Heading } from '@/components/ui/heading';
 import { HStack } from '@/components/ui/hstack';
 import { Input, InputField } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
+import { View } from '@/components/ui/view';
 import { VStack } from '@/components/ui/vstack';
+import useKeyboardBottomInset from '@/hooks/use-keyboard-bottom-inset';
 import { useTokenTransfer } from '@/hooks/use-token-transfer';
 import { showToast } from '@/lib';
 import { type TokenBalanceResult } from '@/modules/dynamic/token-operations';
@@ -45,6 +50,8 @@ type FormValues = {
 export function WithdrawActionSheet({ onClose, onSuccess, balance }: Props) {
   const { t } = useTranslation();
   const { isAbleToTransfer, transfer } = useTokenTransfer();
+  const insets = useSafeAreaInsets();
+  const bottomInset = useKeyboardBottomInset();
 
   const [open, setOpen] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -153,15 +160,17 @@ export function WithdrawActionSheet({ onClose, onSuccess, balance }: Props) {
 
       <Actionsheet isOpen={open} onClose={handleClose}>
         <ActionsheetBackdrop />
-        <ActionsheetContent className="pb-8">
+        <ActionsheetContent style={{ paddingBottom: insets.bottom + bottomInset + 8 }}>
           <ActionsheetDragIndicatorWrapper>
             <ActionsheetDragIndicator />
           </ActionsheetDragIndicatorWrapper>
 
           <VStack className="w-full" space="lg">
-            <Text size="xl" className="text-center font-semibold">
-              {t('general.withdraw')}
-            </Text>
+            <Box className="items-center">
+              <Heading size="lg" className="text-typography-950">
+                {t('general.withdraw')}
+              </Heading>
+            </Box>
 
             <VStack space="md">
               <Alert action="info" className="flex w-full flex-row items-start gap-4 self-center py-4">
@@ -254,15 +263,20 @@ export function WithdrawActionSheet({ onClose, onSuccess, balance }: Props) {
               />
             </VStack>
 
-            <HStack space="sm" className="grid grid-rows-2">
-              <Button onPress={hookFormSubmit(onSubmit)} isDisabled={isSubmitting || !isValid} className="w-full rounded-xl">
+            <View className="mt-4 flex-col gap-2">
+              <Button
+                size="lg"
+                onPress={hookFormSubmit(onSubmit)}
+                isDisabled={isSubmitting || !isValid}
+                className="w-full rounded-xl"
+              >
                 {isSubmitting && <ButtonSpinner />}
                 <ButtonText>{isSubmitting ? t('general.processing') : t('general.submit')}</ButtonText>
               </Button>
-              <Button onPress={handleClose} isDisabled={isSubmitting} className="w-full rounded-xl" variant="link">
+              <Button size="lg" onPress={handleClose} isDisabled={isSubmitting} className="w-full rounded-xl" variant="link">
                 <ButtonText>{t('general.cancel')}</ButtonText>
               </Button>
-            </HStack>
+            </View>
           </VStack>
         </ActionsheetContent>
       </Actionsheet>

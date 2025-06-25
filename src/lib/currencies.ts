@@ -10,6 +10,7 @@ export type CurrencyConfig = {
   symbol: string;
   decimalSeparator: string;
   thousandSeparator: string;
+  voice: string;
   quickAmounts: QuickAmount[];
 };
 
@@ -17,6 +18,7 @@ export type CurrencyConfig = {
 export const currencies: Record<string, CurrencyConfig> = {
   IDR: {
     label: 'IDR - Indonesian Rupiah (IDR)',
+    voice: 'Rupiah',
     code: 'IDR',
     symbol: 'Rp',
     decimalSeparator: ',',
@@ -30,6 +32,7 @@ export const currencies: Record<string, CurrencyConfig> = {
   },
   MYR: {
     label: 'MYR - Malaysian Ringgit (RM)',
+    voice: 'Ringgit',
     code: 'MYR',
     symbol: 'RM',
     decimalSeparator: '.',
@@ -43,6 +46,7 @@ export const currencies: Record<string, CurrencyConfig> = {
   },
   SGD: {
     label: 'SGD - Singapore Dollar (S$)',
+    voice: 'Singapore Dollar',
     code: 'SGD',
     symbol: 'S$',
     decimalSeparator: '.',
@@ -56,6 +60,7 @@ export const currencies: Record<string, CurrencyConfig> = {
   },
   USD: {
     label: 'USD - United State Dollar ($)',
+    voice: 'Dollar',
     code: 'USD',
     symbol: '$',
     decimalSeparator: '.',

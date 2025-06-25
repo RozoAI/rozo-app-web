@@ -32,6 +32,11 @@
   "home": {
     "title": "Главная"
   },
+  "login": {
+    "description": "Простая и эффективная система точек продаж",
+    "loading": "Загрузка",
+    "signIn": "Войти"
+  },
   "onboarding": {
     "message": "Добро пожаловать в Rozo POS"
   },

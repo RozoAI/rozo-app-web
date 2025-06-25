@@ -2,11 +2,12 @@ import { changeLanguage } from 'i18next';
 import { useCallback } from 'react';
 import { useMMKVString } from 'react-native-mmkv';
 
+import { storage } from '@/lib';
 import { LOCAL } from '@/modules/i18n';
 import { type Language } from '@/modules/i18n/resources';
 
 export const useSelectedLanguage = () => {
-  const [language, setLang] = useMMKVString(LOCAL);
+  const [language, setLang] = useMMKVString(LOCAL, storage);
 
   const setLanguage = useCallback(
     (lang: Language) => {

@@ -2,6 +2,7 @@ import { CheckIcon, LaptopIcon, MoonIcon, SunIcon } from 'lucide-react-native';
 import { useColorScheme } from 'nativewind';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { type ModeType } from '@/components/gluestack-ui-provider';
 import {
@@ -14,9 +15,12 @@ import {
   ActionsheetItem,
   ActionsheetItemText,
 } from '@/components/ui/actionsheet';
+import { Box } from '@/components/ui/box';
+import { Heading } from '@/components/ui/heading';
 import { Pressable } from '@/components/ui/pressable';
 import { View } from '@/components/ui/view';
-import { useSelectedTheme } from '@/hooks';
+import { VStack } from '@/components/ui/vstack';
+import { useSelectedTheme } from '@/hooks/use-selected-theme';
 import { cn } from '@/lib';
 
 const themes = [
@@ -29,6 +33,7 @@ export function ActionSheetThemeSwitcher({ trigger }: { trigger: (them: ModeType
   const { t } = useTranslation();
   const { selectedTheme, setSelectedTheme } = useSelectedTheme();
   const { colorScheme } = useColorScheme();
+  const insets = useSafeAreaInsets();
 
   const [showActionsheet, setShowActionsheet] = useState(false);
   const handleClose = () => setShowActionsheet(false);
@@ -65,28 +70,37 @@ export function ActionSheetThemeSwitcher({ trigger }: { trigger: (them: ModeType
 
       <Actionsheet isOpen={showActionsheet} onClose={handleClose} trapFocus={false} initialFocusRef={initialFocusRef}>
         <ActionsheetBackdrop />
-        <ActionsheetContent>
+        <ActionsheetContent style={{ paddingBottom: insets.bottom }}>
           <ActionsheetDragIndicatorWrapper>
             <ActionsheetDragIndicator />
           </ActionsheetDragIndicatorWrapper>
-          {themes.map((th) => {
-            const isActive = th.value === selectedTheme;
+          <VStack space="lg" className="w-full">
+            <Box className="items-center">
+              <Heading size="lg" className="text-typography-950">
+                {t('settings.theme.title')}
+              </Heading>
+            </Box>
+            <Box>
+              {themes.map((th) => {
+                const isActive = th.value === selectedTheme;
 
-            return (
-              <ActionsheetItem
-                key={th.value}
-                ref={itemRefs.current[th.value]}
-                onPress={() => handleColorMode(th.value as ModeType)}
-                data-active={isActive}
-              >
-                <ActionsheetIcon className={cn('stroke-[#747474]')} as={th.icon} />
-                <ActionsheetItemText className="flex w-full items-center justify-between">
-                  {t(`settings.theme.${th.value}`)}
-                  {isActive && <CheckIcon />}
-                </ActionsheetItemText>
-              </ActionsheetItem>
-            );
-          })}
+                return (
+                  <ActionsheetItem
+                    key={th.value}
+                    ref={itemRefs.current[th.value]}
+                    onPress={() => handleColorMode(th.value as ModeType)}
+                    data-active={isActive}
+                  >
+                    <ActionsheetIcon className={cn('stroke-[#747474]')} as={th.icon} />
+                    <ActionsheetItemText className="flex w-full items-center justify-between">
+                      {t(`settings.theme.${th.value}`)}
+                      {isActive && <CheckIcon />}
+                    </ActionsheetItemText>
+                  </ActionsheetItem>
+                );
+              })}
+            </Box>
+          </VStack>
         </ActionsheetContent>
       </Actionsheet>
     </>

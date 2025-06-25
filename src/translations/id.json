@@ -32,6 +32,11 @@
   "home": {
     "title": "Beranda"
   },
+  "login": {
+    "description": "Sistem point of sale yang sederhana dan efisien",
+    "loading": "Memuat",
+    "signIn": "Masuk"
+  },
   "onboarding": {
     "message": "Selamat datang di Rozo POS"
   },

@@ -32,6 +32,11 @@
   "home": {
     "title": "Home"
   },
+  "login": {
+    "description": "Simple and efficient point of sale system",
+    "loading": "Loading",
+    "signIn": "Sign In"
+  },
   "onboarding": {
     "message": "Welcome to Rozo POS"
   },
