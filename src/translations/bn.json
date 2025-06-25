@@ -32,6 +32,11 @@
   "home": {
     "title": "বাড়ি"
   },
+  "login": {
+    "description": "সহজ এবং দক্ষ পয়েন্ট অফ সেল সিস্টেম",
+    "loading": "লোড হচ্ছে",
+    "signIn": "সাইন ইন"
+  },
   "onboarding": {
     "message": "Rozo POS-এ আপনাকে স্বাগতম"
   },

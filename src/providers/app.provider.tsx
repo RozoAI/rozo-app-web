@@ -4,6 +4,7 @@ import React, { useCallback, useContext, useMemo } from 'react';
 import { createContext, useEffect, useState } from 'react';
 
 import { PageLoader } from '@/components/loader/loader';
+import { useSelectedLanguage } from '@/hooks/use-selected-language';
 import { getItem, removeItem, setItem, showToast, storage } from '@/lib';
 import { currencies, type CurrencyConfig } from '@/lib/currencies';
 import { AppError } from '@/lib/error';
@@ -57,6 +58,7 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthLoading, setIsAuthLoading] = useState(false);
   const router = useRouter();
+  const { language } = useSelectedLanguage();
 
   const [token, setToken] = useState<string | undefined>();
   const [merchant, setMerchant] = useState<MerchantProfile>();
@@ -225,15 +227,15 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
         // Handle success directly here
         if (auth.token) {
           if (user?.newUser) {
-            const evmWallet = userWallets.find((wallet) => wallet.chain === 'EVM' && wallet.key === 'zerodev');
+            // const evmWallet = userWallets.find((wallet) => wallet.chain === 'EVM' && wallet.key === 'zerodev');
 
             // get oauth data
             const oauthData = user?.verifiedCredentials?.find((credential: any) => credential.format === 'oauth');
 
             // set primary wallet
-            if (evmWallet) {
-              await wallets.setPrimary({ walletId: evmWallet?.id });
-            }
+            // if (evmWallet) {
+            //   await wallets.setPrimary({ walletId: evmWallet?.id });
+            // }
 
             await createProfile({
               email: user?.email ?? '',
@@ -241,7 +243,7 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
               description: '',
               logo_url: oauthData?.oauthAccountPhotos?.[0] ?? '',
               default_currency: defaultCurrency.code,
-              default_language: 'EN',
+              default_language: language ?? 'en',
               default_token_id: defaultToken?.key,
               // wallet_address: evmWallet?.address ?? '',
             });

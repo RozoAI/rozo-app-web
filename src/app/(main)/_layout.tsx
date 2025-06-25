@@ -30,7 +30,6 @@ export default function TabLayout() {
             height: 64,
             paddingTop: 6,
             paddingBottom: 10,
-            marginTop: 10,
             marginBottom: insets.bottom,
             backgroundColor: theme?.colorScheme === 'dark' ? '#222430' : '#FFFFFF',
             elevation: 0,

@@ -12,6 +12,7 @@ import { Text } from '@/components/ui/text';
 import { View } from '@/components/ui/view';
 import { VStack } from '@/components/ui/vstack';
 import { AccountSection } from '@/features/settings/account-section';
+import { useSelectedLanguage } from '@/hooks/use-selected-language';
 import { useApp } from '@/providers/app.provider';
 
 import { ActionSheetCurrencySwitcher } from './select-currency';
@@ -23,10 +24,11 @@ import { WalletBalanceCard } from './wallet-balance-card';
 export function SettingScreen() {
   const { logout } = useApp();
   const { t } = useTranslation();
+  const { language } = useSelectedLanguage();
 
   return (
-    <SafeAreaView className="flex-1">
-      <ScrollView className="flex-1 py-6">
+    <SafeAreaView className="my-6 flex-1">
+      <ScrollView className="flex-1">
         <View className="mb-6">
           <Text className="text-2xl font-bold">{t('settings.title')}</Text>
           <Text className="text-sm text-gray-400">{t('settings.description')}</Text>
@@ -47,6 +49,7 @@ export function SettingScreen() {
             <Divider />
 
             <ActionSheetLanguageSwitcher
+              initialLanguage={language}
               trigger={(lg) => (
                 <View className="w-full flex-1 flex-row items-center justify-between gap-4 px-2 py-3">
                   <View className="flex-row items-center gap-2">

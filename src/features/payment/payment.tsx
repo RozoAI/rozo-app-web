@@ -53,12 +53,12 @@ export function PaymentScreen() {
       size: {
         quickAmountMinWidth: isSmallScreen ? 'min-w-[55px]' : isMediumScreen ? 'min-w-[60px]' : 'min-w-[70px]',
         tapCardImage: isSmallScreen ? 'size-28' : isMediumScreen ? 'size-32' : 'size-40',
-        buttonSize: isSmallScreen ? 'md' : isMediumScreen ? 'lg' : 'xl',
+        buttonSize: isSmallScreen ? 'lg' : isMediumScreen ? 'xl' : 'xl',
       },
       numpad: {
-        height: isSmallScreen ? 40 : isMediumScreen ? 45 : 50,
-        fontSize: isSmallScreen ? 16 : isMediumScreen ? 18 : 22,
-        margin: isSmallScreen ? 2 : isMediumScreen ? 3 : 4,
+        height: isSmallScreen ? 40 : isMediumScreen ? 52 : 56,
+        fontSize: isSmallScreen ? 24 : isMediumScreen ? 32 : 40,
+        margin: isSmallScreen ? 2 : isMediumScreen ? 4 : 6,
       },
     }),
     [isSmallScreen, isMediumScreen]
@@ -185,7 +185,7 @@ export function PaymentScreen() {
   }, []);
 
   return (
-    <View className="h-full flex-1 flex-col justify-between">
+    <View className="h-full flex-1 flex-col justify-between py-6">
       <View className="flex-1 flex-col gap-2">
         {/* Logo and Brand Name */}
         <View className="mb-2 flex-row items-center justify-center gap-2 py-1">
@@ -193,7 +193,7 @@ export function PaymentScreen() {
           <Text className="text-lg font-bold text-gray-800 dark:text-gray-200">Rozo POS</Text>
         </View>
 
-        <View className={`flex-1 ${dynamicStyles.spacing.containerMargin}`}>
+        <View className={`flex-1 gap-4 ${dynamicStyles.spacing.containerMargin}`}>
           {/* Amount Display */}
           <AmountDisplay amount={amount} dynamicStyles={dynamicStyles} />
 
@@ -225,12 +225,15 @@ export function PaymentScreen() {
             borderRadius: 16,
             margin: dynamicStyles.numpad.margin,
             height: dynamicStyles.numpad.height,
-            width: '30%',
+            // width: '30%',
             shadowColor: 'rgba(38, 38, 38, 0.15)',
             shadowOffset: { width: -1, height: 1 },
-            shadowOpacity: 0.6,
+            shadowOpacity: 1,
             shadowRadius: 3,
             elevation: 1,
+            boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.1)',
+            borderColor: selectedTheme === 'light' ? '#222430' : '#ffffff',
+            borderWidth: 1,
           }}
           buttonTextStyle={{
             fontSize: dynamicStyles.numpad.fontSize,

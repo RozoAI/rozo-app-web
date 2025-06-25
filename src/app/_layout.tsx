@@ -95,14 +95,12 @@ function Providers({ children, onLayout }: { children: React.ReactNode; onLayout
           <KeyboardProvider>
             <ThemeProvider value={theme.colorScheme === 'dark' ? darkTheme : defaultTheme}>
               <QueryProvider>
+                {/* Network connection status overlay */}
+                <ConnectionStatus />
                 {/* @ts-ignore */}
                 <dynamicClient.reactNative.WebView />
 
-                <AppProvider>
-                  {/* Network connection status overlay */}
-                  <ConnectionStatus />
-                  {Platform.OS === 'web' ? <WebFontsLoader>{children}</WebFontsLoader> : children}
-                </AppProvider>
+                <AppProvider>{Platform.OS === 'web' ? <WebFontsLoader>{children}</WebFontsLoader> : children}</AppProvider>
               </QueryProvider>
             </ThemeProvider>
           </KeyboardProvider>

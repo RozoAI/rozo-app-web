@@ -32,6 +32,11 @@
   "home": {
     "title": "होम"
   },
+  "login": {
+    "description": "सरल और कुशल बिक्री बिंदु प्रणाली",
+    "loading": "लोड हो रहा है",
+    "signIn": "साइन इन करें"
+  },
   "onboarding": {
     "message": "Rozo POS में आपका स्वागत है"
   },
