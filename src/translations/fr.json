@@ -27,7 +27,11 @@
     "updating": "Mise à jour en cours",
     "walletAddress": "Adresse du portefeuille",
     "walletBalance": "Solde du portefeuille",
-    "withdraw": "Retirer"
+    "withdraw": "Retirer",
+    "information": "Information",
+    "manualWithdraw1": "Le retrait manuel transférera l'intégralité de votre solde. \nAprès avoir confirmé, veuillez contacter l'équipe Rozo à",
+    "manualWithdraw2": "pour terminer le processus.",
+    "manualWithdraw": "Retrait manuel"
   },
   "home": {
     "title": "Accueil"

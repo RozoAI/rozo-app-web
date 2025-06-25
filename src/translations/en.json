@@ -27,7 +27,11 @@
     "updating": "Updating",
     "walletAddress": "Wallet Address",
     "walletBalance": "Wallet Balance",
-    "withdraw": "Withdraw"
+    "withdraw": "Withdraw",
+    "information": "Information",
+    "manualWithdraw1": "Manual withdraw will transfer your entire balance. After confirming, please contact the Rozo team at",
+    "manualWithdraw2": "to complete the process.",
+    "manualWithdraw": "Manual Withdraw"
   },
   "home": {
     "title": "Home"

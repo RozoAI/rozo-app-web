@@ -27,7 +27,11 @@
     "updating": "अपडेट हो रहा है",
     "walletAddress": "वॉलेट का पता",
     "walletBalance": "वॉलेट शेष",
-    "withdraw": "निकासी"
+    "withdraw": "निकासी",
+    "information": "जानकारी",
+    "manualWithdraw1": "मैनुअल वापसी आपके पूरे संतुलन को स्थानांतरित कर देगी। \nपुष्टि करने के बाद, कृपया रोज़ो टीम से संपर्क करें",
+    "manualWithdraw2": "प्रक्रिया को पूरा करने के लिए।",
+    "manualWithdraw": "मैनुअल निकासी"
   },
   "home": {
     "title": "होम"

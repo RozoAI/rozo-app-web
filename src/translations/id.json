@@ -27,7 +27,11 @@
     "updating": "Memperbarui",
     "walletAddress": "Alamat dompet",
     "walletBalance": "Saldo dompet",
-    "withdraw": "Tarik"
+    "withdraw": "Tarik",
+    "information": "Informasi",
+    "manualWithdraw1": "Penarikan manual akan mentransfer seluruh saldo Anda. \nSetelah mengonfirmasi, silakan hubungi tim Rozo di",
+    "manualWithdraw2": "untuk menyelesaikan prosesnya.",
+    "manualWithdraw": "Penarikan manual"
   },
   "home": {
     "title": "Beranda"
