@@ -61,14 +61,12 @@ export default function LoginScreen() {
         </Button>
 
         {/* Language selector */}
-        <Box className="mt-10 w-full">
+        <Box className="mt-10 w-full flex-row items-center justify-center">
           <ActionSheetLanguageSwitcher
             updateApi={false}
             initialLanguage={language ?? 'en'}
             onChange={(lang) => setLanguage(lang)}
-            trigger={(label) => (
-              <Box className="mb-4 w-full flex-row items-center justify-center space-x-2 rounded-xl text-sm">{label}</Box>
-            )}
+            trigger={(label) => <Text className="mb-4 space-x-2 rounded-xl text-center text-sm">{label}</Text>}
           />
         </Box>
       </Box>

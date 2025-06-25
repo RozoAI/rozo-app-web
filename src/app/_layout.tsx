@@ -92,18 +92,17 @@ function Providers({ children, onLayout }: { children: React.ReactNode; onLayout
       <GluestackUIProvider mode={theme.colorScheme}>
         {/* The onLayout prop is attached to the absolute root view */}
         <GestureHandlerRootView style={styles.container} className={theme.colorScheme} onLayout={onLayout}>
-          <KeyboardProvider>
-            <ThemeProvider value={theme.colorScheme === 'dark' ? darkTheme : defaultTheme}>
-              <QueryProvider>
-                {/* Network connection status overlay */}
-                <ConnectionStatus />
-                {/* @ts-ignore */}
-                <dynamicClient.reactNative.WebView />
-
+          <ThemeProvider value={theme.colorScheme === 'dark' ? darkTheme : defaultTheme}>
+            <QueryProvider>
+              {/* Network connection status overlay */}
+              <ConnectionStatus />
+              {/* @ts-ignore */}
+              <dynamicClient.reactNative.WebView />
+              <KeyboardProvider>
                 <AppProvider>{Platform.OS === 'web' ? <WebFontsLoader>{children}</WebFontsLoader> : children}</AppProvider>
-              </QueryProvider>
-            </ThemeProvider>
-          </KeyboardProvider>
+              </KeyboardProvider>
+            </QueryProvider>
+          </ThemeProvider>
         </GestureHandlerRootView>
       </GluestackUIProvider>
     </I18nextProvider>
