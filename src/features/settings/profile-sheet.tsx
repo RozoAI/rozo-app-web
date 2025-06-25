@@ -5,6 +5,7 @@ import { forwardRef, useImperativeHandle, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Keyboard } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import {
   Actionsheet,
@@ -24,11 +25,12 @@ import {
   FormControlLabelText,
 } from '@/components/ui/form-control';
 import { Heading } from '@/components/ui/heading';
-import { HStack } from '@/components/ui/hstack';
 import { Icon } from '@/components/ui/icon';
 import { Input, InputField } from '@/components/ui/input';
 import { Pressable } from '@/components/ui/pressable';
+import { View } from '@/components/ui/view';
 import { VStack } from '@/components/ui/vstack';
+import useKeyboardBottomInset from '@/hooks/use-keyboard-bottom-inset';
 import { showToast } from '@/lib';
 import { useApp } from '@/providers/app.provider';
 import { useUpdateProfile } from '@/resources/api';
@@ -44,7 +46,8 @@ export type ProfileSheetRefType = {
 export const ProfileSheet = forwardRef<ProfileSheetRefType>((_, ref) => {
   const { merchant, setMerchant } = useApp();
   const { t } = useTranslation();
-
+  const insets = useSafeAreaInsets();
+  const bottomInset = useKeyboardBottomInset();
   const { mutateAsync: updateProfile } = useUpdateProfile();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -67,7 +70,7 @@ export const ProfileSheet = forwardRef<ProfileSheetRefType>((_, ref) => {
 
   async function pickImage() {
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: 'images',
       allowsEditing: true,
       aspect: [1, 1],
       quality: 0.4,
@@ -125,7 +128,7 @@ export const ProfileSheet = forwardRef<ProfileSheetRefType>((_, ref) => {
     <Actionsheet isOpen={isOpen} onClose={() => setIsOpen(false)}>
       <ActionsheetBackdrop />
 
-      <ActionsheetContent>
+      <ActionsheetContent style={{ paddingBottom: bottomInset + insets.bottom }}>
         <ActionsheetDragIndicatorWrapper>
           <ActionsheetDragIndicator />
         </ActionsheetDragIndicatorWrapper>
@@ -205,8 +208,9 @@ export const ProfileSheet = forwardRef<ProfileSheetRefType>((_, ref) => {
             </VStack>
           </VStack>
 
-          <HStack space="sm" className="grid grid-rows-2">
+          <View className="mt-4 flex-col gap-2">
             <Button
+              size="lg"
               onPress={handleSubmit(onSubmit)}
               isDisabled={isSubmitting || !isValid || (!isDirty && !avatarBase64)}
               className="w-full rounded-xl"
@@ -214,10 +218,16 @@ export const ProfileSheet = forwardRef<ProfileSheetRefType>((_, ref) => {
               {isSubmitting && <ButtonSpinner />}
               <ButtonText>{isSubmitting ? t('general.updating') : t('general.update')}</ButtonText>
             </Button>
-            <Button onPress={() => setIsOpen(false)} isDisabled={isSubmitting} className="w-full rounded-xl" variant="link">
+            <Button
+              size="lg"
+              onPress={() => setIsOpen(false)}
+              isDisabled={isSubmitting}
+              className="w-full rounded-xl"
+              variant="link"
+            >
               <ButtonText>{t('general.cancel')}</ButtonText>
             </Button>
-          </HStack>
+          </View>
         </VStack>
       </ActionsheetContent>
     </Actionsheet>

@@ -8,7 +8,8 @@ import { Box } from '@/components/ui/box';
 import { Button, ButtonSpinner, ButtonText } from '@/components/ui/button';
 import { FocusAwareStatusBar } from '@/components/ui/focus-aware-status-bar';
 import { Text } from '@/components/ui/text';
-import { useSelectedTheme } from '@/hooks';
+import { View } from '@/components/ui/view';
+import { useSelectedTheme } from '@/hooks/use-selected-theme';
 import { useApp } from '@/providers/app.provider';
 
 /**
@@ -27,7 +28,7 @@ export default function LoginScreen() {
   }, [isAuthenticated, router]);
 
   return (
-    <Box className="flex-1 bg-white">
+    <View className="flex-1 bg-white">
       <FocusAwareStatusBar />
 
       {/* Main content container with centered flex layout */}
@@ -54,6 +55,6 @@ export default function LoginScreen() {
           <ButtonText>{isAuthLoading ? 'Loading...' : 'Sign in'}</ButtonText>
         </Button>
       </Box>
-    </Box>
+    </View>
   );
 }

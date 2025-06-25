@@ -1,6 +1,7 @@
 import { t } from 'i18next';
 import { CheckIcon, ChevronRightIcon, DollarSign } from 'lucide-react-native';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import {
   Actionsheet,
@@ -11,11 +12,14 @@ import {
   ActionsheetItem,
   ActionsheetItemText,
 } from '@/components/ui/actionsheet';
+import { Box } from '@/components/ui/box';
+import { Heading } from '@/components/ui/heading';
 import { Icon } from '@/components/ui/icon';
 import { Pressable } from '@/components/ui/pressable';
 import { Spinner } from '@/components/ui/spinner';
 import { Text } from '@/components/ui/text';
 import { View } from '@/components/ui/view';
+import { VStack } from '@/components/ui/vstack';
 import { showToast } from '@/lib';
 import { currencies as currencyList, defaultCurrency } from '@/lib/currencies';
 import { useApp } from '@/providers/app.provider';
@@ -27,13 +31,14 @@ type CurrencyOption = {
 };
 
 export function ActionSheetCurrencySwitcher(): React.ReactElement {
+  const insets = useSafeAreaInsets();
+  const { mutate: updateProfile, data, error } = useCreateProfile();
+  const { merchant, setMerchant } = useApp();
+
   const [showActionsheet, setShowActionsheet] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   // Store the current currency code in state
   const [currentCurrency, setCurrentCurrency] = useState<string | undefined>(undefined);
-
-  const { mutate: updateProfile, data, error } = useCreateProfile();
-  const { merchant, setMerchant } = useApp();
 
   // Memoize currencies to prevent unnecessary re-renders
   const currencies = useMemo<CurrencyOption[]>(() => {
@@ -128,6 +133,7 @@ export function ActionSheetCurrencySwitcher(): React.ReactElement {
           ref={itemRefs.current[curr.code]}
           onPress={() => handleCurrencyChange(curr.code)}
           data-active={isActive}
+          className="w-full"
         >
           <ActionsheetItemText className="flex w-full items-center justify-between">
             {curr.label}
@@ -163,11 +169,18 @@ export function ActionSheetCurrencySwitcher(): React.ReactElement {
 
       <Actionsheet isOpen={showActionsheet} onClose={handleClose} trapFocus={false} initialFocusRef={initialFocusRef}>
         <ActionsheetBackdrop />
-        <ActionsheetContent>
+        <ActionsheetContent style={{ paddingBottom: insets.bottom }}>
           <ActionsheetDragIndicatorWrapper>
             <ActionsheetDragIndicator />
           </ActionsheetDragIndicatorWrapper>
-          {currencies.map(renderCurrencyItem)}
+          <VStack space="lg" className="w-full">
+            <Box className="items-center">
+              <Heading size="lg" className="text-typography-950">
+                {t('settings.currency.title')}
+              </Heading>
+            </Box>
+            <Box className="w-full">{currencies.map(renderCurrencyItem)}</Box>
+          </VStack>
         </ActionsheetContent>
       </Actionsheet>
     </>

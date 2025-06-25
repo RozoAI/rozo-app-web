@@ -21,20 +21,29 @@ export function AmountDisplay({ amount, dynamicStyles }: AmountDisplayProps) {
 
   // Format amount with appropriate decimal and thousand separators
   const formattedAmount = useMemo(() => {
-    if (!amount || amount === '0') return '0';
+    if (!amount) return '0';
 
     // Handle decimal separator
     const decimalSeparator = defaultCurrency?.decimalSeparator || '.';
+    // Check if the amount ends with a decimal separator
+    const endsWithSeparator = amount.endsWith(decimalSeparator);
+    // Split by decimal separator
     const parts = amount.split(decimalSeparator);
-    const integerPart = parts[0];
+    const integerPart = parts[0] || '0'; // Default to '0' if empty
     const decimalPart = parts.length > 1 ? parts[1] : '';
 
     // Format integer part with thousand separators
     const thousandSeparator = defaultCurrency?.thousandSeparator || ',';
-    const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, thousandSeparator);
+    const formattedInteger = integerPart === '0' ? '0' : integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, thousandSeparator);
 
-    // Return formatted amount with decimal part if exists
-    return decimalPart ? `${formattedInteger}${decimalSeparator}${decimalPart}` : formattedInteger;
+    // Return formatted amount with decimal part if it exists or if amount ends with separator
+    if (decimalPart) {
+      return `${formattedInteger}${decimalSeparator}${decimalPart}`;
+    } else if (endsWithSeparator) {
+      return `${formattedInteger}${decimalSeparator}`;
+    } else {
+      return formattedInteger;
+    }
   }, [amount, defaultCurrency]);
 
   return (

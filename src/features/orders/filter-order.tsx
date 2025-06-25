@@ -1,6 +1,7 @@
 import { CheckIcon, Funnel } from 'lucide-react-native';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import {
   Actionsheet,
@@ -23,6 +24,7 @@ type Props = {
 
 export function FilterOrderActionSheet({ onStatusChange }: Props) {
   const { t } = useTranslation();
+  const insets = useSafeAreaInsets();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState<MerchantOrderStatus>('COMPLETED');
 
@@ -47,7 +49,7 @@ export function FilterOrderActionSheet({ onStatusChange }: Props) {
 
       <Actionsheet isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <ActionsheetBackdrop />
-        <ActionsheetContent>
+        <ActionsheetContent style={{ paddingBottom: insets.bottom }}>
           <ActionsheetDragIndicatorWrapper>
             <ActionsheetDragIndicator />
           </ActionsheetDragIndicatorWrapper>

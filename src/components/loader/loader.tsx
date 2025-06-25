@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import LogoSvg from '@/components/svg/logo';
 import LogoWhiteSvg from '@/components/svg/logo-white';
 import { Spinner } from '@/components/ui/spinner';
-import { useSelectedTheme } from '@/hooks';
+import { useSelectedTheme } from '@/hooks/use-selected-theme';
 
 export function PageLoader() {
   const { selectedTheme } = useSelectedTheme();

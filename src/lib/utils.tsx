@@ -107,7 +107,7 @@ export function formatCurrency(amount: string | number, currencyCode: string = '
   const config = currencies[currencyCode] || currencies.USD;
   const numAmount = typeof amount === 'string' ? parseFloat(amount) : amount;
 
-  if (isNaN(numAmount)) return `${config.code}0`;
+  if (isNaN(numAmount)) return `0 ${config.code}`;
 
   const toFixed = (n: number, fixed: number) => ~~(Math.pow(10, fixed) * n) / Math.pow(10, fixed);
 

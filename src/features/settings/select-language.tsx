@@ -1,5 +1,7 @@
+import { t } from 'i18next';
 import { CheckIcon } from 'lucide-react-native';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import {
   Actionsheet,
@@ -10,9 +12,12 @@ import {
   ActionsheetItem,
   ActionsheetItemText,
 } from '@/components/ui/actionsheet';
+import { Box } from '@/components/ui/box';
+import { Heading } from '@/components/ui/heading';
 import { Pressable } from '@/components/ui/pressable';
 import { Spinner } from '@/components/ui/spinner';
 import { View } from '@/components/ui/view';
+import { VStack } from '@/components/ui/vstack';
 import { useSelectedLanguage } from '@/hooks/use-selected-language';
 import { showToast } from '@/lib';
 import { type Language } from '@/modules/i18n/resources';
@@ -109,6 +114,7 @@ export function ActionSheetLanguageSwitcher({ trigger }: ActionSheetLanguageSwit
 
   const { mutateAsync: createProfile, data, isPending, error } = useCreateProfile();
   const { merchant, setMerchant } = useApp();
+  const insets = useSafeAreaInsets();
 
   // Create refs once and store them
   const itemRefs = useRef<Record<string, React.RefObject<any>>>({});
@@ -230,11 +236,18 @@ export function ActionSheetLanguageSwitcher({ trigger }: ActionSheetLanguageSwit
 
       <Actionsheet isOpen={showActionsheet} onClose={handleClose} trapFocus={false} initialFocusRef={initialFocusRef}>
         <ActionsheetBackdrop />
-        <ActionsheetContent>
+        <ActionsheetContent style={{ paddingBottom: insets.bottom }}>
           <ActionsheetDragIndicatorWrapper>
             <ActionsheetDragIndicator />
           </ActionsheetDragIndicatorWrapper>
-          {languages.map(renderLanguageItem)}
+          <VStack space="lg" className="w-full">
+            <Box className="items-center">
+              <Heading size="lg" className="text-typography-950">
+                {t('settings.language.title')}
+              </Heading>
+            </Box>
+            <Box className="w-full">{languages.map(renderLanguageItem)}</Box>
+          </VStack>
         </ActionsheetContent>
       </Actionsheet>
     </>

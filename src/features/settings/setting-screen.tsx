@@ -12,11 +12,11 @@ import { Text } from '@/components/ui/text';
 import { View } from '@/components/ui/view';
 import { VStack } from '@/components/ui/vstack';
 import { AccountSection } from '@/features/settings/account-section';
-import { ActionSheetCurrencySwitcher } from '@/features/settings/select-currency';
-import { ActionSheetLanguageSwitcher } from '@/features/settings/select-language';
-import { ActionSheetThemeSwitcher } from '@/features/settings/theme-switcher';
 import { useApp } from '@/providers/app.provider';
 
+import { ActionSheetCurrencySwitcher } from './select-currency';
+import { ActionSheetLanguageSwitcher } from './select-language';
+import { ActionSheetThemeSwitcher } from './theme-switcher';
 import { WalletAddressCard } from './wallet-address-card';
 import { WalletBalanceCard } from './wallet-balance-card';
 

@@ -15,7 +15,7 @@ import Toast from 'react-native-toast-message';
 import { GluestackUIProvider } from '@/components/gluestack-ui-provider';
 import { ConnectionStatus } from '@/components/ui/connection-status';
 import { WebFontsLoader } from '@/components/web-fonts-loader';
-import { loadSelectedTheme } from '@/hooks';
+import { loadSelectedTheme } from '@/hooks/use-selected-theme';
 import { darkTheme, defaultTheme } from '@/lib/theme';
 import { dynamicClient } from '@/modules/dynamic/dynamic-client';
 import { configureDynamicDeepLinks } from '@/modules/dynamic/dynamic-linking';
