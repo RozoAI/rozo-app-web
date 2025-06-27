@@ -40,7 +40,7 @@ export default function LoginScreen() {
       <Box className="flex-1 items-center justify-center bg-white px-6 dark:bg-neutral-900">
         {/* Logo and title section */}
         <Box className="mb-6 w-full items-center justify-center">
-          {selectedTheme === 'dark' ? <LogoWhiteSvg width={120} height={120} /> : <LogoSvg width={120} height={120} />}
+          {selectedTheme === 'dark' ? <LogoWhiteSvg width={100} height={100} /> : <LogoSvg width={100} height={100} />}
 
           <Text className="text-primary text-center text-3xl font-bold">Rozo POS</Text>
 

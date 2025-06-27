@@ -9,6 +9,7 @@ type Payload = {
   display_amount: number;
   display_currency: string;
   description?: string;
+  redirect_uri?: string;
 };
 
 export const useGetOrders = createQuery<MerchantOrder[], { status: string }, AxiosError>({

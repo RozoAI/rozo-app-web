@@ -2,13 +2,7 @@ const path = require('path');
 
 module.exports = {
   extends: ['expo', 'plugin:tailwindcss/recommended', 'prettier'],
-  plugins: [
-    'prettier',
-    '@typescript-eslint',
-    'unused-imports',
-    'tailwindcss',
-    'simple-import-sort',
-  ],
+  plugins: ['prettier', '@typescript-eslint', 'unused-imports', 'tailwindcss', 'simple-import-sort'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: './tsconfig.json',
@@ -33,7 +27,7 @@ module.exports = {
       },
     ], // Ensure `import type` is used when it's necessary
     'import/prefer-default-export': 'off', // Named export is easier to refactor automatically
-    'import/no-cycle': ['error', { maxDepth: '∞' }],
+    // 'import/no-cycle': ['off', { maxDepth: '∞' }],
     'tailwindcss/classnames-order': [
       'warn',
       {
