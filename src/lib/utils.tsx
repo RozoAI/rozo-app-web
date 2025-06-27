@@ -153,11 +153,7 @@ export const isToday = (date: Date): boolean => {
 };
 
 export const getRedirectUri = (path: string) => {
-  let uri = `${process.env.EXPO_PUBLIC_APP_URL}`;
+  if (!process.env.EXPO_PUBLIC_APP_URL || Platform.OS !== 'web') return '';
 
-  if (Platform.OS !== 'web') {
-    uri = 'rozopos:/';
-  }
-
-  return `${uri}${path}`;
+  return `${process.env.EXPO_PUBLIC_APP_URL}${path}`;
 };

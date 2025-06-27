@@ -1,3 +1,4 @@
+/* eslint-disable unused-imports/no-unused-vars */
 import { format } from 'date-fns';
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -21,7 +22,6 @@ import { View } from '@/components/ui/view';
 import { VStack } from '@/components/ui/vstack';
 import { usePaymentStatus } from '@/hooks/use-payment-status';
 import { useSelectedLanguage } from '@/hooks/use-selected-language';
-import { currencies } from '@/lib/currencies';
 import { getShortId, getStatusActionType } from '@/lib/utils';
 import { useApp } from '@/providers/app.provider';
 import { useGetOrder } from '@/resources/api/merchant/orders';
@@ -86,15 +86,15 @@ export const OrderDetailActionSheet = forwardRef<OrderDetailActionSheetRef, Orde
       onClose?.();
     }, [onClose]);
 
-    useEffect(() => {
-      if (order?.status === 'COMPLETED') {
+    /* useEffect(() => {
+      if (order?.status === 'COMPLETED' && status === 'completed') {
         speakPaymentStatus({
           amount: Number(order?.display_amount ?? 0),
           currency: currencies[order?.display_currency ?? 'USD'].voice,
           language,
         });
       }
-    }, [order]);
+    }, [order, status]); */
 
     if (!orderId) return null;
 
