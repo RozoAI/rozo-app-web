@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FlatList, ScrollView, View } from 'react-native';
+import { FlatList, RefreshControl, ScrollView, View } from 'react-native';
 
 import { Spinner } from '@/components/ui/spinner';
 import { Text } from '@/components/ui/text';
@@ -18,11 +18,13 @@ export function RecentOrdersScreen() {
 
   const [orders, setOrders] = useState<MerchantOrder[]>([]);
   const [status, setStatus] = useState<MerchantOrderStatus>('COMPLETED');
+  const [refreshing, setRefreshing] = useState(false);
 
-  const { data, isFetching } = useGetOrders({ variables: { status } });
+  const { data, isFetching, refetch } = useGetOrders({ variables: { status } });
 
   useEffect(() => {
     setOrders(data ?? []);
+    setRefreshing(false);
   }, [data]);
 
   const handleStatusChange = (status: MerchantOrderStatus) => {
@@ -34,6 +36,10 @@ export function RecentOrdersScreen() {
   const handleOrderPress = (orderId: string) => {
     orderDetailRef.current?.openOrder(orderId);
   };
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    refetch();
+  }, [refetch]);
 
   return (
     <ScrollView className="my-6 flex-1">
@@ -69,6 +75,7 @@ export function RecentOrdersScreen() {
                   )}
                   scrollEnabled={false}
                   contentContainerClassName="gap-4"
+                  refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                 />
               </View>
             )}

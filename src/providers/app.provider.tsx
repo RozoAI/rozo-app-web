@@ -54,7 +54,7 @@ export const MERCHANT_KEY = '_merchant_profile';
 export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
   const { refetch: fetchProfile, data: profileData, error: profileError } = useGetProfile();
   const { mutateAsync: createProfile } = useCreateProfile();
-  const { auth, wallets, ui } = useDynamic();
+  const { auth, wallets, ui, sdk } = useDynamic();
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthLoading, setIsAuthLoading] = useState(false);
   const router = useRouter();
@@ -88,32 +88,23 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
   );
 
   // Initialize the application with auth state
-  const initApp = async () => {
+  const initApp = async (token: string) => {
     setIsLoading(true);
-    const token = auth?.token;
 
     // Check for cached merchant data
     const cachedMerchant = getItem<MerchantProfile>(MERCHANT_KEY);
 
     // Set token if available
-    if (token) {
-      setToken(token);
-      storage.set(TOKEN_KEY, token);
+    setToken(token);
+    setItem(TOKEN_KEY, token);
 
-      // If we have cached merchant data, use it immediately to speed up initial load
-      if (cachedMerchant) {
-        setMerchant(cachedMerchant);
-        // Still fetch fresh data in the background
-        fetchProfile();
-      }
-    } else {
-      // Clear token and merchant data if not available
-      setToken(undefined);
-      // clearMerchantData();
-      storage.delete(TOKEN_KEY);
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 3000);
+    // If we have cached merchant data, use it immediately to speed up initial load
+    if (cachedMerchant) {
+      setMerchant(cachedMerchant);
+
+      setIsLoading(false);
+      // Still fetch fresh data in the background
+      fetchProfile();
     }
   };
 
@@ -169,7 +160,17 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
 
   // Initialize app when auth token changes
   useEffect(() => {
-    initApp();
+    if (auth?.token) {
+      initApp(auth?.token);
+    } else {
+      // Clear token and merchant data if not available
+      setToken(undefined);
+      // clearMerchantData();
+      storage.delete(TOKEN_KEY);
+      // setTimeout(() => {
+      //   setIsLoading(false);
+      // }, 6000);
+    }
   }, [auth?.token]);
 
   // Update wallet information when wallets change
@@ -212,11 +213,14 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
    * Show the authentication modal
    */
   const showAuthModal = useCallback(() => {
-    ui.auth.show();
+    if (auth.token) {
+      auth.logout().then(() => {
+        ui.auth.show();
+      });
+    } else {
+      ui.auth.show();
+    }
   }, [ui]);
-
-  // No longer need separate handleProfileCreationSuccess function
-  // as we're handling success directly in the createMerchantProfile function
 
   /**
    * Create merchant profile with user data
@@ -276,6 +280,7 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
 
   // Define event handlers outside of useEffect
   const authInitHandler = useCallback(() => {
+    console.log('init');
     setIsAuthLoading(true);
   }, []);
 
@@ -308,7 +313,13 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
   auth.on('authInit', authInitHandler);
   auth.on('authSuccess', authSuccessHandler);
   auth.on('authFailed', authFailedHandler);
-  auth.on('loggedOut', logout);
+  sdk.on('loadedChanged', (loaded: boolean) => {
+    if (loaded) {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
+    }
+  });
 
   const contextPayload = useMemo(
     () => ({

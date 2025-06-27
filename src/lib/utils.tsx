@@ -151,3 +151,13 @@ export const isToday = (date: Date): boolean => {
     date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear()
   );
 };
+
+export const getRedirectUri = (path: string) => {
+  let uri = `${process.env.EXPO_PUBLIC_APP_URL}`;
+
+  if (Platform.OS !== 'web') {
+    uri = 'rozopos:/';
+  }
+
+  return `${uri}${path}`;
+};
