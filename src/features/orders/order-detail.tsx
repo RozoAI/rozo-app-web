@@ -87,14 +87,14 @@ export const OrderDetailActionSheet = forwardRef<OrderDetailActionSheetRef, Orde
     }, [onClose]);
 
     useEffect(() => {
-      if (order?.status === 'COMPLETED') {
+      if (order?.status === 'COMPLETED' && status === 'completed') {
         speakPaymentStatus({
           amount: Number(order?.display_amount ?? 0),
           currency: currencies[order?.display_currency ?? 'USD'].voice,
           language,
         });
       }
-    }, [order]);
+    }, [order, status]);
 
     if (!orderId) return null;
 
