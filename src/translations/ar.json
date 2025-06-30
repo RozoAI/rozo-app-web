@@ -7,10 +7,16 @@
     "cancel": "إلغاء",
     "checkConnection": "يرجى التحقق من اتصالك والمحاولة مرة أخرى",
     "close": "يغلق",
+    "confirm": "يتأكد",
     "copiedToClipboard": "coppied إلى الحافظة",
     "createdAt": "تم إنشاؤها في",
     "description": "وصف",
+    "enterAmount": "أدخل المبلغ",
+    "information": "معلومة",
     "loading": "تحميل",
+    "manualWithdraw": "انسحاب يدوي",
+    "manualWithdraw1": "السحب اليدوي سوف ينقل توازنك بالكامل. \nبعد التأكيد ، يرجى الاتصال بفريق روزو على",
+    "manualWithdraw2": "لإكمال العملية.",
     "max": "الحد الأقصى",
     "maxCharacters": "الحد الأقصى {{count}} حرف",
     "merchantId": "معرف التاجر",
@@ -23,15 +29,12 @@
     "status": "حالة",
     "submit": "يُقدِّم",
     "termsOfService": "شروط الخدمة",
+    "topUp": "أعلى",
     "update": "Update",
     "updating": "Updating",
     "walletAddress": "عنوان محفظة",
     "walletBalance": "توازن المحفظة",
-    "withdraw": "ينسحب",
-    "information": "معلومة",
-    "manualWithdraw1": "السحب اليدوي سوف ينقل توازنك بالكامل. \nبعد التأكيد ، يرجى الاتصال بفريق روزو على",
-    "manualWithdraw2": "لإكمال العملية.",
-    "manualWithdraw": "انسحاب يدوي"
+    "withdraw": "ينسحب"
   },
   "home": {
     "title": "بيت"
@@ -69,6 +72,7 @@
       "enterNote": "أدخل الملاحظة",
       "title": "مذكرة الدفع"
     },
+    "openPaymentLink": "رابط الدفع المفتوح",
     "orderNumber": "رقم الطلب",
     "paymentSuccessful": "تم الدفع بنجاح",
     "paymentSuccessfulDesc": "تم إتمام معاملتك بنجاح",

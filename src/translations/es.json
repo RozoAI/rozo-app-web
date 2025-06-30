@@ -7,10 +7,16 @@
     "cancel": "Cancelar",
     "checkConnection": "Por favor, compruebe su conexión e inténtelo de nuevo",
     "close": "Cerrar",
+    "confirm": "Confirmar",
     "copiedToClipboard": "Copiado al portapapeles",
     "createdAt": "Creado a",
     "description": "Descripción",
+    "enterAmount": "Ingresar la cantidad",
+    "information": "Información",
     "loading": "Cargando",
+    "manualWithdraw": "Retirarse manual",
+    "manualWithdraw1": "La retirada manual transferirá todo su saldo. \nDespués de confirmar, comuníquese con el equipo de Rozo en",
+    "manualWithdraw2": "Para completar el proceso.",
     "max": "Máximo",
     "maxCharacters": "Máximo {{count}} caracteres",
     "merchantId": "ID de comerciante",
@@ -23,15 +29,12 @@
     "status": "Estado",
     "submit": "Entregar",
     "termsOfService": "Términos del servicio",
+    "topUp": "Completar",
     "update": "Actualizar",
     "updating": "Actualizando",
     "walletAddress": "Dirección de la billetera",
     "walletBalance": "Saldo de billetera",
-    "withdraw": "Retirar",
-    "information": "Información",
-    "manualWithdraw1": "La retirada manual transferirá todo su saldo. \nDespués de confirmar, comuníquese con el equipo de Rozo en",
-    "manualWithdraw2": "Para completar el proceso.",
-    "manualWithdraw": "Retirarse manual"
+    "withdraw": "Retirar"
   },
   "home": {
     "title": "Inicio"
@@ -69,6 +72,7 @@
       "enterNote": "Ingrese la nota",
       "title": "Nota de pago"
     },
+    "openPaymentLink": "Enlace de pago abierto",
     "orderNumber": "Número de orden",
     "paymentSuccessful": "Pago exitoso",
     "paymentSuccessfulDesc": "Su transacción se ha completado con éxito",

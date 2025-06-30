@@ -7,10 +7,16 @@
     "cancel": "বাতিল",
     "checkConnection": "অনুগ্রহ করে আপনার সংযোগ পরীক্ষা করুন এবং আবার চেষ্টা করুন",
     "close": "বন্ধ করুন",
+    "confirm": "নিশ্চিত করুন",
     "copiedToClipboard": "ক্লিপবোর্ডে কপ্পড",
     "createdAt": "এটি তৈরি",
     "description": "বর্ণনা",
+    "enterAmount": "পরিমাণ প্রবেশ করান",
+    "information": "তথ্য",
     "loading": "লোড হচ্ছে",
+    "manualWithdraw": "ম্যানুয়াল প্রত্যাহার",
+    "manualWithdraw1": "ম্যানুয়াল প্রত্যাহার আপনার পুরো ভারসাম্য স্থানান্তর করবে। \nনিশ্চিত করার পরে, দয়া করে রোজো দলের সাথে যোগাযোগ করুন",
+    "manualWithdraw2": "প্রক্রিয়া সম্পূর্ণ করতে।",
     "max": "সর্বাধিক",
     "maxCharacters": "সর্বাধিক {{count}} অক্ষর",
     "merchantId": "বণিক আইডি",
@@ -23,15 +29,12 @@
     "status": "স্থিতি",
     "submit": "জমা দিন",
     "termsOfService": "পরিষেবার শর্তাবলী",
+    "topUp": "শীর্ষে",
     "update": "Update",
     "updating": "Updating",
     "walletAddress": "মানিব্যাগের ঠিকানা",
     "walletBalance": "মানিব্যাগ ভারসাম্য",
-    "withdraw": "প্রত্যাহার",
-    "information": "তথ্য",
-    "manualWithdraw1": "ম্যানুয়াল প্রত্যাহার আপনার পুরো ভারসাম্য স্থানান্তর করবে। \nনিশ্চিত করার পরে, দয়া করে রোজো দলের সাথে যোগাযোগ করুন",
-    "manualWithdraw2": "প্রক্রিয়া সম্পূর্ণ করতে।",
-    "manualWithdraw": "ম্যানুয়াল প্রত্যাহার"
+    "withdraw": "প্রত্যাহার"
   },
   "home": {
     "title": "বাড়ি"
@@ -69,6 +72,7 @@
       "enterNote": "নোট লিখুন",
       "title": "পেমেন্ট নোট"
     },
+    "openPaymentLink": "পেমেন্ট লিঙ্ক খুলুন",
     "orderNumber": "অর্ডার নম্বর",
     "paymentSuccessful": "পেমেন্ট সফল হয়েছে",
     "paymentSuccessfulDesc": "আপনার লেনদেন সফলভাবে সম্পন্ন হয়েছে",

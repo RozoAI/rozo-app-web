@@ -7,10 +7,16 @@
     "cancel": "Cancel",
     "checkConnection": "Please check your connection and try again",
     "close": "Close",
+    "confirm": "Confirm",
     "copiedToClipboard": "Coppied to Clipboard",
     "createdAt": "Created at",
     "description": "Description",
+    "enterAmount": "Enter amount",
+    "information": "Information",
     "loading": "Loading",
+    "manualWithdraw": "Manual Withdraw",
+    "manualWithdraw1": "Manual withdraw will transfer your entire balance. After confirming, please contact the Rozo team at",
+    "manualWithdraw2": "to complete the process.",
     "max": "Maximum",
     "maxCharacters": "Max {{count}} characters",
     "merchantId": "Merchant ID",
@@ -23,15 +29,12 @@
     "status": "Status",
     "submit": "Submit",
     "termsOfService": "Terms of Service",
+    "topUp": "Top Up",
     "update": "Update",
     "updating": "Updating",
     "walletAddress": "Wallet Address",
     "walletBalance": "Wallet Balance",
-    "withdraw": "Withdraw",
-    "information": "Information",
-    "manualWithdraw1": "Manual withdraw will transfer your entire balance. After confirming, please contact the Rozo team at",
-    "manualWithdraw2": "to complete the process.",
-    "manualWithdraw": "Manual Withdraw"
+    "withdraw": "Withdraw"
   },
   "home": {
     "title": "Home"
@@ -69,6 +72,7 @@
       "enterNote": "Enter note",
       "title": "Payment Note"
     },
+    "openPaymentLink": "Open Payment link",
     "orderNumber": "Order Number",
     "paymentSuccessful": "Payment Successful",
     "paymentSuccessfulDesc": "Your transaction has been completed successfully",
