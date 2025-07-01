@@ -20,6 +20,7 @@ import {
 import { Spinner } from '@/components/ui/spinner';
 import { Text } from '@/components/ui/text';
 import { View } from '@/components/ui/view';
+import { useDepositStatus } from '@/hooks/use-deposit-status';
 import { usePaymentStatus } from '@/hooks/use-payment-status';
 import { useSelectedLanguage } from '@/hooks/use-selected-language';
 import { useApp } from '@/providers/app.provider';
@@ -64,13 +65,16 @@ export function PaymentModal({
     enabled: !!order?.order_id,
   });
 
-  const { data: fetchDataDeposit, refetch: refetchDeposit } = useGetDeposit({
+  const { data: dataDeposit, refetch: refetchDeposit } = useGetDeposit({
     variables: { id: deposit?.deposit_id ?? '' },
     enabled: isDeposit,
   });
 
   // Use our custom hook to handle payment status updates
-  const { status, speakPaymentStatus } = usePaymentStatus(merchant?.merchant_id, order?.order_id, deposit?.deposit_id);
+  const { status, speakPaymentStatus } = usePaymentStatus(merchant?.merchant_id, order?.order_id);
+
+  // Use deposit status hook
+  const { status: depositStatus } = useDepositStatus(merchant?.merchant_id, deposit?.deposit_id);
 
   // Generate QR code when modal opens
   useEffect(() => {
@@ -88,7 +92,7 @@ export function PaymentModal({
 
   // Watch for payment status changes
   useEffect(() => {
-    if (status === 'completed') {
+    if (status === 'completed' || depositStatus === 'completed') {
       // Show success view after a brief delay
       if (isDeposit) {
         refetchDeposit();
@@ -96,12 +100,14 @@ export function PaymentModal({
         refetch();
       }
     }
-  }, [status]);
+  }, [status, depositStatus]);
 
   useEffect(() => {
-    if (fetchData?.status === 'COMPLETED' || fetchDataDeposit?.status === 'COMPLETED') {
+    if (fetchData?.status === 'COMPLETED' || dataDeposit?.status === 'COMPLETED') {
       setIsSuccessPayment(true);
+    }
 
+    if (!isDeposit) {
       // Speak the amount
       speakPaymentStatus({
         amount: Number(amount),
@@ -109,7 +115,7 @@ export function PaymentModal({
         language,
       });
     }
-  }, [fetchData, fetchDataDeposit]);
+  }, [fetchData, dataDeposit]);
 
   // Handle back to home
   const handleBackToHome = useCallback(() => {
