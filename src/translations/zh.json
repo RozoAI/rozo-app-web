@@ -7,10 +7,17 @@
     "cancel": "取消",
     "checkConnection": "请检查您的连接并重试",
     "close": "关闭",
+    "confirm": "确认",
     "copiedToClipboard": "已复制到剪贴板",
     "createdAt": "创建于",
+    "deposit": "订金",
     "description": "描述",
+    "enterAmount": "输入金额",
+    "information": "信息",
     "loading": "加载中",
+    "manualWithdraw": "手动提取",
+    "manualWithdraw1": "手动提取将转移您的全部余额。\n确认后，请与Rozo团队联系",
+    "manualWithdraw2": "完成过程。",
     "max": "最大值",
     "maxCharacters": "最多 {{count}} 个字符",
     "merchantId": "商家ID",
@@ -23,14 +30,12 @@
     "status": "状态",
     "submit": "提交",
     "termsOfService": "服务条款",
+    "topUp": "充值",
     "update": "更新",
     "updating": "更新中",
     "walletAddress": "钱包地址",
     "walletBalance": "钱包余额",
-    "withdraw": "提现",
-    "information": "信息",
-    "manualWithdraw1": "手动提取将转移您的全部余额。\n确认后，请与Rozo团队联系",
-    "manualWithdraw": "手动提取"
+    "withdraw": "提现"
   },
   "home": {
     "title": "首页"
@@ -68,6 +73,7 @@
       "enterNote": "输入备注",
       "title": "付款备注"
     },
+    "openPaymentLink": "打开付款链接",
     "orderNumber": "订单号",
     "paymentSuccessful": "支付成功",
     "paymentSuccessfulDesc": "您的交易已成功完成",

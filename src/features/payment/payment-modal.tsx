@@ -1,6 +1,7 @@
 import { XIcon } from 'lucide-react-native';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Linking } from 'react-native';
 import QRCode from 'react-qr-code';
 
 import { Button, ButtonText } from '@/components/ui/button';
@@ -19,10 +20,13 @@ import {
 import { Spinner } from '@/components/ui/spinner';
 import { Text } from '@/components/ui/text';
 import { View } from '@/components/ui/view';
+import { useDepositStatus } from '@/hooks/use-deposit-status';
 import { usePaymentStatus } from '@/hooks/use-payment-status';
 import { useSelectedLanguage } from '@/hooks/use-selected-language';
 import { useApp } from '@/providers/app.provider';
 import { useGetOrder } from '@/resources/api';
+import { useGetDeposit } from '@/resources/api/merchant/deposits';
+import { type DepositResponse } from '@/resources/schema/deposit';
 import { type OrderResponse } from '@/resources/schema/order';
 
 import { PaymentSuccess } from './payment-success';
@@ -34,26 +38,48 @@ type PaymentModalProps = {
   amount: string;
   dynamicStyles: DynamicStyles;
   order?: OrderResponse;
+  deposit?: DepositResponse;
+  showOpenLink?: boolean;
+  onBackToHome?: () => void;
 };
 
-export function PaymentModal({ isOpen, onClose, amount, dynamicStyles, order }: PaymentModalProps): React.ReactElement {
+export function PaymentModal({
+  isOpen,
+  onClose,
+  amount,
+  dynamicStyles,
+  order,
+  deposit,
+  showOpenLink,
+  onBackToHome,
+}: PaymentModalProps): React.ReactElement {
   const { t } = useTranslation();
   const { defaultCurrency, merchant } = useApp();
   const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
   const [isSuccessPayment, setIsSuccessPayment] = useState(false);
   const { language } = useSelectedLanguage();
+  const isDeposit = useMemo(() => !!deposit?.deposit_id, [deposit]);
 
   const { data: fetchData, refetch } = useGetOrder({
     variables: { id: order?.order_id ?? '' },
     enabled: !!order?.order_id,
   });
 
+  const { data: dataDeposit, refetch: refetchDeposit } = useGetDeposit({
+    variables: { id: deposit?.deposit_id ?? '' },
+    enabled: isDeposit,
+  });
+
   // Use our custom hook to handle payment status updates
   const { status, speakPaymentStatus } = usePaymentStatus(merchant?.merchant_id, order?.order_id);
+
+  // Use deposit status hook
+  const { status: depositStatus } = useDepositStatus(merchant?.merchant_id, deposit?.deposit_id);
+
   // Generate QR code when modal opens
   useEffect(() => {
-    if (isOpen && order?.qrcode) {
-      setQrCodeUrl(order.qrcode);
+    if (isOpen && (order?.qrcode || deposit?.qrcode)) {
+      setQrCodeUrl(order?.qrcode || deposit?.qrcode || null);
     } else {
       setQrCodeUrl(null);
     }
@@ -62,27 +88,26 @@ export function PaymentModal({ isOpen, onClose, amount, dynamicStyles, order }: 
     if (isOpen) {
       setIsSuccessPayment(false);
     }
-  }, [isOpen, order]);
+  }, [isOpen, order, deposit]);
 
   // Watch for payment status changes
   useEffect(() => {
-    if (status === 'completed') {
+    if (status === 'completed' || depositStatus === 'completed') {
       // Show success view after a brief delay
-      refetch();
+      if (isDeposit) {
+        refetchDeposit();
+      } else {
+        refetch();
+      }
     }
-  }, [status]);
-
-  // Handle back to home
-  const handleBackToHome = useCallback(() => {
-    // Reset states
-    setIsSuccessPayment(false);
-    onClose();
-  }, [onClose]);
+  }, [status, depositStatus]);
 
   useEffect(() => {
-    if (fetchData?.status === 'COMPLETED') {
+    if (fetchData?.status === 'COMPLETED' || dataDeposit?.status === 'COMPLETED') {
       setIsSuccessPayment(true);
+    }
 
+    if (!isDeposit) {
       // Speak the amount
       speakPaymentStatus({
         amount: Number(amount),
@@ -90,7 +115,15 @@ export function PaymentModal({ isOpen, onClose, amount, dynamicStyles, order }: 
         language,
       });
     }
-  }, [fetchData]);
+  }, [fetchData, dataDeposit]);
+
+  // Handle back to home
+  const handleBackToHome = useCallback(() => {
+    // Reset states
+    setIsSuccessPayment(false);
+    onClose();
+    onBackToHome?.();
+  }, [onClose, onBackToHome]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="lg" closeOnOverlayClick={false}>
@@ -173,6 +206,20 @@ export function PaymentModal({ isOpen, onClose, amount, dynamicStyles, order }: 
               >
                 {isLoading ? <ButtonSpinner /> : <ButtonText>{t('payment.verifyPayment')}</ButtonText>}
               </Button> */}
+              {showOpenLink && (
+                <Button
+                  onPress={() => {
+                    if (qrCodeUrl) {
+                      Linking.openURL(qrCodeUrl);
+                    }
+                  }}
+                  isDisabled={!qrCodeUrl}
+                  className="w-full rounded-xl"
+                  size={dynamicStyles.size.buttonSize as 'sm' | 'md' | 'lg'}
+                >
+                  <ButtonText>{t('payment.openPaymentLink')}</ButtonText>
+                </Button>
+              )}
               <Button
                 variant="link"
                 onPress={onClose}

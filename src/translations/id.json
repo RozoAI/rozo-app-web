@@ -7,10 +7,17 @@
     "cancel": "Batal",
     "checkConnection": "Silakan periksa koneksi Anda dan coba lagi",
     "close": "Tutup",
+    "confirm": "Mengonfirmasi",
     "copiedToClipboard": "Disalin ke clipboard",
     "createdAt": "Dibuat pada",
+    "deposit": "Deposito",
     "description": "Keterangan",
+    "enterAmount": "Masukkan jumlah",
+    "information": "Informasi",
     "loading": "Memuat",
+    "manualWithdraw": "Penarikan manual",
+    "manualWithdraw1": "Penarikan manual akan mentransfer seluruh saldo Anda. \nSetelah mengonfirmasi, silakan hubungi tim Rozo di",
+    "manualWithdraw2": "untuk menyelesaikan prosesnya.",
     "max": "Maksimum",
     "maxCharacters": "Maksimal {{count}} karakter",
     "merchantId": "ID Pedagang",
@@ -23,15 +30,12 @@
     "status": "Status",
     "submit": "Kirim",
     "termsOfService": "Syarat dan Ketentuan",
+    "topUp": "Top up",
     "update": "Perbarui",
     "updating": "Memperbarui",
     "walletAddress": "Alamat dompet",
     "walletBalance": "Saldo dompet",
-    "withdraw": "Tarik",
-    "information": "Informasi",
-    "manualWithdraw1": "Penarikan manual akan mentransfer seluruh saldo Anda. \nSetelah mengonfirmasi, silakan hubungi tim Rozo di",
-    "manualWithdraw2": "untuk menyelesaikan prosesnya.",
-    "manualWithdraw": "Penarikan manual"
+    "withdraw": "Tarik"
   },
   "home": {
     "title": "Beranda"
@@ -69,6 +73,7 @@
       "enterNote": "Masukkan catatan",
       "title": "Catatan pembayaran"
     },
+    "openPaymentLink": "Buka tautan pembayaran",
     "orderNumber": "Nomor Pesanan",
     "paymentSuccessful": "Pembayaran Berhasil",
     "paymentSuccessfulDesc": "Transaksi Anda telah berhasil diselesaikan",

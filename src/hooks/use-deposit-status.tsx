@@ -1,11 +1,9 @@
-import * as Speech from 'expo-speech';
 import { useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Platform } from 'react-native';
 
 import type { PaymentCompletedEvent } from '@/modules/pusher/pusher';
 import { subscribeToChannel, unsubscribeFromChannel } from '@/modules/pusher/pusher';
-import { useGetOrder } from '@/resources/api/merchant/orders';
+import { useGetDeposit } from '@/resources/api/merchant/deposits';
 
 type PaymentStatus = 'pending' | 'completed' | 'failed';
 
@@ -13,46 +11,29 @@ type PaymentStatus = 'pending' | 'completed' | 'failed';
  * Hook to subscribe to payment status updates via Pusher
  * Works with both web (pusher-js) and native (@pusher/pusher-websocket-react-native) platforms
  */
-export function usePaymentStatus(merchantId?: string, orderId?: string) {
+export function useDepositStatus(merchantId?: string, depositId?: string) {
   const [status, setStatus] = useState<PaymentStatus>('pending');
   const isWeb = Platform.OS === 'web';
-  const { t } = useTranslation();
 
-  const { refetch, data, isLoading } = useGetOrder({
-    variables: { id: orderId ?? '' },
+  const {
+    refetch: refetchDeposit,
+    data: dataDeposit,
+    isLoading: isDepositLoading,
+  } = useGetDeposit({
+    variables: { id: depositId ?? '' },
     enabled: false,
   });
 
   // Function to manually check payment status
   const checkPaymentStatus = () => {
-    if (orderId) {
-      refetch();
+    if (depositId) {
+      refetchDeposit();
     }
   };
 
-  const speakPaymentStatus = async ({
-    amount,
-    currency,
-    language,
-    onEnd,
-  }: {
-    amount: number;
-    currency: string;
-    language: string;
-    onEnd?: () => void;
-  }) => {
-    const thingToSay = t('payment.voiceSuccess', { amount: amount, currency: currency });
-    Speech.speak(thingToSay, {
-      language: language,
-      pitch: 0.8,
-      rate: 0.8,
-      onDone: onEnd,
-    });
-  };
-
   useEffect(() => {
-    // Only subscribe if we have a merchantId and orderId
-    if (!merchantId || !orderId) return;
+    // Only subscribe if we have a merchantId and depositId
+    if (!merchantId || !depositId) return;
 
     const channelName = merchantId;
 
@@ -62,9 +43,9 @@ export function usePaymentStatus(merchantId?: string, orderId?: string) {
         // Subscribe to the channel with event handler for payment_completed event
         // The subscribeToChannel function handles platform differences internally
         await subscribeToChannel(channelName, 'payment_completed', (data: PaymentCompletedEvent) => {
-          if (data.order_id === orderId) {
+          if (data.order_id === depositId) {
             setStatus('completed');
-            console.log(`Payment completed for order ${orderId}`);
+            console.log(`Payment completed for deposit ${depositId}`);
           }
         });
 
@@ -94,24 +75,23 @@ export function usePaymentStatus(merchantId?: string, orderId?: string) {
         cleanup();
       }
     };
-  }, [merchantId, orderId, isWeb]);
+  }, [merchantId, depositId, isWeb]);
 
   useEffect(() => {
-    if (data && data.status === 'COMPLETED') {
+    if (dataDeposit && dataDeposit.status === 'COMPLETED') {
       setStatus('completed');
     }
-  }, [data]);
+  }, [dataDeposit]);
 
   return useMemo(
     () => ({
       status,
-      isLoading: isLoading,
+      isLoading: isDepositLoading,
       checkPaymentStatus,
-      speakPaymentStatus,
       isPending: status === 'pending',
       isCompleted: status === 'completed',
       isFailed: status === 'failed',
     }),
-    [status, isLoading]
+    [status, isDepositLoading]
   );
 }

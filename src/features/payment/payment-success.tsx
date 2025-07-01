@@ -1,4 +1,3 @@
-import { useRouter } from 'expo-router';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -31,7 +30,6 @@ export function PaymentSuccess({
   order,
 }: PaymentSuccessProps): React.ReactElement {
   const { t } = useTranslation();
-  const router = useRouter();
 
   // Handle print receipt
   // const handlePrintReceipt = () => {
@@ -41,7 +39,6 @@ export function PaymentSuccess({
   // Handle back to home
   const handleBackToHome = () => {
     onBackToHome();
-    router.replace('/');
   };
 
   return (

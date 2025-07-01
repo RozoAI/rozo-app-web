@@ -7,10 +7,17 @@
     "cancel": "रद्द करें",
     "checkConnection": "कृपया अपने कनेक्शन की जांच करें और पुनः प्रयास करें",
     "close": "बंद करना",
+    "confirm": "पुष्टि करना",
     "copiedToClipboard": "क्लिपबोर्ड पर कॉपी किया गया",
     "createdAt": "पर बनाया गया",
+    "deposit": "जमा",
     "description": "विवरण",
+    "enterAmount": "राशि डालें",
+    "information": "जानकारी",
     "loading": "लोड हो रहा है",
+    "manualWithdraw": "मैनुअल निकासी",
+    "manualWithdraw1": "मैनुअल वापसी आपके पूरे संतुलन को स्थानांतरित कर देगी। \nपुष्टि करने के बाद, कृपया रोज़ो टीम से संपर्क करें",
+    "manualWithdraw2": "प्रक्रिया को पूरा करने के लिए।",
     "max": "अधिकतम",
     "maxCharacters": "अधिकतम {{count}} वर्ण",
     "merchantId": "व्यापारी आईडी",
@@ -23,15 +30,12 @@
     "status": "स्थिति",
     "submit": "जमा करें",
     "termsOfService": "सेवा की शर्तें",
+    "topUp": "लबालब भरना",
     "update": "अपडेट करें",
     "updating": "अपडेट हो रहा है",
     "walletAddress": "वॉलेट का पता",
     "walletBalance": "वॉलेट शेष",
-    "withdraw": "निकासी",
-    "information": "जानकारी",
-    "manualWithdraw1": "मैनुअल वापसी आपके पूरे संतुलन को स्थानांतरित कर देगी। \nपुष्टि करने के बाद, कृपया रोज़ो टीम से संपर्क करें",
-    "manualWithdraw2": "प्रक्रिया को पूरा करने के लिए।",
-    "manualWithdraw": "मैनुअल निकासी"
+    "withdraw": "निकासी"
   },
   "home": {
     "title": "होम"
@@ -69,6 +73,7 @@
       "enterNote": "नोट दर्ज करें",
       "title": "भुगतान नोट"
     },
+    "openPaymentLink": "खुला भुगतान लिंक",
     "orderNumber": "ऑर्डर नंबर",
     "paymentSuccessful": "भुगतान सफल",
     "paymentSuccessfulDesc": "आपका लेन-देन सफलतापूर्वक पूरा हो गया है",

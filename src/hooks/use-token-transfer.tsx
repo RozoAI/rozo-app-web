@@ -174,6 +174,7 @@ export function useTokenTransfer(): UseTokenTransferResult {
   const isAbleToTransfer = useMemo(() => {
     return !!(wallets.primary && merchantToken);
   }, [wallets.primary, merchantToken]);
+
   return {
     isAbleToTransfer,
     transfer,
