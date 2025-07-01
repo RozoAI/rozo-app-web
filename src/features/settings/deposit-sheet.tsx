@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'expo-router';
 import React, { forwardRef, useImperativeHandle, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -29,12 +30,12 @@ import { type DepositResponse } from '@/resources/schema/deposit';
 import { useDynamicStyles } from '../payment';
 import { PaymentModal } from '../payment/payment-modal';
 
-export type TopupDialogRef = {
+export type DepositDialogRef = {
   open: () => void;
   close: () => void;
 };
 
-type TopupDialogProps = {
+type DepositDialogProps = {
   onConfirm?: (amount: string) => void;
   onCancel?: () => void;
 };
@@ -43,7 +44,7 @@ type FormValues = {
   amount: string;
 };
 
-export const TopupSheet = forwardRef<TopupDialogRef, TopupDialogProps>(({ onConfirm, onCancel }, ref) => {
+export const TopupSheet = forwardRef<DepositDialogRef, DepositDialogProps>(({ onConfirm, onCancel }, ref) => {
   const { t } = useTranslation();
   const { defaultCurrency } = useApp();
   const insets = useSafeAreaInsets();
@@ -53,7 +54,7 @@ export const TopupSheet = forwardRef<TopupDialogRef, TopupDialogProps>(({ onConf
   const dynamicStyles = useDynamicStyles();
   const [createdDeposit, setCreatedDeposit] = useState<DepositResponse>();
   const [amount, setAmount] = useState('0');
-
+  const router = useRouter();
   const { mutateAsync: createDeposit, isPending } = useCreateDeposit();
 
   const MIN_AMOUNT = 0.01;
@@ -164,6 +165,11 @@ export const TopupSheet = forwardRef<TopupDialogRef, TopupDialogProps>(({ onConf
     reset();
   };
 
+  const handleBackToHome = () => {
+    handleClosePaymentModal();
+    router.replace('/settings');
+  };
+
   return (
     <>
       <Actionsheet isOpen={isOpen} onClose={handleClose}>
@@ -176,7 +182,7 @@ export const TopupSheet = forwardRef<TopupDialogRef, TopupDialogProps>(({ onConf
           <VStack className="w-full" space="lg">
             <Box className="items-center">
               <Heading size="lg" className="text-typography-950">
-                {t('general.topUp')}
+                {t('general.deposit')}
               </Heading>
             </Box>
 
@@ -244,6 +250,7 @@ export const TopupSheet = forwardRef<TopupDialogRef, TopupDialogProps>(({ onConf
         dynamicStyles={dynamicStyles}
         amount={amount || '0'}
         deposit={createdDeposit}
+        onBackToHome={handleBackToHome}
         showOpenLink
       />
     </>

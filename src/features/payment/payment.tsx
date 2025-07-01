@@ -1,4 +1,6 @@
+/* eslint-disable unused-imports/no-unused-vars */
 import { NumPad } from '@umit-turk/react-native-num-pad';
+import { useRouter } from 'expo-router';
 import React, { useCallback, useState } from 'react';
 import { Image, useWindowDimensions, View } from 'react-native';
 
@@ -25,7 +27,7 @@ export function PaymentScreen() {
   const [description, setDescription] = useState('');
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [createdOrder, setCreatedOrder] = useState<OrderResponse>();
-
+  const router = useRouter();
   const { selectedTheme } = useSelectedTheme();
 
   const { mutateAsync: createOrder, isPending } = useCreateOrder();
@@ -150,6 +152,11 @@ export function PaymentScreen() {
     setIsPaymentModalOpen(false);
   }, []);
 
+  const handleBackToHome = useCallback(() => {
+    handleClosePaymentModal();
+    router.replace('/');
+  }, []);
+
   const handleNote = useCallback((note: string) => {
     setDescription(note);
   }, []);
@@ -232,6 +239,7 @@ export function PaymentScreen() {
           dynamicStyles={dynamicStyles}
           amount={amount}
           order={createdOrder}
+          onBackToHome={handleBackToHome}
         />
       </View>
     </View>

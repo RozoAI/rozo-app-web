@@ -39,6 +39,7 @@ type PaymentModalProps = {
   order?: OrderResponse;
   deposit?: DepositResponse;
   showOpenLink?: boolean;
+  onBackToHome?: () => void;
 };
 
 export function PaymentModal({
@@ -49,6 +50,7 @@ export function PaymentModal({
   order,
   deposit,
   showOpenLink,
+  onBackToHome,
 }: PaymentModalProps): React.ReactElement {
   const { t } = useTranslation();
   const { defaultCurrency, merchant } = useApp();
@@ -114,7 +116,8 @@ export function PaymentModal({
     // Reset states
     setIsSuccessPayment(false);
     onClose();
-  }, [onClose]);
+    onBackToHome?.();
+  }, [onClose, onBackToHome]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="lg" closeOnOverlayClick={false}>

@@ -12,12 +12,12 @@ import { VStack } from '@/components/ui/vstack';
 import { getShortId, showToast } from '@/lib';
 import { useApp } from '@/providers/app.provider';
 
-import { type TopupDialogRef, TopupSheet } from './topup-sheet';
+import { type DepositDialogRef, TopupSheet } from './deposit-sheet';
 
 export const WalletAddressCard = () => {
   const { t } = useTranslation();
   const { primaryWallet } = useApp();
-  const topupDialogRef = useRef<TopupDialogRef>(null);
+  const DepositDialogRef = useRef<DepositDialogRef>(null);
 
   const copyToClipboard = async () => {
     await Clipboard.setStringAsync(primaryWallet?.address ?? '');
@@ -28,7 +28,7 @@ export const WalletAddressCard = () => {
   };
 
   const handleTopUpPress = () => {
-    topupDialogRef.current?.open();
+    DepositDialogRef.current?.open();
   };
 
   const handleTopUpConfirm = (amount: string) => {
@@ -55,7 +55,7 @@ export const WalletAddressCard = () => {
 
         <View className="flex flex-row items-center gap-3">
           <Button onPress={handleTopUpPress} size="xs" variant="solid" action="secondary" className="p-2">
-            <ButtonText>Top Up</ButtonText>
+            <ButtonText>{t('general.deposit')}</ButtonText>
           </Button>
           <Button onPress={copyToClipboard} size="xs" variant="outline" className="rounded-full p-2">
             <ButtonIcon as={Copy}></ButtonIcon>
@@ -63,7 +63,7 @@ export const WalletAddressCard = () => {
         </View>
       </View>
 
-      <TopupSheet ref={topupDialogRef} onConfirm={handleTopUpConfirm} />
+      <TopupSheet ref={DepositDialogRef} onConfirm={handleTopUpConfirm} />
     </>
   );
 };
