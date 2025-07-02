@@ -28,7 +28,7 @@ export function FilterOrderActionSheet({ onStatusChange }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState<MerchantOrderStatus>('COMPLETED');
 
-  const orderStatuses: MerchantOrderStatus[] = ['PENDING', 'COMPLETED', 'FAILED', 'DISCREPANCY'];
+  const orderStatuses: MerchantOrderStatus[] = ['PENDING', 'COMPLETED'];
 
   const handleStatusSelect = (status: MerchantOrderStatus) => {
     setSelectedStatus(status);
