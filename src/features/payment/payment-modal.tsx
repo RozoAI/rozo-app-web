@@ -107,7 +107,7 @@ export function PaymentModal({
       setIsSuccessPayment(true);
     }
 
-    if (!isDeposit) {
+    if (fetchData?.status === 'COMPLETED' && !isDeposit && Number(amount) > 0) {
       // Speak the amount
       speakPaymentStatus({
         amount: Number(amount),
