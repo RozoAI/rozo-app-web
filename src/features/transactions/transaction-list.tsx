@@ -12,17 +12,24 @@ import { TransactionCard } from './transaction-card';
 export function TransactionList() {
   const { t } = useTranslation();
   const { primaryWallet } = useApp();
-  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage, refetch } = useBaseUSDCTransactions({
-    variables: { address: primaryWallet?.address || '' },
-  });
 
   const [refreshing, setRefreshing] = useState(false);
+  const [forceRefresh, setForceRefresh] = useState(false);
+
+  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage, refetch } = useBaseUSDCTransactions({
+    variables: { address: primaryWallet?.address || '', force: forceRefresh },
+  });
 
   const txs = data?.pages.flat() ?? [];
 
   const onRefresh = useCallback(() => {
+    setForceRefresh(true);
     setRefreshing(true);
     refetch();
+
+    setTimeout(() => {
+      setForceRefresh(false);
+    }, 500);
   }, [refetch]);
 
   if (isLoading) return <Spinner size="small" />;

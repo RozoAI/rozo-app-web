@@ -1,6 +1,8 @@
 import axios, { type AxiosError } from 'axios';
 import { createInfiniteQuery } from 'react-query-kit';
 
+import { getItem, setItem } from '@/lib/storage';
+
 import { type Transaction, type TransactionResponse } from '../schema/transaction';
 
 if (!process.env.EXPO_PUBLIC_ETHERSCAN_API_KEY) {
@@ -19,10 +21,18 @@ const etherScanClient = axios.create({
   timeout: 20 * 1000,
 });
 
-export const useBaseUSDCTransactions = createInfiniteQuery<Transaction[], { address: string }, AxiosError>({
+export const useBaseUSDCTransactions = createInfiniteQuery<Transaction[], { address: string; force?: boolean }, AxiosError>({
   queryKey: ['usdc-transactions'],
   fetcher: async (variables, context) => {
     if (!variables?.address) return [];
+    const cacheKey = `txs:${variables.address}:page:${context.pageParam}`;
+
+    if (!variables.force) {
+      const cached = getItem<Transaction[]>(cacheKey);
+      if (cached) {
+        return cached; // Return cached data if available, Pull to refresh to force a new request
+      }
+    }
 
     const response = await etherScanClient.get('/api', {
       signal: context.signal, // Cancel previous requests
@@ -41,7 +51,7 @@ export const useBaseUSDCTransactions = createInfiniteQuery<Transaction[], { addr
 
     const txs = response.data?.result || [];
 
-    return txs.map(
+    const data = txs.map(
       (tx: TransactionResponse): Transaction => ({
         hash: tx.hash,
         from: tx.from,
@@ -54,6 +64,9 @@ export const useBaseUSDCTransactions = createInfiniteQuery<Transaction[], { addr
         direction: tx.to.toLowerCase() === variables.address.toLowerCase() ? 'IN' : 'OUT',
       })
     );
+
+    await setItem(cacheKey, data);
+    return data;
   },
   getNextPageParam: (lastPage: string | Transaction[], pages: string | Transaction[]) => {
     if (lastPage.length < PAGE_SIZE) return undefined;
