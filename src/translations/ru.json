@@ -31,6 +31,7 @@
     "submit": "Отправить",
     "termsOfService": "Условия использования",
     "topUp": "Пополнить",
+    "unknown": "Неизвестный",
     "update": "Обновить",
     "updating": "Обновление",
     "walletAddress": "Адрес кошелька",
@@ -133,6 +134,18 @@
     "danger": "Ошибка",
     "info": "Информация",
     "success": "Успех"
+  },
+  "transaction": {
+    "direction": {
+      "IN": "Вход",
+      "OUT": "Исходящий"
+    },
+    "noTransactionsFound": "Транзакций не найдено",
+    "recentTransactions": "Недавние транзакции",
+    "recentTransactionsDesc": "Ниже приведены ваши последние транзакции на основе Etherscan"
+  },
+  "transactions": {
+    "title": "Транзакции"
   },
   "validation": {
     "invalidAmount": "Неверная сумма",

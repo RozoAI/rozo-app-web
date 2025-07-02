@@ -31,6 +31,7 @@
     "submit": "Kirim",
     "termsOfService": "Syarat dan Ketentuan",
     "topUp": "Top up",
+    "unknown": "Tidak dikenal",
     "update": "Perbarui",
     "updating": "Memperbarui",
     "walletAddress": "Alamat dompet",
@@ -133,6 +134,18 @@
     "danger": "Kesalahan",
     "info": "Info",
     "success": "Berhasil"
+  },
+  "transaction": {
+    "direction": {
+      "IN": "Masuk",
+      "OUT": "Outing"
+    },
+    "noTransactionsFound": "Tidak ada transaksi yang ditemukan",
+    "recentTransactions": "Transaksi terbaru",
+    "recentTransactionsDesc": "Di bawah ini adalah transaksi terbaru Anda berdasarkan Etherscan"
+  },
+  "transactions": {
+    "title": "Transaksi"
   },
   "validation": {
     "invalidAmount": "Jumlah tidak valid",

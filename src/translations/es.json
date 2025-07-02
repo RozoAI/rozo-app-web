@@ -31,6 +31,7 @@
     "submit": "Entregar",
     "termsOfService": "Términos del servicio",
     "topUp": "Completar",
+    "unknown": "Desconocido",
     "update": "Actualizar",
     "updating": "Actualizando",
     "walletAddress": "Dirección de la billetera",
@@ -133,6 +134,18 @@
     "danger": "Error",
     "info": "Información",
     "success": "Éxito"
+  },
+  "transaction": {
+    "direction": {
+      "IN": "Entrante",
+      "OUT": "Extrovertido"
+    },
+    "noTransactionsFound": "No se encontraron transacciones",
+    "recentTransactions": "Transacciones recientes",
+    "recentTransactionsDesc": "A continuación se presentan sus transacciones más recientes basadas en Esterscan"
+  },
+  "transactions": {
+    "title": "Actas"
   },
   "validation": {
     "invalidAmount": "Cantidad no válida",
