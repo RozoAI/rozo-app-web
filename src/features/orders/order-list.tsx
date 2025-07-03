@@ -19,8 +19,9 @@ export function RecentOrdersScreen() {
   const [orders, setOrders] = useState<MerchantOrder[]>([]);
   const [status, setStatus] = useState<MerchantOrderStatus>('COMPLETED');
   const [refreshing, setRefreshing] = useState(false);
+  const [forceRefresh, setForceRefresh] = useState(false);
 
-  const { data, isFetching, refetch } = useGetOrders({ variables: { status } });
+  const { data, isFetching, refetch } = useGetOrders({ variables: { status, force: forceRefresh } });
 
   useEffect(() => {
     setOrders(data ?? []);
@@ -37,8 +38,13 @@ export function RecentOrdersScreen() {
     orderDetailRef.current?.openOrder(orderId);
   };
   const onRefresh = useCallback(() => {
+    setForceRefresh(true);
     setRefreshing(true);
     refetch();
+
+    setTimeout(() => {
+      setForceRefresh(false);
+    }, 500);
   }, [refetch]);
 
   return (

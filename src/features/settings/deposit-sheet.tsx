@@ -182,7 +182,7 @@ export const TopupSheet = forwardRef<DepositDialogRef, DepositDialogProps>(({ on
           <VStack className="w-full" space="lg">
             <Box className="items-center">
               <Heading size="lg" className="text-typography-950">
-                {t('general.deposit')}
+                {t('general.receive')}
               </Heading>
             </Box>
 

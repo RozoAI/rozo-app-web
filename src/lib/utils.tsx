@@ -26,9 +26,11 @@ export const cn = (...inputs: ClassValue[]) => {
 export const showToast = ({
   type = 'info',
   message = 'Something went wrong ',
+  duration = 4000,
 }: {
   type: 'danger' | 'success' | 'info';
   message: string;
+  duration?: number;
 }) => {
   // Use different icon based on toast type
   // const iconMap = {
@@ -42,7 +44,7 @@ export const showToast = ({
     type: type === 'danger' ? 'error' : type,
     text1: t(`toast.${type}`),
     text2: message,
-    visibilityTime: 4000,
+    visibilityTime: duration,
     swipeable: true,
     autoHide: true,
     position: 'top',
