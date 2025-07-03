@@ -1,6 +1,7 @@
 import { type AxiosError } from 'axios';
 import { createMutation, createQuery } from 'react-query-kit';
 
+import { getItem, setItem } from '@/lib/storage';
 // eslint-disable-next-line import/no-cycle
 import { client } from '@/modules/axios/client';
 import { type MerchantOrder, type OrderResponse } from '@/resources/schema/order';
@@ -12,14 +13,26 @@ type Payload = {
   redirect_uri?: string;
 };
 
-export const useGetOrders = createQuery<MerchantOrder[], { status: string }, AxiosError>({
+export const useGetOrders = createQuery<MerchantOrder[], { status: string; force?: boolean }, AxiosError>({
   queryKey: ['orders'],
-  fetcher: ({ status }) =>
-    client
-      .get('functions/v1/orders', {
-        params: { status },
-      })
-      .then((res) => res?.data?.orders ?? []),
+  fetcher: async ({ status, force }) => {
+    const cacheKey = `orders:${status}`;
+
+    if (!force) {
+      const cached = getItem<MerchantOrder[]>(cacheKey);
+      if (cached) {
+        return cached; // Return cached data if available, Pull to refresh to force a new request
+      }
+    }
+
+    const response = await client.get('functions/v1/orders', {
+      params: { status },
+    });
+
+    const data = response?.data?.orders ?? [];
+    await setItem(cacheKey, data);
+    return data;
+  },
 });
 
 export const useGetOrder = createQuery<MerchantOrder, { id: string }, AxiosError>({
