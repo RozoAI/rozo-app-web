@@ -1,10 +1,9 @@
 import * as Clipboard from 'expo-clipboard';
 import { Copy, Wallet } from 'lucide-react-native';
-import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
-import { Button, ButtonIcon, ButtonText } from '@/components/ui/button';
+import { Button, ButtonIcon } from '@/components/ui/button';
 import { HStack } from '@/components/ui/hstack';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
@@ -12,29 +11,16 @@ import { VStack } from '@/components/ui/vstack';
 import { getShortId, showToast } from '@/lib';
 import { useApp } from '@/providers/app.provider';
 
-import { type DepositDialogRef, TopupSheet } from './deposit-sheet';
-
 export const WalletAddressCard = () => {
   const { t } = useTranslation();
   const { primaryWallet } = useApp();
-  const DepositDialogRef = useRef<DepositDialogRef>(null);
 
   const copyToClipboard = async () => {
     await Clipboard.setStringAsync(primaryWallet?.address ?? '');
     showToast({
-      message: t('general.copiedToClipboard'),
+      message: `${t('general.copiedToClipboard')} - ${t('general.copiedWalletAddressDescription')}`,
       type: 'success',
-    });
-  };
-
-  const handleTopUpPress = () => {
-    DepositDialogRef.current?.open();
-  };
-
-  const handleTopUpConfirm = (amount: string) => {
-    showToast({
-      message: `Top up of ${amount} initiated`,
-      type: 'success',
+      duration: 6000,
     });
   };
 
@@ -53,17 +39,10 @@ export const WalletAddressCard = () => {
           </VStack>
         </HStack>
 
-        <View className="flex flex-row items-center gap-3">
-          <Button onPress={handleTopUpPress} size="xs" variant="solid" action="secondary" className="p-2">
-            <ButtonText>{t('general.deposit')}</ButtonText>
-          </Button>
-          <Button onPress={copyToClipboard} size="xs" variant="outline" className="rounded-full p-2">
-            <ButtonIcon as={Copy}></ButtonIcon>
-          </Button>
-        </View>
+        <Button onPress={copyToClipboard} size="xs" variant="outline" className="rounded-full p-2">
+          <ButtonIcon as={Copy}></ButtonIcon>
+        </Button>
       </View>
-
-      <TopupSheet ref={DepositDialogRef} onConfirm={handleTopUpConfirm} />
     </>
   );
 };
