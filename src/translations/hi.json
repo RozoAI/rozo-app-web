@@ -31,6 +31,7 @@
     "submit": "जमा करें",
     "termsOfService": "सेवा की शर्तें",
     "topUp": "लबालब भरना",
+    "unknown": "अज्ञात",
     "update": "अपडेट करें",
     "updating": "अपडेट हो रहा है",
     "walletAddress": "वॉलेट का पता",
@@ -133,6 +134,18 @@
     "danger": "त्रुटि",
     "info": "जानकारी",
     "success": "सफलता"
+  },
+  "transaction": {
+    "direction": {
+      "IN": "आने वाली",
+      "OUT": "जावक"
+    },
+    "noTransactionsFound": "कोई परिणाम नहीं मिले",
+    "recentTransactions": "हाल ही में लेनदेन",
+    "recentTransactionsDesc": "नीचे इथरस्कैन पर आधारित आपके सबसे हाल के लेनदेन हैं"
+  },
+  "transactions": {
+    "title": "लेनदेन"
   },
   "validation": {
     "invalidAmount": "अमान्य राशि",

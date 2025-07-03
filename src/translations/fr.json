@@ -31,6 +31,7 @@
     "submit": "Soumettre",
     "termsOfService": "Conditions d'utilisation",
     "topUp": "Se débarrasser de",
+    "unknown": "Inconnu",
     "update": "Mettre à jour",
     "updating": "Mise à jour en cours",
     "walletAddress": "Adresse du portefeuille",
@@ -133,6 +134,18 @@
     "danger": "Erreur",
     "info": "Info",
     "success": "Succès"
+  },
+  "transaction": {
+    "direction": {
+      "IN": "Entrant",
+      "OUT": "Sortant"
+    },
+    "noTransactionsFound": "Aucune transaction trouvée",
+    "recentTransactions": "Transactions récentes",
+    "recentTransactionsDesc": "Vous trouverez ci-dessous vos transactions les plus récentes basées sur Etherscan"
+  },
+  "transactions": {
+    "title": "Transactions"
   },
   "validation": {
     "invalidAmount": "Montant non valide",

@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unstable-nested-components */
 import { Redirect, Tabs } from 'expo-router';
-import { HomeIcon, Settings2Icon, ShoppingBagIcon } from 'lucide-react-native';
+import { CircleDollarSignIcon, HomeIcon, Settings2Icon, ShoppingBagIcon } from 'lucide-react-native';
 import { useColorScheme } from 'nativewind';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -74,6 +74,16 @@ export default function TabLayout() {
             tabBarButtonTestID: 'orders-tab',
           }}
         />
+
+        <Tabs.Screen
+          name="transactions"
+          options={{
+            title: t('transactions.title'),
+            tabBarIcon: ({ color }: any) => <Icon as={CircleDollarSignIcon} size="md" color={color} />,
+            tabBarButtonTestID: 'transactions-tab',
+          }}
+        />
+
         <Tabs.Screen
           name="settings"
           options={{

@@ -31,6 +31,7 @@
     "submit": "Enviar",
     "termsOfService": "Termos de Serviço",
     "topUp": "Ligue",
+    "unknown": "Desconhecido",
     "update": "Atualizar",
     "updating": "Atualizando",
     "walletAddress": "Endereço da carteira",
@@ -133,6 +134,18 @@
     "danger": "Erro",
     "info": "Informação",
     "success": "Sucesso"
+  },
+  "transaction": {
+    "direction": {
+      "IN": "Entrada",
+      "OUT": "Extrovertido"
+    },
+    "noTransactionsFound": "Nenhuma transação encontrada",
+    "recentTransactions": "Transações recentes",
+    "recentTransactionsDesc": "Abaixo estão suas transações mais recentes baseadas no EtherScan"
+  },
+  "transactions": {
+    "title": "Transações"
   },
   "validation": {
     "invalidAmount": "Quantidade inválida",

@@ -31,6 +31,7 @@
     "submit": "提交",
     "termsOfService": "服务条款",
     "topUp": "充值",
+    "unknown": "未知",
     "update": "更新",
     "updating": "更新中",
     "walletAddress": "钱包地址",
@@ -133,6 +134,18 @@
     "danger": "错误",
     "info": "信息",
     "success": "成功"
+  },
+  "transaction": {
+    "direction": {
+      "IN": "传入",
+      "OUT": "向外"
+    },
+    "noTransactionsFound": "找不到交易",
+    "recentTransactions": "最近的交易",
+    "recentTransactionsDesc": "以下是您基于Etherscan的最新交易"
+  },
+  "transactions": {
+    "title": "交易"
   },
   "validation": {
     "invalidAmount": "无效的金额",

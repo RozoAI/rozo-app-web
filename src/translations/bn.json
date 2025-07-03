@@ -31,6 +31,7 @@
     "submit": "জমা দিন",
     "termsOfService": "পরিষেবার শর্তাবলী",
     "topUp": "শীর্ষে",
+    "unknown": "অজানা",
     "update": "Update",
     "updating": "Updating",
     "walletAddress": "মানিব্যাগের ঠিকানা",
@@ -133,6 +134,18 @@
     "danger": "ত্রুটি",
     "info": "তথ্য",
     "success": "সফল"
+  },
+  "transaction": {
+    "direction": {
+      "IN": "আগত",
+      "OUT": "বহির্গামী"
+    },
+    "noTransactionsFound": "কোনও লেনদেন পাওয়া যায় নি",
+    "recentTransactions": "সাম্প্রতিক লেনদেন",
+    "recentTransactionsDesc": "নীচে আপনার সাম্প্রতিক লেনদেনগুলি ইথারস্ক্যানের উপর ভিত্তি করে"
+  },
+  "transactions": {
+    "title": "লেনদেন"
   },
   "validation": {
     "invalidAmount": "অবৈধ পরিমাণ",

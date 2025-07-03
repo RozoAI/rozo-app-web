@@ -31,6 +31,7 @@
     "submit": "Submit",
     "termsOfService": "Terms of Service",
     "topUp": "Top Up",
+    "unknown": "Unknown",
     "update": "Update",
     "updating": "Updating",
     "walletAddress": "Wallet Address",
@@ -133,6 +134,18 @@
     "danger": "Error",
     "info": "Info",
     "success": "Success"
+  },
+  "transaction": {
+    "direction": {
+      "IN": "Incoming",
+      "OUT": "Outgoing"
+    },
+    "noTransactionsFound": "No transactions found",
+    "recentTransactions": "Recent Transactions",
+    "recentTransactionsDesc": "Below are your most recent transactions based on Etherscan"
+  },
+  "transactions": {
+    "title": "Transactions"
   },
   "validation": {
     "invalidAmount": "Invalid amount",
