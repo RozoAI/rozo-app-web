@@ -58,9 +58,9 @@ export const OrderDetailActionSheet = forwardRef<OrderDetailActionSheetRef, Orde
 
     // Generate QR code when action sheet opens and order is pending
     useEffect(() => {
-      if (isOpen && order && order.status === 'PENDING') {
+      if (isOpen && order && order.status === 'PENDING' && order.qrcode) {
         // End of Selection
-        setQrCodeUrl(`https://pay.daimo.com/checkout?id=${order.payment_id}`);
+        setQrCodeUrl(order.qrcode);
       } else {
         setQrCodeUrl(null);
       }
