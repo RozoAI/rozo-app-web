@@ -50,9 +50,9 @@ export function PaymentScreen() {
             return '0';
           }
 
-          // Check if the new value would be less than 0.01 (but not exactly 0)
+          // Check if the new value would be less than 0.1 (but not exactly 0)
           const numericValue = parseFloat(newValue.replace(decimalSeparator, '.'));
-          if (!isNaN(numericValue) && numericValue > 0 && numericValue < 0.01) {
+          if (!isNaN(numericValue) && numericValue > 0 && numericValue < 0.1) {
             return '0';
           }
 
@@ -91,9 +91,9 @@ export function PaymentScreen() {
           // Validate the new value
           const numericValue = parseFloat(newValue.replace(decimalSeparator, '.'));
 
-          // Allow exactly 0 or values >= 0.01
-          if (!isNaN(numericValue) && numericValue > 0 && numericValue < 0.01) {
-            // Don't update if the value would be between 0 and 0.01 (exclusive)
+          // Allow exactly 0 or values >= 0.11
+          if (!isNaN(numericValue) && numericValue > 0 && numericValue < 0.1) {
+            // Don't update if the value would be between 0 and 0.1 (exclusive)
             return prev;
           }
 
