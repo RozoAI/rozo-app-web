@@ -57,7 +57,7 @@ export const TopupSheet = forwardRef<DepositDialogRef, DepositDialogProps>(({ on
   const router = useRouter();
   const { mutateAsync: createDeposit, isPending } = useCreateDeposit();
 
-  const MIN_AMOUNT = 0.01;
+  const MIN_AMOUNT = 0.1;
 
   // Create Zod schema for form validation
   const createFormSchema = () => {

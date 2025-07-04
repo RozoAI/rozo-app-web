@@ -63,7 +63,7 @@ export function WithdrawActionSheet({ onClose, onSuccess, balance }: Props) {
   const [isManualConfirmDialogOpen, setIsManualConfirmDialogOpen] = useState(false);
   const [isManualSubmiting, setIsManualSubmitting] = useState(false);
 
-  const MIN_AMOUNT = 0.01;
+  const MIN_AMOUNT = 0.1;
   const maxAmount = useMemo(() => (balance?.balance ? parseFloat(balance?.balance) : 0), [balance]);
 
   // Create Zod schema for form validation
