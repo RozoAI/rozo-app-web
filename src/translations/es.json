@@ -1,4 +1,11 @@
 {
+  "balance": {
+    "description": "Ver y administrar el equilibrio de su billetera",
+    "title": "Balance"
+  },
+  "deposit": {
+    "topUpInitiated": "Recarga de {{amount}} iniciado"
+  },
   "general": {
     "addNote": "Agregar nota",
     "amount": "Monto",
@@ -84,6 +91,9 @@
     "verifyPayment": "Verificar pago",
     "voiceSuccess": "Ha recibido {{amount}} {{currency}} por Rozo"
   },
+  "pos": {
+    "title": "Pajita"
+  },
   "profile": {
     "displayName": "Nombre para mostrar",
     "email": "Correo electrónico",
@@ -115,6 +125,10 @@
     "login": "Iniciar sesión",
     "logout": "Cerrar sesión",
     "more": "Más",
+    "pointOfSales": {
+      "description": "Habilitar la pestaña del hogar para las funciones de punto de venta",
+      "title": "Mostrar punto de venta"
+    },
     "privacy": "Política de privacidad",
     "rate": "Calificar",
     "share": "Compartir",

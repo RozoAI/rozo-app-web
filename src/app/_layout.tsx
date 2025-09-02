@@ -21,6 +21,7 @@ import { dynamicClient } from '@/modules/dynamic/dynamic-client';
 import { configureDynamicDeepLinks } from '@/modules/dynamic/dynamic-linking';
 import i18n from '@/modules/i18n';
 import { AppProvider } from '@/providers/app.provider';
+import { POSToggleProvider } from '@/providers/pos-toggle.provider';
 import { QueryProvider } from '@/providers/query.provider';
 
 export { ErrorBoundary } from 'expo-router';
@@ -99,7 +100,11 @@ function Providers({ children, onLayout }: { children: React.ReactNode; onLayout
               {/* @ts-ignore */}
               <dynamicClient.reactNative.WebView />
               <KeyboardProvider>
-                <AppProvider>{Platform.OS === 'web' ? <WebFontsLoader>{children}</WebFontsLoader> : children}</AppProvider>
+                <AppProvider>
+                  <POSToggleProvider>
+                    {Platform.OS === 'web' ? <WebFontsLoader>{children}</WebFontsLoader> : children}
+                  </POSToggleProvider>
+                </AppProvider>
               </KeyboardProvider>
             </QueryProvider>
           </ThemeProvider>

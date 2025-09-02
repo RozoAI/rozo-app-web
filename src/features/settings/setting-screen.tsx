@@ -15,11 +15,11 @@ import { AccountSection } from '@/features/settings/account-section';
 import { useSelectedLanguage } from '@/hooks/use-selected-language';
 import { useApp } from '@/providers/app.provider';
 
+import { POSToggleSetting } from './pos-toggle-setting';
 import { ActionSheetCurrencySwitcher } from './select-currency';
 import { ActionSheetLanguageSwitcher } from './select-language';
 import { ActionSheetThemeSwitcher } from './theme-switcher';
 import { WalletAddressCard } from './wallet-address-card';
-import { WalletBalanceCard } from './wallet-balance-card';
 
 export function SettingScreen() {
   const { logout } = useApp();
@@ -40,10 +40,15 @@ export function SettingScreen() {
 
           <VStack className="items-center justify-between divide-y divide-gray-200 rounded-xl border border-background-300 bg-background-0 px-4 py-2 dark:divide-[#2b2b2b]">
             <WalletAddressCard />
-            <WalletBalanceCard />
+            {/* <WalletBalanceCard /> */}
           </VStack>
 
+          {/* List Settings */}
           <View className="flex flex-col items-center justify-between divide-y divide-gray-200 rounded-xl border border-background-300 bg-background-0 px-4 py-2 dark:divide-[#2b2b2b]">
+            <POSToggleSetting />
+
+            <Divider />
+
             <ActionSheetCurrencySwitcher />
 
             <Divider />
