@@ -1,4 +1,11 @@
 {
+  "balance": {
+    "description": "View and manage your wallet balance",
+    "title": "Balance"
+  },
+  "deposit": {
+    "topUpInitiated": "Top up of {{amount}} initiated"
+  },
   "general": {
     "addNote": "Add note",
     "amount": "Amount",
@@ -84,6 +91,9 @@
     "verifyPayment": "Verify Payment",
     "voiceSuccess": "You have received {{amount}} {{currency}} by Rozo"
   },
+  "pos": {
+    "title": "POS"
+  },
   "profile": {
     "displayName": "Display Name",
     "email": "Email",
@@ -115,6 +125,10 @@
     "login": "Login",
     "logout": "Logout",
     "more": "More",
+    "pointOfSales": {
+      "description": "Enable home tab for point of sale features",
+      "title": "Show Point of Sales"
+    },
     "privacy": "Privacy Policy",
     "rate": "Rate",
     "share": "Share",

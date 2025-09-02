@@ -1,4 +1,11 @@
 {
+  "balance": {
+    "description": "عرض وإدارة توازن محفظتك",
+    "title": "توازن"
+  },
+  "deposit": {
+    "topUpInitiated": "تسبق {{{amount}}"
+  },
   "general": {
     "addNote": "إضافة ملاحظة",
     "amount": "المبلغ",
@@ -84,6 +91,9 @@
     "verifyPayment": "تحقق من الدفع",
     "voiceSuccess": "تم استلام {{amount}} {{currency}} من Rozo"
   },
+  "pos": {
+    "title": "نقاط البيع"
+  },
   "profile": {
     "displayName": "اسم العرض",
     "email": "البريد الإلكتروني",
@@ -115,6 +125,10 @@
     "login": "تسجيل الدخول",
     "logout": "تسجيل الخروج",
     "more": "المزيد",
+    "pointOfSales": {
+      "description": "تمكين علامة تبويب المنزل لميزات نقطة البيع",
+      "title": "نقطة المبيعات"
+    },
     "privacy": "سياسة الخصوصية",
     "rate": "تقييم",
     "share": "مشاركة",

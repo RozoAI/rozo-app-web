@@ -1,4 +1,11 @@
 {
+  "balance": {
+    "description": "আপনার ওয়ালেট ভারসাম্য দেখুন এবং পরিচালনা করুন",
+    "title": "ভারসাম্য"
+  },
+  "deposit": {
+    "topUpInitiated": "{{amount}} এর টপ আপ শুরু হয়েছে"
+  },
   "general": {
     "addNote": "নোট যোগ করুন",
     "amount": "পরিমাণ",
@@ -84,6 +91,9 @@
     "verifyPayment": "পেমেন্ট যাচাই করুন",
     "voiceSuccess": "আপনি Rozo-এর মাধ্যমে {{amount}} {{currency}} পেয়েছেন"
   },
+  "pos": {
+    "title": "পোস"
+  },
   "profile": {
     "displayName": "প্রদর্শন নাম",
     "email": "ইমেইল",
@@ -115,6 +125,10 @@
     "login": "লগইন",
     "logout": "লগআউট",
     "more": "আরো",
+    "pointOfSales": {
+      "description": "পয়েন্ট অফ বিক্রয় বৈশিষ্ট্যগুলির জন্য হোম ট্যাব সক্ষম করুন",
+      "title": "বিক্রয় পয়েন্ট প্রদর্শন"
+    },
     "privacy": "গোপনীয়তা নীতি",
     "rate": "মূল্যায়ন",
     "share": "শেয়ার করুন",

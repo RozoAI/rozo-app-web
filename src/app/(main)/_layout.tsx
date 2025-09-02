@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unstable-nested-components */
 import { Redirect, Tabs } from 'expo-router';
-import { CircleDollarSignIcon, HomeIcon, Settings2Icon, ShoppingBagIcon } from 'lucide-react-native';
+import { CircleDollarSignIcon, Coins, Settings2Icon, ShoppingBagIcon, ShoppingCartIcon } from 'lucide-react-native';
 import { useColorScheme } from 'nativewind';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -10,12 +10,14 @@ import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/utils';
 import { useApp } from '@/providers/app.provider';
+import { usePOSToggle } from '@/providers/pos-toggle.provider';
 
 export default function TabLayout() {
   const theme = useColorScheme();
   const { isAuthenticated } = useApp();
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
+  const { showPOS } = usePOSToggle();
 
   if (!isAuthenticated) {
     return <Redirect href="login" />;
@@ -60,10 +62,25 @@ export default function TabLayout() {
         <Tabs.Screen
           name="index"
           options={{
-            title: t('home.title'),
-            tabBarIcon: ({ color }: any) => <Icon as={HomeIcon} size="md" color={color} />,
-            tabBarButtonTestID: 'home-tab',
+            title: t('balance.title'),
+            tabBarIcon: ({ color }: any) => <Icon as={Coins} size="md" color={color} />,
+            tabBarButtonTestID: 'balance-tab',
           }}
+        />
+
+        <Tabs.Screen
+          name="pos"
+          options={
+            showPOS
+              ? {
+                  title: t('pos.title'),
+                  tabBarIcon: ({ color }: any) => <Icon as={ShoppingCartIcon} size="md" color={color} />,
+                  tabBarButtonTestID: 'pos-tab',
+                }
+              : {
+                  href: null,
+                }
+          }
         />
 
         <Tabs.Screen

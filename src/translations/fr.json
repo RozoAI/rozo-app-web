@@ -1,4 +1,11 @@
 {
+  "balance": {
+    "description": "Afficher et gérer votre équilibre de portefeuille",
+    "title": "Équilibre"
+  },
+  "deposit": {
+    "topUpInitiated": "Gérer {{amount}} initié"
+  },
   "general": {
     "addNote": "Ajouter une note",
     "amount": "Montant",
@@ -84,6 +91,9 @@
     "verifyPayment": "Vérifier le paiement",
     "voiceSuccess": "Vous avez reçu {{amount}} {{currency}} par Rozo"
   },
+  "pos": {
+    "title": "Point de point"
+  },
   "profile": {
     "displayName": "Nom d'affichage",
     "email": "Email",
@@ -115,6 +125,10 @@
     "login": "Connexion",
     "logout": "Déconnexion",
     "more": "Plus",
+    "pointOfSales": {
+      "description": "Activer l'onglet Home pour les fonctionnalités de point de vente",
+      "title": "Montrer le point de vente"
+    },
     "privacy": "Politique de confidentialité",
     "rate": "Noter",
     "share": "Partager",

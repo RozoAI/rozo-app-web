@@ -1,4 +1,11 @@
 {
+  "balance": {
+    "description": "Veja e gerencie o equilíbrio da sua carteira",
+    "title": "Equilíbrio"
+  },
+  "deposit": {
+    "topUpInitiated": "Recarga de {{amount}} iniciado"
+  },
   "general": {
     "addNote": "Adicionar nota",
     "amount": "Quantia",
@@ -84,6 +91,9 @@
     "verifyPayment": "Verificar Pagamento",
     "voiceSuccess": "Você recebeu {{amount}} {{currency}} pelo Rozo"
   },
+  "pos": {
+    "title": "POS"
+  },
   "profile": {
     "displayName": "Nome de exibição",
     "email": "E-mail",
@@ -115,6 +125,10 @@
     "login": "Entrar",
     "logout": "Sair",
     "more": "Mais",
+    "pointOfSales": {
+      "description": "Habilitar a guia Home para os recursos de ponto de venda",
+      "title": "Mostrar ponto de vendas"
+    },
     "privacy": "Política de Privacidade",
     "rate": "Avaliar",
     "share": "Compartilhar",

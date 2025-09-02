@@ -153,10 +153,10 @@ export function WithdrawActionSheet({ onClose, onSuccess, balance }: Props) {
     setValue('amount', maxAmount.toString(), { shouldValidate: true });
   };
 
-  const handleManualWithdraw = () => {
-    setIsManualConfirmDialogOpen(true);
-    setIsManual(true);
-  };
+  // const handleManualWithdraw = () => {
+  //   setIsManualConfirmDialogOpen(true);
+  //   setIsManual(true);
+  // };
 
   const handleCancelManualWithdraw = () => {
     if (isManualSubmiting) return;
@@ -338,7 +338,7 @@ export function WithdrawActionSheet({ onClose, onSuccess, balance }: Props) {
 
               <Divider />
 
-              <Alert action="warning" className="flex w-full flex-row items-start gap-4 self-center py-4">
+              {/* <Alert action="warning" className="flex w-full flex-row items-start gap-4 self-center py-4">
                 <AlertIcon as={InfoIcon} className="mt-1" />
                 <VStack className="flex-1">
                   <Text className="font-semibold text-typography-900" size="xs">
@@ -356,7 +356,7 @@ export function WithdrawActionSheet({ onClose, onSuccess, balance }: Props) {
 
               <Button onPress={handleManualWithdraw} isDisabled={isValid} className="w-full rounded-xl">
                 <ButtonText>{t('general.manualWithdraw')}</ButtonText>
-              </Button>
+              </Button> */}
 
               <WithdrawManualConfirmation
                 balance={maxAmount.toString()}
