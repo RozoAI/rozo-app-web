@@ -12,15 +12,21 @@ export function POSToggleSetting() {
   const { showPOS, togglePOS } = usePOSToggle();
 
   return (
-    <View className="w-full flex-1 flex-row items-center justify-between gap-4 px-2 py-3">
-      <View className="flex-row items-center gap-2">
-        <Icon as={ShoppingCartIcon} className="mb-auto mt-1 stroke-[#747474]" />
-        <View className="flex-col items-start gap-1">
-          <Text size="md">{t('settings.pointOfSales.title')}</Text>
-          <Text size="sm">{t('settings.pointOfSales.description')}</Text>
+    <View className="w-full flex-1 flex-row items-center gap-4 px-2 py-3">
+      <View className="flex-1 flex-row items-center gap-2">
+        <Icon as={ShoppingCartIcon} className="mb-auto mt-1 shrink-0 stroke-[#747474]" />
+        <View className="flex-1 flex-col items-start gap-1">
+          <Text size="md" className="shrink">
+            {t('settings.pointOfSales.title')}
+          </Text>
+          <Text size="sm" className="shrink">
+            {t('settings.pointOfSales.description')}
+          </Text>
         </View>
       </View>
-      <Switch value={showPOS} onValueChange={togglePOS} size="md" />
+      <View className="shrink-0">
+        <Switch value={showPOS} onValueChange={togglePOS} size="md" />
+      </View>
     </View>
   );
 }
