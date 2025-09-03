@@ -247,7 +247,7 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
               description: '',
               logo_url: oauthData?.oauthAccountPhotos?.[0] ?? '',
               default_currency: defaultCurrency.code,
-              default_language: language ?? 'EN',
+              default_language: language.toUpperCase() ?? 'EN',
               default_token_id: defaultToken?.key,
               // wallet_address: evmWallet?.address ?? '',
             });
