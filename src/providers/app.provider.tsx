@@ -230,7 +230,7 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
       try {
         // Handle success directly here
         if (auth.token) {
-          if (user?.newUser) {
+          if (user?.newUser || !profileData) {
             // const evmWallet = userWallets.find((wallet) => wallet.chain === 'EVM' && wallet.key === 'zerodev');
 
             // get oauth data
@@ -247,7 +247,7 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
               description: '',
               logo_url: oauthData?.oauthAccountPhotos?.[0] ?? '',
               default_currency: defaultCurrency.code,
-              default_language: language ?? 'en',
+              default_language: language ?? 'EN',
               default_token_id: defaultToken?.key,
               // wallet_address: evmWallet?.address ?? '',
             });
