@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { ScrollView } from 'react-native';
 
 import { Button, ButtonIcon, ButtonText } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import { HStack } from '@/components/ui/hstack';
 import { Text } from '@/components/ui/text';
 import { View } from '@/components/ui/view';
@@ -44,9 +43,10 @@ export function BalanceScreen() {
 
       <VStack space="lg">
         {/* Balance Card */}
-        <Card>
+
+        <VStack className="rounded-xl border border-background-300 bg-background-0 px-4 py-2">
           <BalanceInfo />
-        </Card>
+        </VStack>
 
         {/* Action Buttons */}
         <VStack space="md" className="flex-1 justify-center">
