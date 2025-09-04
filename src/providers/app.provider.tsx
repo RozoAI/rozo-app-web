@@ -230,7 +230,7 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
       try {
         // Handle success directly here
         if (auth.token) {
-          if (user?.newUser || !profileData) {
+          if (user?.newUser) {
             // const evmWallet = userWallets.find((wallet) => wallet.chain === 'EVM' && wallet.key === 'zerodev');
 
             // get oauth data
@@ -241,16 +241,18 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
             //   await wallets.setPrimary({ walletId: evmWallet?.id });
             // }
 
-            await createProfile({
-              email: user?.email ?? '',
-              display_name: oauthData?.oauthDisplayName ?? user?.email,
-              description: '',
-              logo_url: oauthData?.oauthAccountPhotos?.[0] ?? '',
-              default_currency: defaultCurrency.code,
-              default_language: language.toUpperCase() ?? 'EN',
-              default_token_id: defaultToken?.key,
-              // wallet_address: evmWallet?.address ?? '',
-            });
+            if (!profileData) {
+              await createProfile({
+                email: user?.email ?? '',
+                display_name: oauthData?.oauthDisplayName ?? user?.email,
+                description: '',
+                logo_url: oauthData?.oauthAccountPhotos?.[0] ?? '',
+                default_currency: defaultCurrency.code,
+                default_language: (language ?? 'EN').toUpperCase(),
+                default_token_id: defaultToken?.key,
+                // wallet_address: evmWallet?.address ?? '',
+              });
+            }
           }
 
           setToken(auth.token);
