@@ -1,10 +1,39 @@
 <h1 align="center">
-  <img alt="logo" src="./assets/icon.png" width="124px" style="border-radius:10px"/><br/> Rozo POS 
+  <img alt="logo" src="https://rewards.rozo.ai/logo-square.png" width="124px" style="border-radius:10px"/><br/> Rozo App
 </h1>
 
 ## About
 
-Rozo POS is a React Native mobile application built with Expo, designed to serve as a point-of-sale system for merchants.
+Rozo App is a modern mobile application that combines a Point-of-Sale system with embedded wallets.
+It’s designed to make it easy for merchants and users to handle payments, deposits, and withdrawals — all in one place.
+
+## Features
+
+🔐 Embedded Wallets – Powered by the **Dynamic SDK**, so every user has a secure digital wallet built in.
+
+🛒 POS System – Simple and fast checkout experience for merchants and customers.
+
+💰 Deposit & Withdraw – Seamlessly move funds in and out of the app.
+
+🌍 Multi-Platform – Works on iOS, Android, and Web.
+
+🔑 Secure Login – Protect your account with modern authentication.
+
+🌐 Multi-language Support – Accessible to users in different regions.
+
+## Screenshots
+| Sign In | Balance | Orders | POS |
+|---|---|---|---|
+| <img width="430" height="932" alt="image" src="https://github.com/user-attachments/assets/518130ee-88d4-4043-b4a5-308a92816f97" /> | <img width="430" height="932" alt="image" src="https://github.com/user-attachments/assets/33e434fb-1d71-4bee-a7de-b580f00522c1" /> | <img width="430" height="932" alt="image" src="https://github.com/user-attachments/assets/9717dbd5-03fe-4d77-a706-7c9cb8fc4233" /> | <img width="430" height="932" alt="image" src="https://github.com/user-attachments/assets/47598596-543d-4649-a1b9-b53113379b17" /> |
+
+
+## Download & Access
+
+📱 Android APK → [Download here](https://drive.google.com/drive/folders/14JnlxkqVrboGMeFdpJHwBJEC7DccpbcY?usp=drive_link)
+
+🌐 Web Version → [Open in Browser](https://rozo-pos.vercel.app/)
+
+iOS version will be available soon via TestFlight.
 
 ## Setup
 
