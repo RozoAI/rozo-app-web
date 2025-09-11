@@ -1,10 +1,25 @@
 <h1 align="center">
-  <img alt="logo" src="./assets/icon.png" width="124px" style="border-radius:10px"/><br/> Rozo POS 
+  <img alt="logo" src="./assets/logo-square.png" width="124px" style="border-radius:10px"/><br/> Rozo App
 </h1>
 
 ## About
 
-Rozo POS is a React Native mobile application built with Expo, designed to serve as a point-of-sale system for merchants.
+Rozo App is a modern mobile application that combines a Point-of-Sale system with embedded wallets.
+It’s designed to make it easy for merchants and users to handle payments, deposits, and withdrawals — all in one place.
+
+## Features
+
+🔐 Embedded Wallets – Powered by the Dynamic SDK, so every user has a secure digital wallet built in.
+
+🛒 POS System – Simple and fast checkout experience for merchants and customers.
+
+💰 Deposit & Withdraw – Seamlessly move funds in and out of the app.
+
+🌍 Multi-Platform – Works on iOS, Android, and Web.
+
+🔑 Secure Login – Protect your account with modern authentication.
+
+🌐 Multi-language Support – Accessible to users in different regions.
 
 ## Setup
 
