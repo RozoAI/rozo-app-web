@@ -1,0 +1,101 @@
+import * as Application from 'expo-application';
+import { ChevronRightIcon, Languages, Palette } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
+import { ScrollView, View } from 'react-native';
+
+import { type ModeType } from '@/components/gluestack-ui-provider';
+import { Button, ButtonText } from '@/components/ui/button';
+import { Divider } from '@/components/ui/divider';
+import { Icon } from '@/components/ui/icon';
+import { SafeAreaView } from '@/components/ui/safe-area-view';
+import { Text } from '@/components/ui/text';
+import { VStack } from '@/components/ui/vstack';
+import { POSToggleSetting } from '@/features/settings/pos-toggle-setting';
+import { ActionSheetLanguageSwitcher } from '@/features/settings/select-language';
+import { ActionSheetThemeSwitcher } from '@/features/settings/theme-switcher';
+import { useSelectedLanguage } from '@/hooks/use-selected-language';
+import { usePrivy } from '@/modules/privy/privy-client';
+
+import { WalletAddressCardV2 } from './wallet-address-card';
+
+export default function SettingScreenV2() {
+  const { t } = useTranslation();
+  const { language } = useSelectedLanguage();
+  const { logout } = usePrivy();
+
+  return (
+    <SafeAreaView className="my-6 flex-1">
+      <ScrollView className="flex-1">
+        <View className="mb-6">
+          <Text className="text-2xl font-bold">{t('settings.title')}</Text>
+          <Text className="text-sm text-gray-400">{t('settings.description')}</Text>
+        </View>
+        <VStack space="lg">
+          <VStack className="items-start justify-between rounded-xl border border-background-300 bg-background-0 px-4 py-2">
+            {/* <AccountSection /> */}
+          </VStack>
+
+          <VStack className="items-center justify-between divide-y divide-gray-200 rounded-xl border border-background-300 bg-background-0 px-4 py-2 dark:divide-[#2b2b2b]">
+            <WalletAddressCardV2 />
+          </VStack>
+
+          {/* List Settings */}
+          <View className="flex flex-col items-center justify-between divide-y divide-gray-200 rounded-xl border border-background-300 bg-background-0 px-4 py-2 dark:divide-[#2b2b2b]">
+            <POSToggleSetting />
+
+            <Divider />
+
+            {/* <ActionSheetCurrencySwitcher /> */}
+
+            <Divider />
+
+            <ActionSheetLanguageSwitcher
+              initialLanguage={language}
+              trigger={(lg) => (
+                <View className="w-full flex-1 flex-row items-center justify-between gap-4 px-2 py-3">
+                  <View className="flex-row items-center gap-2">
+                    <Icon as={Languages} className="mb-auto mt-1 stroke-[#747474]" />
+                    <View className="flex-col items-start gap-1">
+                      <Text size="md">{t('settings.language.title')}</Text>
+                      <Text size="sm">{lg}</Text>
+                    </View>
+                  </View>
+                  <Icon as={ChevronRightIcon} className="text-gray-400 dark:text-gray-50" />
+                </View>
+              )}
+            />
+
+            <Divider />
+
+            <ActionSheetThemeSwitcher
+              trigger={(selectedTheme: ModeType) => (
+                <View className="w-full flex-1 flex-row items-center justify-between gap-4 px-2 py-3">
+                  <View className="flex-row items-center gap-2">
+                    <Icon as={Palette} className="mb-auto mt-1 stroke-[#747474]" />
+                    <View className="flex-col items-start gap-1">
+                      <Text size="md">{t('settings.theme.title')}</Text>
+                      <Text size="sm">{t(`settings.theme.${selectedTheme}`)}</Text>
+                    </View>
+                  </View>
+                  <Icon as={ChevronRightIcon} className="text-gray-400 dark:text-gray-50" />
+                </View>
+              )}
+            />
+          </View>
+
+          <Button variant="link" size="sm" action="negative" onPress={logout} className="rounded-xl">
+            <ButtonText>{t('settings.logout')}</ButtonText>
+          </Button>
+
+          {Application.nativeApplicationVersion && (
+            <VStack space="sm">
+              <Text className="text-center text-xs">
+                {t('settings.version')} - {Application.nativeApplicationVersion}
+              </Text>
+            </VStack>
+          )}
+        </VStack>
+      </ScrollView>
+    </SafeAreaView>
+  );
+}

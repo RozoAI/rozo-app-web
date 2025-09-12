@@ -1,28 +1,37 @@
 /* eslint-disable react/no-unstable-nested-components */
-import { Redirect, Tabs } from 'expo-router';
-import { CircleDollarSignIcon, Coins, Settings2Icon, ShoppingBagIcon, ShoppingCartIcon } from 'lucide-react-native';
+import { router, Tabs } from 'expo-router';
+import { Coins, Settings2Icon } from 'lucide-react-native';
 import { useColorScheme } from 'nativewind';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { PageLoader } from '@/components/loader/loader';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/utils';
-import { useApp } from '@/providers/app.provider';
-import { usePOSToggle } from '@/providers/pos-toggle.provider';
-
-import { authMode } from '../_layout';
+import { usePrivy } from '@/modules/privy/privy-client';
 
 export default function TabLayout() {
   const theme = useColorScheme();
-  const { isAuthenticated } = useApp();
-  const { t } = useTranslation();
   const insets = useSafeAreaInsets();
-  const { showPOS } = usePOSToggle();
+  const { t } = useTranslation();
 
-  if (!isAuthenticated && authMode === 'dynamic') {
-    return <Redirect href="login" />;
+  const { logout, ready, authenticated } = usePrivy();
+
+  const handleLogout = async () => {
+    await logout();
+    router.replace('/sign-in');
+  };
+
+  React.useEffect(() => {
+    if (ready && !authenticated) {
+      handleLogout();
+    }
+  }, [ready, authenticated]);
+
+  if (!ready) {
+    return <PageLoader />;
   }
 
   return (
@@ -55,8 +64,8 @@ export default function TabLayout() {
           ),
           sceneStyle: {
             paddingTop: insets.top,
-            paddingLeft: insets.left + 16,
-            paddingRight: insets.right + 16,
+            // paddingLeft: insets.left + 16,
+            // paddingRight: insets.right + 16,
             backgroundColor: theme?.colorScheme === 'dark' ? '#141419' : '#f8f8ff',
           },
         }}
@@ -70,7 +79,7 @@ export default function TabLayout() {
           }}
         />
 
-        <Tabs.Screen
+        {/* <Tabs.Screen
           name="pos"
           options={
             showPOS
@@ -83,32 +92,32 @@ export default function TabLayout() {
                   href: null,
                 }
           }
-        />
+        /> */}
 
-        <Tabs.Screen
+        {/* <Tabs.Screen
           name="orders"
           options={{
             title: t('order.title'),
             tabBarIcon: ({ color }: any) => <Icon as={ShoppingBagIcon} size="md" color={color} />,
             tabBarButtonTestID: 'orders-tab',
           }}
-        />
+        /> */}
 
-        <Tabs.Screen
+        {/* <Tabs.Screen
           name="transactions"
           options={{
             title: t('transactions.title'),
             tabBarIcon: ({ color }: any) => <Icon as={CircleDollarSignIcon} size="md" color={color} />,
             tabBarButtonTestID: 'transactions-tab',
           }}
-        />
+        /> */}
 
         <Tabs.Screen
           name="settings"
           options={{
             title: t('settings.title'),
             tabBarIcon: ({ color }: any) => <Icon as={Settings2Icon} size="md" color={color} />,
-            tabBarButtonTestID: 'settings-tab',
+            tabBarButtonTestID: 'settings-tab-privy',
           }}
         />
       </Tabs>

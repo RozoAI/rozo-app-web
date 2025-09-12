@@ -42,7 +42,7 @@ export default function LoginScreen() {
         <Box className="mb-6 w-full items-center justify-center">
           {selectedTheme === 'dark' ? <LogoWhiteSvg width={100} height={100} /> : <LogoSvg width={100} height={100} />}
 
-          <Text className="text-primary text-center text-3xl font-bold">Rozo POS</Text>
+          <Text className="text-primary text-center text-3xl font-bold">Rozo App</Text>
 
           <Text className="mt-2 text-center text-base text-gray-600 dark:text-gray-300">{t('login.description')}</Text>
         </Box>
