@@ -29,7 +29,7 @@ import { QueryProvider } from '@/providers/query.provider';
 
 export { ErrorBoundary } from 'expo-router';
 
-export const authMode: 'privy' | 'dynamic' | string = 'privy';
+export const authMode: 'privy' | 'dynamic' | string = process.env.EXPO_PUBLIC_AUTH_MODE === 'dynamic' ? 'dynamic' : 'privy';
 export const unstable_settings = {
   initialRouteName: authMode === 'dynamic' ? '(main)' : '(app)',
 };
