@@ -1,7 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
+import { authMode } from '@/app/_layout';
 import { getTokenBalance, type TokenBalanceResult } from '@/modules/dynamic/token-operations';
 import { useApp } from '@/providers/app.provider';
+
+import { useEVMWallet } from './use-evm-wallet';
 
 type UseWalletBalanceResult = {
   balance: TokenBalanceResult | null;
@@ -17,6 +20,8 @@ export function useWalletBalance(): UseWalletBalanceResult {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
+  const { getBalance } = useEVMWallet();
+
   const fetchBalance = useCallback(async () => {
     if (!primaryWallet || !merchantToken) {
       return;
@@ -27,7 +32,21 @@ export function useWalletBalance(): UseWalletBalanceResult {
 
     try {
       if (primaryWallet && merchantToken) {
-        const balance = await getTokenBalance(primaryWallet, merchantToken);
+        if (authMode === 'dynamic') {
+          // @ts-ignore
+          const balance = await getTokenBalance(primaryWallet, merchantToken);
+          setBalance(balance);
+        } else {
+          const balance = await getBalance();
+          if (balance && balance.length > 0) {
+            setBalance({
+              balance: balance[0].display_values.usdc,
+              formattedBalance: balance[0].display_values.usdc,
+              token: merchantToken,
+              balanceRaw: BigInt(balance[0].raw_value),
+            });
+          }
+        }
         setBalance(balance);
       }
     } catch (err) {

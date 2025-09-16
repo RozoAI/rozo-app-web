@@ -52,4 +52,6 @@ export const useGetProfile = createQuery<Response, {}, AxiosError>({
       })
       .then((response) => response.data.profile),
   enabled: false,
+  staleTime: 5 * 60 * 1000, // 5 minutes - prevent unnecessary refetches
+  retry: false,
 });

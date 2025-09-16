@@ -13,11 +13,11 @@ import { useApp } from '@/providers/app.provider';
 import { useCreateOrder } from '@/resources/api/merchant/orders';
 import { type OrderResponse } from '@/resources/schema/order';
 
-import { useDynamicStyles } from '.';
 import { AmountDisplay } from './amount-display';
 import { PaymentButton } from './payment-button';
 import { PaymentModal } from './payment-modal';
 import { ActionSheetPaymentNote } from './payment-note';
+import { useDynamicStyles } from './style';
 
 export function PaymentScreen() {
   const { defaultCurrency, merchant } = useApp();

@@ -1,4 +1,3 @@
-// Import global CSS file
 import '@/styles/global.css';
 
 import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold } from '@expo-google-fonts/inter';
@@ -19,10 +18,11 @@ import { ConnectionStatus } from '@/components/ui/connection-status';
 import { WebFontsLoader } from '@/components/web-fonts-loader';
 import { loadSelectedTheme } from '@/hooks/use-selected-theme';
 import { darkTheme, defaultTheme } from '@/lib/theme';
-import { dynamicClient } from '@/modules/dynamic/dynamic-client';
 import { configureDynamicDeepLinks } from '@/modules/dynamic/dynamic-linking';
+import { DynamicWrapperProvider } from '@/modules/dynamic/dynamic-wrapper.provider';
 import i18n from '@/modules/i18n';
 import PrivyProviderWrapper from '@/modules/privy/privy.provider.web';
+import { PrivyWrapperProvider } from '@/modules/privy/privy-wrapper.provider';
 import { AppProvider } from '@/providers/app.provider';
 import { POSToggleProvider } from '@/providers/pos-toggle.provider';
 import { QueryProvider } from '@/providers/query.provider';
@@ -79,17 +79,10 @@ export default function RootLayout() {
   // 5. Render the app and pass the onLayout callback down to the Providers
   return (
     <Providers mode={authMode} onLayout={onLayoutRootView}>
-      {authMode === 'dynamic' ? (
-        <Stack>
-          <Stack.Screen name="(main)" options={{ headerShown: false }} />
-          <Stack.Screen name="login" options={{ headerShown: false }} />
-        </Stack>
-      ) : (
-        <Stack initialRouteName="(app)">
-          <Stack.Screen name="(app)" options={{ headerShown: false }} />
-          <Stack.Screen name="sign-in" options={{ headerShown: false }} />
-        </Stack>
-      )}
+      <Stack>
+        <Stack.Screen name="(main)" options={{ headerShown: false }} />
+        <Stack.Screen name="login" options={{ headerShown: false }} />
+      </Stack>
     </Providers>
   );
 }
@@ -100,16 +93,20 @@ function PrivyProvider({ children }: { children: React.ReactNode }) {
     Inter_500Medium,
     Inter_600SemiBold,
   });
-  return <PrivyProviderWrapper>{children}</PrivyProviderWrapper>;
+  return (
+    <PrivyProviderWrapper>
+      <PrivyWrapperProvider>
+        <AppProvider>{children}</AppProvider>
+      </PrivyWrapperProvider>
+    </PrivyProviderWrapper>
+  );
 }
 
 function DynamicProviderWrapper({ children }: { children: React.ReactNode }) {
   return (
-    <AppProvider>
-      {/* @ts-ignore */}
-      <dynamicClient.reactNative.WebView />
-      {children}
-    </AppProvider>
+    <DynamicWrapperProvider>
+      <AppProvider>{children}</AppProvider>
+    </DynamicWrapperProvider>
   );
 }
 
