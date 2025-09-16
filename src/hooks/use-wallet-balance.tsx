@@ -38,12 +38,12 @@ export function useWalletBalance(): UseWalletBalanceResult {
           setBalance(balance);
         } else {
           const balance = await getBalance();
-          if (balance && balance.length > 0) {
+          if (balance) {
             setBalance({
-              balance: balance[0].display_values.usdc,
-              formattedBalance: balance[0].display_values.usdc,
+              balance: balance.display_values.usdc,
+              formattedBalance: balance.display_values.usdc,
               token: merchantToken,
-              balanceRaw: BigInt(balance[0].raw_value),
+              balanceRaw: BigInt(balance.raw_value),
             });
           }
         }

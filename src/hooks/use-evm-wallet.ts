@@ -12,7 +12,7 @@ export type EVMBalanceInfo = {
   display_values: {
     usdc: string;
   };
-}[];
+};
 
 export function useEVMWallet() {
   const { createWallet } = useCreateWallet();
@@ -57,7 +57,7 @@ export function useEVMWallet() {
         });
 
         const data = await resp.json();
-        return data as EVMBalanceInfo;
+        return (data.balances || []).find((balance: EVMBalanceInfo) => balance.asset === 'usdc') as EVMBalanceInfo;
       }
     } catch (error) {
       throw error;
