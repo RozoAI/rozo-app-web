@@ -47,7 +47,6 @@ export function useWalletBalance(): UseWalletBalanceResult {
             });
           }
         }
-        setBalance(balance);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch balance');

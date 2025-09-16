@@ -12,8 +12,6 @@ import { cn } from '@/lib/utils';
 import { useApp } from '@/providers/app.provider';
 import { usePOSToggle } from '@/providers/pos-toggle.provider';
 
-import { authMode } from '../_layout';
-
 export default function TabLayout() {
   const theme = useColorScheme();
   const { isAuthenticated } = useApp();
@@ -21,7 +19,7 @@ export default function TabLayout() {
   const insets = useSafeAreaInsets();
   const { showPOS } = usePOSToggle();
 
-  if (!isAuthenticated && authMode === 'dynamic') {
+  if (!isAuthenticated) {
     return <Redirect href="login" />;
   }
 
