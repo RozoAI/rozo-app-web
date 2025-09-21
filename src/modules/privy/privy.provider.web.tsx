@@ -1,3 +1,5 @@
+import { base, baseSepolia } from 'viem/chains';
+
 import { PrivyProvider, usePrivy } from './privy-client';
 import { StellarProvider } from './stellar.provider';
 
@@ -11,9 +13,10 @@ export default function PrivyProviderWrapper({ children }: { children: React.Rea
       appId={process.env.EXPO_PUBLIC_PRIVY_APP_ID}
       clientId={process.env.EXPO_PUBLIC_PRIVY_WEB_CLIENT_ID}
       config={{
+        supportedChains: [base, baseSepolia],
         embeddedWallets: {
           ethereum: {
-            createOnLogin: 'off',
+            createOnLogin: 'users-without-wallets',
           },
         },
       }}
