@@ -240,6 +240,7 @@ export function PaymentScreen() {
           amount={amount}
           order={createdOrder}
           onBackToHome={handleBackToHome}
+          showOpenLink
         />
       </View>
     </View>

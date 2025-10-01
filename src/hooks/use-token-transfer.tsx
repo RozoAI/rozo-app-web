@@ -6,14 +6,16 @@
  */
 
 import { useCallback, useMemo, useState } from 'react';
-import { type Address, encodeFunctionData, erc20Abi, parseUnits } from 'viem';
+import { type Address } from 'viem';
 import { base } from 'viem/chains';
 
 import { authMode } from '@/app/_layout';
+import { getShortId } from '@/lib/utils';
 import { useDynamic } from '@/modules/dynamic/dynamic-client';
 import { type TokenTransferResult, transferToken, transferTokenZeroDev } from '@/modules/dynamic/token-operations';
-import { useSendTransaction, useWallets } from '@/modules/privy/privy-client';
+import { useSignMessage, useWallets } from '@/modules/privy/privy-client';
 import { useApp } from '@/providers/app.provider';
+import { useWalletTransfer } from '@/resources/api/merchant/wallets';
 
 type TransferStatus = {
   isLoading: boolean;
@@ -83,6 +85,9 @@ export function useTokenTransfer(): UseTokenTransferResult {
   const { merchantToken } = useApp();
   const { wallets } = useDynamic();
   const walletsPrivy = useWallets();
+  const { mutateAsync: walletTransfer } = useWalletTransfer();
+
+  const { signMessage } = useSignMessage();
 
   const [status, setStatus] = useState<TransferStatus>({
     isLoading: false,
@@ -104,8 +109,6 @@ export function useTokenTransfer(): UseTokenTransferResult {
       success: false,
     });
   }, []);
-
-  const { sendTransaction } = useSendTransaction();
 
   /**
    * Transfer tokens to an address
@@ -174,27 +177,60 @@ export function useTokenTransfer(): UseTokenTransferResult {
           }
 
           const wallet = walletsPrivy.wallets[0];
-          wallet.switchChain(base.id);
+          await wallet.switchChain(base.id);
 
-          const encodedData = encodeFunctionData({
-            abi: erc20Abi,
-            functionName: 'transfer',
-            args: [toAddress, parseUnits(amount, merchantToken.decimal)],
-          });
-
-          const baseUsdc = '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913';
-          const signature = await sendTransaction({
-            to: baseUsdc,
-            data: encodedData,
-            chainId: merchantToken.network.chain.id,
-          });
-
-          return {
-            success: true,
-            error: undefined,
-            signature: encodedData,
-            transactionHash: signature.hash,
+          const uiOptions = {
+            title: 'Withdrawal Request',
+            description: `Transfer ${amount} ${merchantToken.label} to ${getShortId(toAddress, 6, 4)}`,
+            buttonText: 'Sign and Send',
           };
+
+          const { signature } = await signMessage(
+            {
+              message: `- From: ${getShortId(wallet.address, 6, 4)}
+- To: ${getShortId(toAddress, 6, 4)}
+- Amount: ${amount} ${merchantToken.label}
+- Network: ${merchantToken.network.chain.name}`,
+            },
+            {
+              uiOptions,
+              address: wallet.address, // Optional: Specify the wallet to use for signing. If not provided, the first wallet will be used.
+            }
+          );
+
+          // Use the wallet transfer API for Privy mode
+          const response = await walletTransfer({
+            recipientAddress: toAddress,
+            amount: parseFloat(amount),
+            signature,
+          });
+
+          if (response.success && response.transaction) {
+            setStatus({
+              isLoading: false,
+              error: null,
+              transactionHash: response.transaction.hash,
+              signature: null,
+              success: true,
+            });
+
+            return {
+              success: true,
+              error: undefined,
+              signature: undefined,
+              transactionHash: response.transaction.hash,
+            };
+          } else {
+            const error = new Error(response.message || 'Transfer failed');
+            setStatus({
+              isLoading: false,
+              error: error.message,
+              transactionHash: null,
+              signature: null,
+              success: false,
+            });
+            return { success: false, error };
+          }
         }
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Failed to transfer tokens';
@@ -211,7 +247,7 @@ export function useTokenTransfer(): UseTokenTransferResult {
         };
       }
     },
-    [wallets.primary, merchantToken, walletsPrivy.wallets]
+    [wallets.primary, merchantToken, walletsPrivy.wallets, walletTransfer]
   );
 
   const isAbleToTransfer = useMemo(() => {

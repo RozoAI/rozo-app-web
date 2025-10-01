@@ -34,6 +34,7 @@ export const useLogout: () => ReturnType<typeof useLogoutPrivy> = authModule.use
 export const useWallets: () => UseWalletsInterface = useWalletsChain;
 export const useCreateWallet: () => any = useCreateWalletChain;
 export const useExtendedChainWallet: () => any = useExtendedChain;
+export const useSignMessage: () => any = authModule.useSignMessage;
 export const useSignTransaction: () => any = authModule.useSignTransaction;
 export const useSendTransaction: () => any = authModule.useSendTransaction;
 
