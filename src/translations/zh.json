@@ -115,6 +115,7 @@
     },
     "description": "管理您的账户首选项和应用程序设置",
     "english": "英语",
+    "gaslessInfo": "您可以使用Privy发送无网络费用的令牌。\n支持无气接收！",
     "general": "常规",
     "github": "GitHub",
     "indonesia": "印尼语",

@@ -115,6 +115,7 @@
     },
     "description": "Kelola Preferensi Akun Anda dan Pengaturan Aplikasi",
     "english": "Inggris",
+    "gaslessInfo": "Anda dapat mengirim token tanpa biaya jaringan menggunakan Privy. \nTransfer tanpa gas didukung!",
     "general": "Umum",
     "github": "GitHub",
     "indonesia": "Indonesia",

@@ -115,6 +115,7 @@
     },
     "description": "Gerencie as preferências da sua conta e as configurações de aplicativos",
     "english": "Inglês",
+    "gaslessInfo": "Você pode enviar tokens sem taxas de rede usando privy. \nAs transferências sem gás são suportadas!",
     "general": "Geral",
     "github": "GitHub",
     "indonesia": "Indonésio",
