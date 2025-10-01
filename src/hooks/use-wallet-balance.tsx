@@ -37,14 +37,17 @@ export function useWalletBalance(): UseWalletBalanceResult {
           const balance = await getTokenBalance(primaryWallet, merchantToken);
           setBalance(balance);
         } else {
-          const balance = await getBalance();
-          if (balance) {
-            setBalance({
-              balance: balance.display_values.usdc,
-              formattedBalance: balance.display_values.usdc,
-              token: merchantToken,
-              balanceRaw: BigInt(balance.raw_value),
-            });
+          const balances = await getBalance();
+          if (balances) {
+            const balance = balances.find((balance) => balance.asset === 'usdc');
+            if (balance) {
+              setBalance({
+                balance: balance.display_values.usdc ?? '0',
+                formattedBalance: balance.display_values.usdc ?? '0',
+                token: merchantToken,
+                balanceRaw: BigInt(balance.raw_value),
+              });
+            }
           }
         }
       }

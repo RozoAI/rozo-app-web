@@ -16,6 +16,7 @@ import { useSelectedLanguage } from '@/hooks/use-selected-language';
 import { useApp } from '@/providers/app.provider';
 
 import { POSToggleSetting } from './pos-toggle-setting';
+import { RequiredNetworkFee } from './required-network-fee';
 import { ActionSheetCurrencySwitcher } from './select-currency';
 import { ActionSheetLanguageSwitcher } from './select-language';
 import { ActionSheetThemeSwitcher } from './theme-switcher';
@@ -38,9 +39,9 @@ export function SettingScreen() {
             <AccountSection />
           </VStack>
 
-          <VStack className="items-center justify-between divide-y divide-gray-200 rounded-xl border border-background-300 bg-background-0 px-4 py-2 dark:divide-[#2b2b2b]">
+          <VStack className="items-center justify-between rounded-xl border border-background-300 bg-background-0 px-4 py-2 dark:divide-[#2b2b2b]">
             <WalletAddressCard />
-            {/* <WalletBalanceCard /> */}
+            <RequiredNetworkFee />
           </VStack>
 
           {/* List Settings */}

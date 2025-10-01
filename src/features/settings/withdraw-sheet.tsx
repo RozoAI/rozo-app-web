@@ -116,6 +116,10 @@ export function WithdrawActionSheet({ onClose, onSuccess, balance }: Props) {
           useGasless: true,
         });
 
+        if (!result) {
+          throw new Error('Failed to transfer tokens');
+        }
+
         if (result.success) {
           showToast({
             message: t('withdraw.success'),
@@ -128,9 +132,9 @@ export function WithdrawActionSheet({ onClose, onSuccess, balance }: Props) {
           throw result.error;
         }
       }
-    } catch {
+    } catch (error) {
       showToast({
-        message: `${t('withdraw.error')}`,
+        message: `${t('withdraw.error')} - ${error instanceof Error ? error.message : 'Unknown error'}`,
         type: 'danger',
       });
     } finally {
@@ -180,6 +184,10 @@ export function WithdrawActionSheet({ onClose, onSuccess, balance }: Props) {
           amount: maxAmount.toString(),
           useGasless: true,
         });
+
+        if (!result) {
+          throw new Error('Failed to transfer tokens');
+        }
 
         if (result.success) {
           showToast({

@@ -39,7 +39,7 @@ export default function LoginScreen() {
         await handleCreateWallet();
       }
 
-      router.replace('/(main)/settings');
+      router.replace('/');
     },
   });
 

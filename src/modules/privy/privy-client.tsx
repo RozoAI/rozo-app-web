@@ -7,13 +7,14 @@ import {
   type useLogin as useLoginPrivy,
   type useLogout as useLogoutPrivy,
   type User,
+  type UseWalletsInterface,
 } from '@privy-io/react-auth';
 import { Platform } from 'react-native';
 
 const isWeb = Platform.OS === 'web';
 const authModule = isWeb ? require('@privy-io/react-auth') : require('@privy-io/expo');
 
-export const useWalletsChain = isWeb ? authModule.useCreateWallet : authModule.useEmbeddedEthereumWallet;
+export const useWalletsChain = isWeb ? authModule.useWallets : authModule.useEmbeddedEthereumWallet;
 export const useExtendedChain = isWeb
   ? require('@privy-io/react-auth/extended-chains').useCreateWallet
   : require('@privy-io/expo/extended-chains').useCreateWallet;
@@ -30,9 +31,11 @@ export const useLogin: (callbacks?: PrivyEvents['login']) => ReturnType<typeof u
 export const useLogout: () => ReturnType<typeof useLogoutPrivy> = authModule.useLogout;
 
 // Wallets Management
-export const useWallets: () => any = useWalletsChain;
+export const useWallets: () => UseWalletsInterface = useWalletsChain;
 export const useCreateWallet: () => any = useCreateWalletChain;
 export const useExtendedChainWallet: () => any = useExtendedChain;
+export const useSignTransaction: () => any = authModule.useSignTransaction;
+export const useSendTransaction: () => any = authModule.useSendTransaction;
 
 // Providers
 export function PrivyProvider(props: PrivyProviderPropsWeb): React.JSX.Element;
@@ -48,6 +51,7 @@ export const useAuth = () => {
   const privy = usePrivy();
   const { login } = useLogin();
   const { logout } = useLogout();
+  const wallets = useWallets();
 
   return {
     user: privy.user,
@@ -57,5 +61,6 @@ export const useAuth = () => {
     logout,
     privy,
     isWeb,
+    wallets,
   } as const;
 };

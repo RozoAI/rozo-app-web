@@ -17,7 +17,7 @@ import { BalanceInfo } from './balance-info';
 
 export function BalanceScreen() {
   const { t } = useTranslation();
-  const { balance, refetch } = useWalletBalance();
+  const { balance, refetch, isLoading } = useWalletBalance();
   const depositDialogRef = useRef<DepositDialogRef>(null);
 
   const handleReceivePress = () => {
@@ -45,7 +45,7 @@ export function BalanceScreen() {
         {/* Balance Card */}
 
         <VStack className="rounded-xl border border-background-300 bg-background-0 px-4 py-2">
-          <BalanceInfo />
+          <BalanceInfo balance={balance ?? undefined} isLoading={isLoading} refetch={refetch} />
         </VStack>
 
         {/* Action Buttons */}

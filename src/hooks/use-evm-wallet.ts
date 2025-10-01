@@ -10,7 +10,8 @@ export type EVMBalanceInfo = {
   raw_value: string;
   raw_value_decimals: number;
   display_values: {
-    usdc: string;
+    usdc?: string;
+    eth?: string;
   };
 };
 
@@ -21,6 +22,7 @@ export function useEVMWallet() {
 
   const [isCreating, setIsCreating] = useState(false);
   const [isBalanceLoading, setIsBalanceLoading] = useState(false);
+  const [balances, setBalances] = useState<EVMBalanceInfo[]>([]);
 
   const evmEmbeddedWallets = useMemo<WalletWithMetadata[]>(
     () =>
@@ -31,6 +33,11 @@ export function useEVMWallet() {
   );
 
   const handleCreateWallet = useCallback(async () => {
+    // Only create wallet if user doesn't have an embedded wallet
+    if (evmEmbeddedWallets.length > 0) {
+      return;
+    }
+
     setIsCreating(true);
     try {
       await createWallet();
@@ -40,15 +47,16 @@ export function useEVMWallet() {
     } finally {
       setIsCreating(false);
     }
-  }, [createWallet, refreshUser]);
+  }, [createWallet, refreshUser, evmEmbeddedWallets.length]);
 
-  const getBalance = useCallback(async () => {
+  const getBalance = useCallback(async (): Promise<EVMBalanceInfo[] | undefined> => {
+    setIsBalanceLoading(true);
     try {
-      if (user && user.wallet && user.wallet.chainType === 'ethereum') {
-        setIsBalanceLoading(true);
+      if (user?.wallet?.chainType === 'ethereum') {
         const accessToken = await getAccessToken();
 
-        const resp = await fetch(`https://api.privy.io/v1/wallets/${user.wallet.id}/balance?asset=usdc&chain=base`, {
+        // Fetch ETH balance
+        const ethResp = await fetch(`https://api.privy.io/v1/wallets/${user.wallet.id}/balance?asset=eth&chain=base`, {
           headers: {
             'privy-app-id': 'cmeyff6cn00ysl50b04g72k5o',
             Authorization: `Bearer ${accessToken}`,
@@ -56,8 +64,25 @@ export function useEVMWallet() {
           },
         });
 
-        const data = await resp.json();
-        return (data.balances || []).find((balance: EVMBalanceInfo) => balance.asset === 'usdc') as EVMBalanceInfo;
+        // Fetch USDC balance
+        const usdcResp = await fetch(`https://api.privy.io/v1/wallets/${user.wallet.id}/balance?asset=usdc&chain=base`, {
+          headers: {
+            'privy-app-id': 'cmeyff6cn00ysl50b04g72k5o',
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        const ethData = await ethResp.json();
+        const usdcData = await usdcResp.json();
+
+        console.log('ETH data:', ethData);
+        console.log('USDC data:', usdcData);
+
+        const allBalances = [...(ethData.balances || []), ...(usdcData.balances || [])];
+
+        setBalances(allBalances);
+        return allBalances;
       }
     } catch (error) {
       throw error;
@@ -66,6 +91,14 @@ export function useEVMWallet() {
     }
   }, [user]);
 
+  const ethBalance = useMemo(() => {
+    return balances.find((balance) => balance.asset === 'eth') as EVMBalanceInfo | undefined;
+  }, [balances]);
+
+  const usdcBalance = useMemo(() => {
+    return balances.find((balance) => balance.asset === 'usdc') as EVMBalanceInfo | undefined;
+  }, [balances]);
+
   return {
     isCreating,
     isBalanceLoading,
@@ -73,5 +106,8 @@ export function useEVMWallet() {
     wallets: evmEmbeddedWallets,
     handleCreateWallet,
     getBalance,
+    balances,
+    ethBalance,
+    usdcBalance,
   };
 }
