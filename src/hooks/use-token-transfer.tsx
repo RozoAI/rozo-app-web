@@ -13,7 +13,7 @@ import { authMode } from '@/app/_layout';
 import { getShortId } from '@/lib/utils';
 import { useDynamic } from '@/modules/dynamic/dynamic-client';
 import { type TokenTransferResult, transferToken, transferTokenZeroDev } from '@/modules/dynamic/token-operations';
-import { useSignMessage, useWallets } from '@/modules/privy/privy-client';
+import { useSignMessage, useUser, useWallets } from '@/modules/privy/privy-client';
 import { useApp } from '@/providers/app.provider';
 import { useWalletTransfer } from '@/resources/api/merchant/wallets';
 
@@ -86,6 +86,7 @@ export function useTokenTransfer(): UseTokenTransferResult {
   const { wallets } = useDynamic();
   const walletsPrivy = useWallets();
   const { mutateAsync: walletTransfer } = useWalletTransfer();
+  const { user } = useUser();
 
   const { signMessage } = useSignMessage();
 
@@ -164,7 +165,7 @@ export function useTokenTransfer(): UseTokenTransferResult {
 
           return result;
         } else {
-          if (!walletsPrivy.wallets[0] || !merchantToken) {
+          if (!walletsPrivy.wallets[0] || !merchantToken || !user?.wallet?.id) {
             const error = new Error('Wallet or token not available');
             setStatus({
               isLoading: false,
@@ -200,6 +201,7 @@ export function useTokenTransfer(): UseTokenTransferResult {
 
           // Use the wallet transfer API for Privy mode
           const response = await walletTransfer({
+            walletId: user.wallet.id,
             recipientAddress: toAddress,
             amount: parseFloat(amount),
             signature,

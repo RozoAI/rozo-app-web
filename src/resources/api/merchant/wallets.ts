@@ -5,6 +5,7 @@ import { createMutation } from 'react-query-kit';
 import { client } from '@/modules/axios/client';
 
 type WalletTransferPayload = {
+  walletId: string;
   recipientAddress: string;
   amount: number;
   signature: string;
@@ -26,7 +27,7 @@ type WalletTransferResponse = {
 export const useWalletTransfer = createMutation<WalletTransferResponse, WalletTransferPayload, AxiosError>({
   mutationFn: async (payload) =>
     client({
-      url: 'functions/v1/wallets/fa6kf7uprp0biz258v5hbo7c',
+      url: `functions/v1/wallets/${payload.walletId}`,
       method: 'POST',
       data: payload,
     }).then((response) => response.data),
