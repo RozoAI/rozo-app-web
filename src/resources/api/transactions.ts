@@ -68,6 +68,7 @@ export const useBaseUSDCTransactions = createInfiniteQuery<Transaction[], { addr
     await setItem(cacheKey, data);
     return data;
   },
+  // @ts-ignore ignore this
   getNextPageParam: (lastPage: string | Transaction[], pages: string | Transaction[]) => {
     if (lastPage.length < PAGE_SIZE) return undefined;
     return pages.length + 1;

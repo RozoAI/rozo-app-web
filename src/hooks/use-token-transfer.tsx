@@ -7,10 +7,15 @@
 
 import { useCallback, useMemo, useState } from 'react';
 import { type Address } from 'viem';
+import { base } from 'viem/chains';
 
+import { authMode } from '@/app/_layout';
+import { getShortId } from '@/lib/utils';
 import { useDynamic } from '@/modules/dynamic/dynamic-client';
 import { type TokenTransferResult, transferToken, transferTokenZeroDev } from '@/modules/dynamic/token-operations';
+import { useSignMessage, useUser, useWallets } from '@/modules/privy/privy-client';
 import { useApp } from '@/providers/app.provider';
+import { useWalletTransfer } from '@/resources/api/merchant/wallets';
 
 type TransferStatus = {
   isLoading: boolean;
@@ -79,6 +84,11 @@ type UseTokenTransferResult = {
 export function useTokenTransfer(): UseTokenTransferResult {
   const { merchantToken } = useApp();
   const { wallets } = useDynamic();
+  const walletsPrivy = useWallets();
+  const { mutateAsync: walletTransfer } = useWalletTransfer();
+  const { user } = useUser();
+
+  const { signMessage } = useSignMessage();
 
   const [status, setStatus] = useState<TransferStatus>({
     isLoading: false,
@@ -113,18 +123,6 @@ export function useTokenTransfer(): UseTokenTransferResult {
     async (options: TransferOptions): Promise<TokenTransferResult> => {
       const { toAddress, amount, useGasless = false } = options;
 
-      if (!wallets.primary || !merchantToken) {
-        const error = new Error('Wallet or token not available');
-        setStatus({
-          isLoading: false,
-          error: error.message,
-          transactionHash: null,
-          signature: null,
-          success: false,
-        });
-        return { success: false, error };
-      }
-
       setStatus({
         isLoading: true,
         error: null,
@@ -134,25 +132,108 @@ export function useTokenTransfer(): UseTokenTransferResult {
       });
 
       try {
-        // Use either standard or gasless transfer based on parameter
-        const result = useGasless
-          ? await transferTokenZeroDev({
-              fromWallet: wallets.primary,
-              toAddress,
-              amount,
-              token: merchantToken,
-            })
-          : await transferToken(wallets.primary, toAddress, amount, merchantToken);
+        if (authMode === 'dynamic') {
+          if (!wallets.primary || !merchantToken) {
+            const error = new Error('Wallet or token not available');
+            setStatus({
+              isLoading: false,
+              error: error.message,
+              transactionHash: null,
+              signature: null,
+              success: false,
+            });
+            return { success: false, error };
+          }
 
-        setStatus({
-          isLoading: false,
-          error: null,
-          transactionHash: result.transactionHash || null,
-          signature: result.signature || null,
-          success: result.success,
-        });
+          // Use either standard or gasless transfer based on parameter
+          const result = useGasless
+            ? await transferTokenZeroDev({
+                fromWallet: wallets.primary,
+                toAddress,
+                amount,
+                token: merchantToken,
+              })
+            : await transferToken(wallets.primary, toAddress, amount, merchantToken);
 
-        return result;
+          setStatus({
+            isLoading: false,
+            error: null,
+            transactionHash: result.transactionHash || null,
+            signature: result.signature || null,
+            success: result.success,
+          });
+
+          return result;
+        } else {
+          if (!walletsPrivy.wallets[0] || !merchantToken || !user?.wallet?.id) {
+            const error = new Error('Wallet or token not available');
+            setStatus({
+              isLoading: false,
+              error: error.message,
+              transactionHash: null,
+              signature: null,
+              success: false,
+            });
+            return { success: false, error };
+          }
+
+          const wallet = walletsPrivy.wallets[0];
+          await wallet.switchChain(base.id);
+
+          const uiOptions = {
+            title: 'Withdrawal Request',
+            description: `Transfer ${amount} ${merchantToken.label} to ${getShortId(toAddress, 6, 4)}`,
+            buttonText: 'Sign and Send',
+          };
+
+          const { signature } = await signMessage(
+            {
+              message: `- From: ${getShortId(wallet.address, 6, 4)}
+- To: ${getShortId(toAddress, 6, 4)}
+- Amount: ${amount} ${merchantToken.label}
+- Network: ${merchantToken.network.chain.name}`,
+            },
+            {
+              uiOptions,
+              address: wallet.address, // Optional: Specify the wallet to use for signing. If not provided, the first wallet will be used.
+            }
+          );
+
+          // Use the wallet transfer API for Privy mode
+          const response = await walletTransfer({
+            walletId: user.wallet.id,
+            recipientAddress: toAddress,
+            amount: parseFloat(amount),
+            signature,
+          });
+
+          if (response.success && response.transaction) {
+            setStatus({
+              isLoading: false,
+              error: null,
+              transactionHash: response.transaction.hash,
+              signature: null,
+              success: true,
+            });
+
+            return {
+              success: true,
+              error: undefined,
+              signature: undefined,
+              transactionHash: response.transaction.hash,
+            };
+          } else {
+            const error = new Error(response.message || 'Transfer failed');
+            setStatus({
+              isLoading: false,
+              error: error.message,
+              transactionHash: null,
+              signature: null,
+              success: false,
+            });
+            return { success: false, error };
+          }
+        }
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Failed to transfer tokens';
         setStatus({
@@ -168,12 +249,14 @@ export function useTokenTransfer(): UseTokenTransferResult {
         };
       }
     },
-    [wallets.primary, merchantToken]
+    [wallets.primary, merchantToken, walletsPrivy.wallets, walletTransfer]
   );
 
   const isAbleToTransfer = useMemo(() => {
-    return !!(wallets.primary && merchantToken);
-  }, [wallets.primary, merchantToken]);
+    return authMode === 'dynamic'
+      ? !!(wallets.primary && merchantToken)
+      : !!(walletsPrivy && (walletsPrivy.wallets || []).length > 0 && merchantToken);
+  }, [wallets.primary, merchantToken, walletsPrivy]);
 
   return {
     isAbleToTransfer,

@@ -6,13 +6,21 @@ import { Heading } from '@/components/ui/heading';
 import { HStack } from '@/components/ui/hstack';
 import { Text } from '@/components/ui/text';
 import { VStack } from '@/components/ui/vstack';
-import { useWalletBalance } from '@/hooks/use-wallet-balance';
 import { getShortId } from '@/lib';
+import { type TokenBalanceResult } from '@/modules/dynamic/token-operations';
 import { useApp } from '@/providers/app.provider';
 
-export function BalanceInfo() {
+export function BalanceInfo({
+  balance,
+  isLoading,
+  refetch,
+}: {
+  balance: TokenBalanceResult | undefined;
+  isLoading: boolean;
+  refetch: () => void;
+}) {
   const { t } = useTranslation();
-  const { balance, isLoading, refetch } = useWalletBalance();
+  // const { balance, isLoading, refetch } = useWalletBalance();
   const { primaryWallet } = useApp();
 
   return (
@@ -33,7 +41,7 @@ export function BalanceInfo() {
         </Heading>
 
         <Text size="lg" className={`font-medium text-typography-500 ${isLoading ? 'animate-pulse' : ''}`}>
-          {balance?.token.label ?? 'USDC'}
+          {balance?.token.label ?? 'USD'}
         </Text>
       </HStack>
 

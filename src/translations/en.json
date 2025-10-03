@@ -115,6 +115,7 @@
     },
     "description": "Manage your account preferences and app settings",
     "english": "English",
+    "gaslessInfo": "You can send tokens without network fees using Privy. Gasless transfers are supported!",
     "general": "General",
     "github": "Github",
     "indonesia": "Indonesia",

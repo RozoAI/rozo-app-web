@@ -1,9 +1,10 @@
 import * as Application from 'expo-application';
-import { ChevronRightIcon, Languages, Palette } from 'lucide-react-native';
+import { ChevronRightIcon, InfoIcon, Languages, Palette } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import { type ModeType } from '@/components/gluestack-ui-provider';
+import { Alert, AlertIcon, AlertText } from '@/components/ui/alert';
 import { Button, ButtonText } from '@/components/ui/button';
 import { Divider } from '@/components/ui/divider';
 import { Icon } from '@/components/ui/icon';
@@ -38,9 +39,12 @@ export function SettingScreen() {
             <AccountSection />
           </VStack>
 
-          <VStack className="items-center justify-between divide-y divide-gray-200 rounded-xl border border-background-300 bg-background-0 px-4 py-2 dark:divide-[#2b2b2b]">
+          <VStack className="items-center justify-between rounded-xl border border-background-300 bg-background-0 px-4 py-2 dark:divide-[#2b2b2b]">
             <WalletAddressCard />
-            {/* <WalletBalanceCard /> */}
+            <Alert action="info" variant="solid" className="mb-2">
+              <AlertIcon as={InfoIcon} />
+              <AlertText className="text-xs">{t('settings.gaslessInfo')}</AlertText>
+            </Alert>
           </VStack>
 
           {/* List Settings */}

@@ -1,7 +1,8 @@
-// Import global CSS file
 import '@/styles/global.css';
 
+import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold } from '@expo-google-fonts/inter';
 import { ThemeProvider } from '@react-navigation/native';
+import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen'; // Correct import
 import { useColorScheme } from 'nativewind';
@@ -17,17 +18,20 @@ import { ConnectionStatus } from '@/components/ui/connection-status';
 import { WebFontsLoader } from '@/components/web-fonts-loader';
 import { loadSelectedTheme } from '@/hooks/use-selected-theme';
 import { darkTheme, defaultTheme } from '@/lib/theme';
-import { dynamicClient } from '@/modules/dynamic/dynamic-client';
 import { configureDynamicDeepLinks } from '@/modules/dynamic/dynamic-linking';
+import { DynamicWrapperProvider } from '@/modules/dynamic/dynamic-wrapper.provider';
 import i18n from '@/modules/i18n';
+import PrivyProviderWrapper from '@/modules/privy/privy.provider.web';
+import { PrivyWrapperProvider } from '@/modules/privy/privy-wrapper.provider';
 import { AppProvider } from '@/providers/app.provider';
 import { POSToggleProvider } from '@/providers/pos-toggle.provider';
 import { QueryProvider } from '@/providers/query.provider';
 
 export { ErrorBoundary } from 'expo-router';
 
+export const authMode: 'privy' | 'dynamic' | string = process.env.EXPO_PUBLIC_AUTH_MODE === 'dynamic' ? 'dynamic' : 'privy';
 export const unstable_settings = {
-  initialRouteName: '(main)',
+  initialRouteName: authMode === 'dynamic' ? '(main)' : '(app)',
 };
 
 // Keep the splash screen visible while we fetch resources
@@ -74,7 +78,7 @@ export default function RootLayout() {
 
   // 5. Render the app and pass the onLayout callback down to the Providers
   return (
-    <Providers onLayout={onLayoutRootView}>
+    <Providers mode={authMode} onLayout={onLayoutRootView}>
       <Stack>
         <Stack.Screen name="(main)" options={{ headerShown: false }} />
         <Stack.Screen name="login" options={{ headerShown: false }} />
@@ -83,8 +87,31 @@ export default function RootLayout() {
   );
 }
 
+function PrivyProvider({ children }: { children: React.ReactNode }) {
+  useFonts({
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_600SemiBold,
+  });
+  return (
+    <PrivyProviderWrapper>
+      <PrivyWrapperProvider>
+        <AppProvider>{children}</AppProvider>
+      </PrivyWrapperProvider>
+    </PrivyProviderWrapper>
+  );
+}
+
+function DynamicProviderWrapper({ children }: { children: React.ReactNode }) {
+  return (
+    <DynamicWrapperProvider>
+      <AppProvider>{children}</AppProvider>
+    </DynamicWrapperProvider>
+  );
+}
+
 // 6. Modify Providers to accept and use the onLayout prop
-function Providers({ children, onLayout }: { children: React.ReactNode; onLayout: () => void }) {
+function Providers({ children, onLayout, mode }: { children: React.ReactNode; onLayout: () => void; mode: string }) {
   const theme = useColorScheme();
 
   return (
@@ -97,14 +124,18 @@ function Providers({ children, onLayout }: { children: React.ReactNode; onLayout
             <QueryProvider>
               {/* Network connection status overlay */}
               <ConnectionStatus />
-              {/* @ts-ignore */}
-              <dynamicClient.reactNative.WebView />
               <KeyboardProvider>
-                <AppProvider>
-                  <POSToggleProvider>
-                    {Platform.OS === 'web' ? <WebFontsLoader>{children}</WebFontsLoader> : children}
-                  </POSToggleProvider>
-                </AppProvider>
+                <POSToggleProvider>
+                  {mode === 'dynamic' ? (
+                    <DynamicProviderWrapper>
+                      {Platform.OS === 'web' ? <WebFontsLoader>{children}</WebFontsLoader> : children}
+                    </DynamicProviderWrapper>
+                  ) : (
+                    <PrivyProvider>
+                      {Platform.OS === 'web' ? <WebFontsLoader>{children}</WebFontsLoader> : children}
+                    </PrivyProvider>
+                  )}
+                </POSToggleProvider>
               </KeyboardProvider>
             </QueryProvider>
           </ThemeProvider>

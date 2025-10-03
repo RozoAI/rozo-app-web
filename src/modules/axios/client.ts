@@ -19,6 +19,8 @@ client.interceptors.request.use(async (config) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token.replace(/^"|"$/g, '')}`;
   }
+  config.headers['Content-Type'] = 'application/json';
+
   return config;
 });
 

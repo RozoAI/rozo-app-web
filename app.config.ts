@@ -4,6 +4,7 @@ import type { ConfigContext, ExpoConfig } from '@expo/config';
 
 const version = process.env.EXPO_PUBLIC_VERSION ?? '0.0.2';
 const appEnv = process.env.EXPO_PUBLIC_APP_ENV ?? 'development';
+const appId = process.env.EXPO_PUBLIC_BUNDLE_ID ?? 'ai.rozo.pos';
 
 const isProduction = appEnv === 'production';
 
@@ -27,7 +28,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   assetBundlePatterns: ['**/*'],
   ios: {
     supportsTablet: true,
-    bundleIdentifier: process.env.EXPO_PUBLIC_BUNDLE_ID,
+    bundleIdentifier: appId,
     userInterfaceStyle: 'automatic',
     config: {
       usesNonExemptEncryption: false, // Avoid the export compliance warning on the app store
@@ -39,7 +40,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     reactCanary: true,
   },
   android: {
-    package: process.env.EXPO_PUBLIC_PACKAGE,
+    package: appId,
     userInterfaceStyle: 'automatic',
     intentFilters: [
       {
@@ -85,16 +86,16 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     ],
     [
       'expo-font',
-      {
-        fonts: [
-          'node_modules/@expo-google-fonts/roboto/300Light/Roboto_300Light.ttf',
-          'node_modules/@expo-google-fonts/roboto/400Regular/Roboto_400Regular.ttf',
-          'node_modules/@expo-google-fonts/roboto/500Medium/Roboto_500Medium.ttf',
-          'node_modules/@expo-google-fonts/roboto/600SemiBold/Roboto_600SemiBold.ttf',
-          'node_modules/@expo-google-fonts/roboto/700Bold/Roboto_700Bold.ttf',
-          'node_modules/@expo-google-fonts/roboto/800ExtraBold/Roboto_800ExtraBold.ttf',
-        ],
-      },
+      // {
+      //   fonts: [
+      //     'node_modules/@expo-google-fonts/roboto/300Light/Roboto_300Light.ttf',
+      //     'node_modules/@expo-google-fonts/roboto/400Regular/Roboto_400Regular.ttf',
+      //     'node_modules/@expo-google-fonts/roboto/500Medium/Roboto_500Medium.ttf',
+      //     'node_modules/@expo-google-fonts/roboto/600SemiBold/Roboto_600SemiBold.ttf',
+      //     'node_modules/@expo-google-fonts/roboto/700Bold/Roboto_700Bold.ttf',
+      //     'node_modules/@expo-google-fonts/roboto/800ExtraBold/Roboto_800ExtraBold.ttf',
+      //   ],
+      // },
     ],
     [
       'expo-image-picker',
@@ -108,6 +109,19 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     'expo-router',
     'expo-secure-store',
     ['react-native-edge-to-edge'],
+    'expo-build-properties',
+    // 'expo-application',
+    // [
+    //   'expo-build-properties',
+    //   {
+    //     ios: {
+    //       deploymentTarget: '17.5',
+    //     },
+    //     android: {
+    //       compileSdkVersion: 35,
+    //     },
+    //   },
+    // ],
   ],
   extra: {
     eas: {

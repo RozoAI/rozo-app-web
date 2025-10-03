@@ -115,6 +115,7 @@
     },
     "description": "Gérez vos préférences de compte et vos paramètres d'applications",
     "english": "Anglais",
+    "gaslessInfo": "Vous pouvez envoyer des jetons sans frais de réseau en utilisant le privé. \nLes transferts sans gaz sont pris en charge!",
     "general": "Général",
     "github": "GitHub",
     "indonesia": "Indonésien",
