@@ -1,4 +1,11 @@
 {
+  "balance": {
+    "description": "Lihat dan Kelola Keseimbangan Dompet Anda",
+    "title": "Keseimbangan"
+  },
+  "deposit": {
+    "topUpInitiated": "Top up {{amount}} dimulai"
+  },
   "general": {
     "addNote": "Tambahkan catatan",
     "amount": "Jumlah",
@@ -84,6 +91,9 @@
     "verifyPayment": "Verifikasi Pembayaran",
     "voiceSuccess": "Anda telah menerima {{amount}} {{currency}} dari Rozo"
   },
+  "pos": {
+    "title": "Pos"
+  },
   "profile": {
     "displayName": "Nama Tampilan",
     "email": "Email",
@@ -105,6 +115,7 @@
     },
     "description": "Kelola Preferensi Akun Anda dan Pengaturan Aplikasi",
     "english": "Inggris",
+    "gaslessInfo": "Anda dapat mengirim token tanpa biaya jaringan menggunakan Privy. \nTransfer tanpa gas didukung!",
     "general": "Umum",
     "github": "GitHub",
     "indonesia": "Indonesia",
@@ -115,6 +126,10 @@
     "login": "Masuk",
     "logout": "Keluar",
     "more": "Lainnya",
+    "pointOfSales": {
+      "description": "Aktifkan Tab Rumah untuk Fitur Point of Sale",
+      "title": "Tunjukkan titik penjualan"
+    },
     "privacy": "Kebijakan Privasi",
     "rate": "Beri Nilai",
     "share": "Bagikan",

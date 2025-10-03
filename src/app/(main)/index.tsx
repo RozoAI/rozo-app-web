@@ -1,13 +1,13 @@
 import React from 'react';
 
 import { FocusAwareStatusBar } from '@/components/ui/focus-aware-status-bar';
-import { PaymentScreen } from '@/features/payment';
+import { BalanceScreen } from '@/features/balance/balance-screen';
 
-export default function HomePage() {
+export default function BalancePage() {
   return (
     <>
       <FocusAwareStatusBar />
-      <PaymentScreen />
+      <BalanceScreen />
     </>
   );
 }

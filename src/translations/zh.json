@@ -1,4 +1,11 @@
 {
+  "balance": {
+    "description": "查看和管理您的钱包余额",
+    "title": "平衡"
+  },
+  "deposit": {
+    "topUpInitiated": "启动{{amount}}"
+  },
   "general": {
     "addNote": "添加备注",
     "amount": "金额",
@@ -84,6 +91,9 @@
     "verifyPayment": "验证付款",
     "voiceSuccess": "您已通过 Rozo 收到 {{amount}} {{currency}}"
   },
+  "pos": {
+    "title": "pos"
+  },
   "profile": {
     "displayName": "显示名称",
     "email": "电子邮箱",
@@ -105,6 +115,7 @@
     },
     "description": "管理您的账户首选项和应用程序设置",
     "english": "英语",
+    "gaslessInfo": "您可以使用Privy发送无网络费用的令牌。\n支持无气接收！",
     "general": "常规",
     "github": "GitHub",
     "indonesia": "印尼语",
@@ -115,6 +126,10 @@
     "login": "登录",
     "logout": "退出登录",
     "more": "更多",
+    "pointOfSales": {
+      "description": "启用主场销售点功能",
+      "title": "展示销售点"
+    },
     "privacy": "隐私政策",
     "rate": "评分",
     "share": "分享",

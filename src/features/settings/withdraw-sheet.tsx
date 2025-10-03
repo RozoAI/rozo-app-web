@@ -3,7 +3,7 @@ import { BanknoteArrowDown, InfoIcon } from 'lucide-react-native';
 import { useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Keyboard } from 'react-native';
+import { Keyboard, KeyboardAvoidingView, Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { type Address } from 'viem';
 import { z } from 'zod';
@@ -116,6 +116,10 @@ export function WithdrawActionSheet({ onClose, onSuccess, balance }: Props) {
           useGasless: true,
         });
 
+        if (!result) {
+          throw new Error('Failed to transfer tokens');
+        }
+
         if (result.success) {
           showToast({
             message: t('withdraw.success'),
@@ -128,9 +132,9 @@ export function WithdrawActionSheet({ onClose, onSuccess, balance }: Props) {
           throw result.error;
         }
       }
-    } catch {
+    } catch (error) {
       showToast({
-        message: `${t('withdraw.error')}`,
+        message: `${t('withdraw.error')} - ${error instanceof Error ? error.message : 'Unknown error'}`,
         type: 'danger',
       });
     } finally {
@@ -153,10 +157,10 @@ export function WithdrawActionSheet({ onClose, onSuccess, balance }: Props) {
     setValue('amount', maxAmount.toString(), { shouldValidate: true });
   };
 
-  const handleManualWithdraw = () => {
-    setIsManualConfirmDialogOpen(true);
-    setIsManual(true);
-  };
+  // const handleManualWithdraw = () => {
+  //   setIsManualConfirmDialogOpen(true);
+  //   setIsManual(true);
+  // };
 
   const handleCancelManualWithdraw = () => {
     if (isManualSubmiting) return;
@@ -180,6 +184,10 @@ export function WithdrawActionSheet({ onClose, onSuccess, balance }: Props) {
           amount: maxAmount.toString(),
           useGasless: true,
         });
+
+        if (!result) {
+          throw new Error('Failed to transfer tokens');
+        }
 
         if (result.success) {
           showToast({
@@ -223,122 +231,134 @@ export function WithdrawActionSheet({ onClose, onSuccess, balance }: Props) {
           <ActionsheetDragIndicatorWrapper>
             <ActionsheetDragIndicator />
           </ActionsheetDragIndicatorWrapper>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0} // Adjust offset as needed
+          >
+            <VStack className="w-full" space="lg">
+              <Box className="items-center">
+                <Heading size="lg" className="text-typography-950">
+                  {t('general.withdraw')}
+                </Heading>
+              </Box>
 
-          <VStack className="w-full" space="lg">
-            <Box className="items-center">
-              <Heading size="lg" className="text-typography-950">
-                {t('general.withdraw')}
-              </Heading>
-            </Box>
-
-            <VStack space="md">
-              <Alert action="info" className="flex w-full flex-row items-start gap-4 self-center py-4">
-                <AlertIcon as={InfoIcon} className="mt-1" />
-                <VStack className="flex-1">
-                  <Text className="font-semibold text-typography-900" size="xs">
-                    Information
-                  </Text>
-                  <AlertText className="font-light text-typography-900" size="xs">
-                    Currently, withdrawals are only supported for{' '}
+              <VStack space="md">
+                <Alert action="info" className="flex w-full flex-row items-start gap-4 self-center py-4">
+                  <AlertIcon as={InfoIcon} className="mt-1" />
+                  <VStack className="flex-1">
                     <Text className="font-semibold text-typography-900" size="xs">
-                      USDC on Base network.
-                    </Text>{' '}
-                    Please ensure the receiving wallet address is compatible with{' '}
-                    <Text className="font-semibold text-typography-900" size="xs">
-                      Base network
-                    </Text>{' '}
-                    to avoid loss of funds.
-                  </AlertText>
-                </VStack>
-              </Alert>
-              <Controller
-                control={control}
-                name="withdrawAddress"
-                render={({ field: { onChange, value } }) => (
-                  <FormControl isInvalid={!!errors.withdrawAddress}>
-                    <FormControlLabel>
-                      <FormControlLabelText size="sm">{t('general.walletAddress')}</FormControlLabelText>
-                    </FormControlLabel>
-                    <Input className="rounded-xl" isInvalid={!!errors.withdrawAddress}>
-                      <InputField
-                        placeholder={t('withdraw.walletAddressPlaceholder')}
-                        value={value}
-                        onChangeText={onChange}
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                      />
-                    </Input>
-                    {errors.withdrawAddress && (
-                      <FormControlError>
-                        <FormControlErrorText>{errors.withdrawAddress.message}</FormControlErrorText>
-                      </FormControlError>
-                    )}
-                  </FormControl>
-                )}
-              />
-
-              <Controller
-                control={control}
-                name="amount"
-                render={({ field: { onChange, value } }) => (
-                  <FormControl isInvalid={!!errors.amount}>
-                    <FormControlLabel>
-                      <FormControlLabelText size="sm">{t('general.amount')}</FormControlLabelText>
-                    </FormControlLabel>
-                    <VStack space="xs">
-                      <Input className="rounded-xl" isInvalid={!!errors.amount}>
+                      Information
+                    </Text>
+                    <AlertText className="font-light text-typography-900" size="xs">
+                      Currently, withdrawals are only supported for{' '}
+                      <Text className="font-semibold text-typography-900" size="xs">
+                        USDC on Base network.
+                      </Text>{' '}
+                      Please ensure the receiving wallet address is compatible with{' '}
+                      <Text className="font-semibold text-typography-900" size="xs">
+                        Base network
+                      </Text>{' '}
+                      to avoid loss of funds.
+                    </AlertText>
+                  </VStack>
+                </Alert>
+                <Controller
+                  control={control}
+                  name="withdrawAddress"
+                  render={({ field: { onChange, value } }) => (
+                    <FormControl isInvalid={!!errors.withdrawAddress}>
+                      <FormControlLabel>
+                        <FormControlLabelText size="sm">{t('general.walletAddress')}</FormControlLabelText>
+                      </FormControlLabel>
+                      <Input className="rounded-xl" isInvalid={!!errors.withdrawAddress}>
                         <InputField
-                          placeholder="0.00"
+                          placeholder={t('withdraw.walletAddressPlaceholder')}
                           value={value}
-                          onChangeText={(text) => {
-                            // Only allow numbers, comma, and dot - no negative signs
-                            const sanitizedText = text.replace(/[^0-9.,]/g, '');
-                            onChange(sanitizedText);
-                          }}
-                          keyboardType="decimal-pad"
+                          onChangeText={onChange}
+                          autoCapitalize="none"
+                          autoCorrect={false}
                         />
                       </Input>
-                      <HStack className="items-center justify-between">
-                        <Button
-                          size="xs"
-                          variant="link"
-                          className="underline"
-                          onPress={setMaxAmount}
-                          disabled={maxAmount === 0}
-                        >
-                          <ButtonText>
-                            {t('general.max')}: {maxAmount.toFixed(2)}
-                          </ButtonText>
-                        </Button>
-                      </HStack>
-                    </VStack>
-                    {errors.amount && (
-                      <FormControlError>
-                        <FormControlErrorText>{errors.amount.message}</FormControlErrorText>
-                      </FormControlError>
-                    )}
-                  </FormControl>
-                )}
-              />
-            </VStack>
+                      {errors.withdrawAddress && (
+                        <FormControlError>
+                          <FormControlErrorText>{errors.withdrawAddress.message}</FormControlErrorText>
+                        </FormControlError>
+                      )}
+                    </FormControl>
+                  )}
+                />
 
-            <View className="mt-4 flex-col gap-2">
-              <Button
-                size="lg"
-                onPress={hookFormSubmit(onSubmit)}
-                isDisabled={isSubmitting || !isValid}
-                className="w-full rounded-xl"
-              >
-                {isSubmitting && <ButtonSpinner />}
-                <ButtonText>{isSubmitting ? t('general.processing') : t('general.submit')}</ButtonText>
-              </Button>
-              <Button size="lg" onPress={handleClose} isDisabled={isSubmitting} className="w-full rounded-xl" variant="link">
-                <ButtonText>{t('general.cancel')}</ButtonText>
-              </Button>
+                <Controller
+                  control={control}
+                  name="amount"
+                  render={({ field: { onChange, value } }) => (
+                    <FormControl isInvalid={!!errors.amount}>
+                      <FormControlLabel>
+                        <FormControlLabelText size="sm">{t('general.amount')}</FormControlLabelText>
+                      </FormControlLabel>
+                      <VStack space="xs">
+                        <Input className="rounded-xl" isInvalid={!!errors.amount}>
+                          <InputField
+                            placeholder="0.00"
+                            value={value}
+                            onChangeText={(text) => {
+                              // Only allow numbers, dots, and commas
+                              const filteredText = text.replace(/[^0-9.,]/g, '');
 
-              <Divider />
+                              // Replace commas with dots to standardize the value for conversion
+                              const standardFormat = filteredText.replace(/,/g, '.');
+                              onChange(standardFormat);
+                            }}
+                            keyboardType="numeric"
+                          />
+                        </Input>
+                        <HStack className="items-center justify-between">
+                          <Button
+                            size="xs"
+                            variant="link"
+                            className="underline"
+                            onPress={setMaxAmount}
+                            disabled={maxAmount === 0}
+                          >
+                            <ButtonText>
+                              {t('general.max')}: {maxAmount.toFixed(2)}
+                            </ButtonText>
+                          </Button>
+                        </HStack>
+                      </VStack>
+                      {errors.amount && (
+                        <FormControlError>
+                          <FormControlErrorText>{errors.amount.message}</FormControlErrorText>
+                        </FormControlError>
+                      )}
+                    </FormControl>
+                  )}
+                />
+              </VStack>
 
-              <Alert action="warning" className="flex w-full flex-row items-start gap-4 self-center py-4">
+              <View className="mt-4 flex-col gap-2">
+                <Button
+                  size="lg"
+                  onPress={hookFormSubmit(onSubmit)}
+                  isDisabled={isSubmitting || !isValid}
+                  className="w-full rounded-xl"
+                >
+                  {isSubmitting && <ButtonSpinner />}
+                  <ButtonText>{isSubmitting ? t('general.processing') : t('general.submit')}</ButtonText>
+                </Button>
+                <Button
+                  size="lg"
+                  onPress={handleClose}
+                  isDisabled={isSubmitting}
+                  className="w-full rounded-xl"
+                  variant="link"
+                >
+                  <ButtonText>{t('general.cancel')}</ButtonText>
+                </Button>
+
+                <Divider />
+
+                {/* <Alert action="warning" className="flex w-full flex-row items-start gap-4 self-center py-4">
                 <AlertIcon as={InfoIcon} className="mt-1" />
                 <VStack className="flex-1">
                   <Text className="font-semibold text-typography-900" size="xs">
@@ -356,17 +376,18 @@ export function WithdrawActionSheet({ onClose, onSuccess, balance }: Props) {
 
               <Button onPress={handleManualWithdraw} isDisabled={isValid} className="w-full rounded-xl">
                 <ButtonText>{t('general.manualWithdraw')}</ButtonText>
-              </Button>
+              </Button> */}
 
-              <WithdrawManualConfirmation
-                balance={maxAmount.toString()}
-                isOpen={isManualConfirmDialogOpen}
-                onClose={handleCancelManualWithdraw}
-                onConfirm={handleConfirmManualWithdraw}
-                isLoading={isManualSubmiting}
-              />
-            </View>
-          </VStack>
+                <WithdrawManualConfirmation
+                  balance={maxAmount.toString()}
+                  isOpen={isManualConfirmDialogOpen}
+                  onClose={handleCancelManualWithdraw}
+                  onConfirm={handleConfirmManualWithdraw}
+                  isLoading={isManualSubmiting}
+                />
+              </View>
+            </VStack>
+          </KeyboardAvoidingView>
         </ActionsheetContent>
       </Actionsheet>
     </>

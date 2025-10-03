@@ -1,4 +1,11 @@
 {
+  "balance": {
+    "description": "Veja e gerencie o equilíbrio da sua carteira",
+    "title": "Equilíbrio"
+  },
+  "deposit": {
+    "topUpInitiated": "Recarga de {{amount}} iniciado"
+  },
   "general": {
     "addNote": "Adicionar nota",
     "amount": "Quantia",
@@ -84,6 +91,9 @@
     "verifyPayment": "Verificar Pagamento",
     "voiceSuccess": "Você recebeu {{amount}} {{currency}} pelo Rozo"
   },
+  "pos": {
+    "title": "POS"
+  },
   "profile": {
     "displayName": "Nome de exibição",
     "email": "E-mail",
@@ -105,6 +115,7 @@
     },
     "description": "Gerencie as preferências da sua conta e as configurações de aplicativos",
     "english": "Inglês",
+    "gaslessInfo": "Você pode enviar tokens sem taxas de rede usando privy. \nAs transferências sem gás são suportadas!",
     "general": "Geral",
     "github": "GitHub",
     "indonesia": "Indonésio",
@@ -115,6 +126,10 @@
     "login": "Entrar",
     "logout": "Sair",
     "more": "Mais",
+    "pointOfSales": {
+      "description": "Habilitar a guia Home para os recursos de ponto de venda",
+      "title": "Mostrar ponto de vendas"
+    },
     "privacy": "Política de Privacidade",
     "rate": "Avaliar",
     "share": "Compartilhar",

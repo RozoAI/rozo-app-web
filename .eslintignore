@@ -48,4 +48,6 @@ scripts/
 # env.js
 src/lib/env.js
 
+entrypoint.js
+
 

@@ -9,7 +9,7 @@ It’s designed to make it easy for merchants and users to handle payments, depo
 
 ## Features
 
-🔐 Embedded Wallets – Powered by the **Dynamic SDK**, so every user has a secure digital wallet built in.
+🔐 Embedded Wallets – Powered by the **Privy SDK**, so every user has a secure digital wallet built in.
 
 🛒 POS System – Simple and fast checkout experience for merchants and customers.
 
