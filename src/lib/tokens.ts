@@ -36,6 +36,26 @@ export type Token = BaseToken & {
 };
 
 /**
+ * Result of a token balance query
+ */
+export type TokenBalanceResult = {
+  balance: string;
+  balanceRaw: bigint;
+  formattedBalance: string;
+  token: Token;
+};
+
+/**
+ * Result of a token transfer operation
+ */
+export type TokenTransferResult = {
+  success: boolean;
+  transactionHash?: string;
+  signature?: string;
+  error?: Error;
+};
+
+/**
  * Network data with supported tokens
  */
 const networksData: readonly Network[] = [

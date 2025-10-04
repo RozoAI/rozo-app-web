@@ -17,10 +17,7 @@ import { GluestackUIProvider } from '@/components/gluestack-ui-provider';
 import { ConnectionStatus } from '@/components/ui/connection-status';
 import { WebFontsLoader } from '@/components/web-fonts-loader';
 import { loadSelectedTheme } from '@/hooks/use-selected-theme';
-import { authMode } from '@/lib/constants';
 import { darkTheme, defaultTheme } from '@/lib/theme';
-import { configureDynamicDeepLinks } from '@/modules/dynamic/dynamic-linking';
-import { DynamicWrapperProvider } from '@/modules/dynamic/dynamic-wrapper.provider';
 import i18n from '@/modules/i18n';
 import PrivyProviderWrapper from '@/modules/privy/privy.provider';
 import { PrivyWrapperProvider } from '@/modules/privy/privy-wrapper.provider';
@@ -31,7 +28,7 @@ import { QueryProvider } from '@/providers/query.provider';
 export { ErrorBoundary } from 'expo-router';
 
 export const unstable_settings = {
-  initialRouteName: authMode === 'dynamic' ? '(main)' : '(app)',
+  initialRouteName: '(app)',
 };
 
 // Keep the splash screen visible while we fetch resources
@@ -47,7 +44,7 @@ export default function RootLayout() {
       try {
         // Here you can await all your async startup tasks
         await loadSelectedTheme();
-        configureDynamicDeepLinks(); // This can run in parallel if not awaited
+        // Dynamic deep links configuration removed - using Privy only
 
         // You can add other tasks here, like checking for an auth token
         // await checkUserAuthentication();
@@ -78,7 +75,7 @@ export default function RootLayout() {
 
   // 5. Render the app and pass the onLayout callback down to the Providers
   return (
-    <Providers mode={authMode} onLayout={onLayoutRootView}>
+    <Providers onLayout={onLayoutRootView}>
       <Stack>
         <Stack.Screen name="(main)" options={{ headerShown: false }} />
         <Stack.Screen name="login" options={{ headerShown: false }} />
@@ -102,16 +99,9 @@ function PrivyProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-function DynamicProviderWrapper({ children }: { children: React.ReactNode }) {
-  return (
-    <DynamicWrapperProvider>
-      <AppProvider>{children}</AppProvider>
-    </DynamicWrapperProvider>
-  );
-}
 
 // 6. Modify Providers to accept and use the onLayout prop
-function Providers({ children, onLayout, mode }: { children: React.ReactNode; onLayout: () => void; mode: string }) {
+function Providers({ children, onLayout }: { children: React.ReactNode; onLayout: () => void }) {
   const theme = useColorScheme();
 
   return (
@@ -126,15 +116,9 @@ function Providers({ children, onLayout, mode }: { children: React.ReactNode; on
               <ConnectionStatus />
               <KeyboardProvider>
                 <POSToggleProvider>
-                  {mode === 'dynamic' ? (
-                    <DynamicProviderWrapper>
-                      {Platform.OS === 'web' ? <WebFontsLoader>{children}</WebFontsLoader> : children}
-                    </DynamicProviderWrapper>
-                  ) : (
-                    <PrivyProvider>
-                      {Platform.OS === 'web' ? <WebFontsLoader>{children}</WebFontsLoader> : children}
-                    </PrivyProvider>
-                  )}
+                  <PrivyProvider>
+                    {Platform.OS === 'web' ? <WebFontsLoader>{children}</WebFontsLoader> : children}
+                  </PrivyProvider>
                 </POSToggleProvider>
               </KeyboardProvider>
             </QueryProvider>

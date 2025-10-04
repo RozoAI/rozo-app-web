@@ -35,7 +35,7 @@ import { VStack } from '@/components/ui/vstack';
 import useKeyboardBottomInset from '@/hooks/use-keyboard-bottom-inset';
 import { useTokenTransfer } from '@/hooks/use-token-transfer';
 import { showToast } from '@/lib';
-import { type TokenBalanceResult } from '@/modules/dynamic/token-operations';
+import { type TokenBalanceResult } from '@/lib/tokens';
 
 import { WithdrawManualConfirmation } from './withdraw-manual-confirmation';
 

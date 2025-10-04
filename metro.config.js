@@ -7,17 +7,7 @@ const config = getDefaultConfig(__dirname);
 
 const resolveRequestWithPackageExports = (context, moduleName, platform) => {
   try {
-    // Use the browser version of the package for React Native
-    if (moduleName.startsWith('@dynamic-labs/')) {
-      return context.resolveRequest(
-        {
-          ...context,
-          unstable_conditionNames: ['browser'],
-        },
-        moduleName,
-        platform
-      );
-    }
+    // Dynamic SDK configuration removed - using Privy only
 
     // Package exports in `isows` (a `viem`) dependency are incompatible, so they need to be disabled
     if (moduleName === 'isows') {
