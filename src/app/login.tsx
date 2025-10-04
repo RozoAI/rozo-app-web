@@ -17,16 +17,15 @@ import { useEVMWallet } from '@/hooks/use-evm-wallet';
 import { useSelectedLanguage } from '@/hooks/use-selected-language';
 import { useSelectedTheme } from '@/hooks/use-selected-theme';
 import { showToast } from '@/lib';
-import { authMode } from '@/lib/constants';
 import { useApp } from '@/providers/app.provider';
 
 /**
- * Login screen component with Dynamic authentication
+ * Login screen component with Privy authentication
  */
 export default function LoginScreen() {
   const { selectedTheme } = useSelectedTheme();
   const { language, setLanguage } = useSelectedLanguage();
-  const { isAuthenticated, isAuthLoading, showAuthModal } = useApp();
+  const { isAuthenticated, isAuthLoading } = useApp();
   const router = useRouter();
   const { t } = useTranslation();
 
@@ -45,24 +44,20 @@ export default function LoginScreen() {
 
   const handleSignIn = async () => {
     try {
-      if (authMode === 'dynamic') {
-        showAuthModal();
-      } else {
-        const result = await login({ loginMethods: ['email'], appearance: { logo: 'https://rozo.app/logo.png' } });
-        if (result) {
-          if (!hasEvmWallet) {
-            await handleCreateWallet();
-          }
-
-          router.replace('/');
+      const result = await login({ loginMethods: ['email'], appearance: { logo: 'https://rozo.app/logo.png' } });
+      if (result) {
+        if (!hasEvmWallet) {
+          await handleCreateWallet();
         }
+
+        router.replace('/');
       }
     } catch (error) {
       showToast({ type: 'danger', message: (error as Error).message });
     }
   };
 
-  if (authMode === 'privy' && (isCreating || !ready)) {
+  if (isCreating || !ready) {
     return <PageLoader merchant={undefined} />;
   }
 

@@ -9,7 +9,7 @@ import { Text } from '@/components/ui/text';
 import { View } from '@/components/ui/view';
 import { VStack } from '@/components/ui/vstack';
 import { getShortId } from '@/lib';
-import { type TokenBalanceResult } from '@/modules/dynamic/token-operations';
+import { type TokenBalanceResult } from '@/lib/tokens';
 import { useApp } from '@/providers/app.provider';
 
 export function BalanceInfo({

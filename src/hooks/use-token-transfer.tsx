@@ -9,10 +9,8 @@ import { useEmbeddedEthereumWallet } from '@privy-io/expo';
 import { useCallback, useMemo, useState } from 'react';
 import { type Address } from 'viem';
 
-import { authMode } from '@/lib/constants';
 import { getShortId } from '@/lib/utils';
-import { useDynamic } from '@/modules/dynamic/dynamic-client';
-import { type TokenTransferResult, transferToken, transferTokenZeroDev } from '@/modules/dynamic/token-operations';
+import { type TokenTransferResult } from '@/lib/tokens';
 import { useApp } from '@/providers/app.provider';
 import { useWalletTransfer } from '@/resources/api/merchant/wallets';
 
@@ -84,8 +82,6 @@ type UseTokenTransferResult = {
  */
 export function useTokenTransfer(): UseTokenTransferResult {
   const { merchantToken } = useApp();
-  const { wallets: walletsDynamic } = useDynamic();
-  // const walletsPrivy = useWallets();
   const { mutateAsync: walletTransfer } = useWalletTransfer();
   const { getWallet, wallet: evmWallet } = useEVMWallet();
   const walletsPrivy = useEmbeddedEthereumWallet();
@@ -132,40 +128,7 @@ export function useTokenTransfer(): UseTokenTransferResult {
       });
 
       try {
-        if (authMode === 'dynamic') {
-          if (!walletsDynamic.primary || !merchantToken) {
-            const error = new Error('Wallet or token not available');
-            setStatus({
-              isLoading: false,
-              error: error.message,
-              transactionHash: null,
-              signature: null,
-              success: false,
-            });
-            return { success: false, error };
-          }
-
-          // Use either standard or gasless transfer based on parameter
-          const result = useGasless
-            ? await transferTokenZeroDev({
-                fromWallet: walletsDynamic.primary,
-                toAddress,
-                amount,
-                token: merchantToken,
-              })
-            : await transferToken(walletsDynamic.primary, toAddress, amount, merchantToken);
-
-          setStatus({
-            isLoading: false,
-            error: null,
-            transactionHash: result.transactionHash || null,
-            signature: result.signature || null,
-            success: result.success,
-          });
-
-          return result;
-        } else {
-          await getWallet();
+        await getWallet();
 
           if (evmWallet) {
             if (!walletsPrivy.wallets[0] || !merchantToken) {
@@ -231,7 +194,6 @@ export function useTokenTransfer(): UseTokenTransferResult {
               return { success: false, error };
             }
           }
-        }
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Failed to transfer tokens';
         setStatus({
@@ -247,14 +209,12 @@ export function useTokenTransfer(): UseTokenTransferResult {
         };
       }
     },
-    [walletsDynamic.primary, merchantToken, walletsPrivy.wallets, walletTransfer, evmWallet]
+    [merchantToken, walletsPrivy.wallets, walletTransfer, evmWallet]
   );
 
   const isAbleToTransfer = useMemo(() => {
-    return authMode === 'dynamic'
-      ? !!(walletsDynamic.primary && merchantToken)
-      : !!(walletsPrivy && (walletsPrivy.wallets || []).length > 0 && merchantToken);
-  }, [walletsDynamic.primary, merchantToken, walletsPrivy]);
+    return !!(walletsPrivy && (walletsPrivy.wallets || []).length > 0 && merchantToken);
+  }, [walletsPrivy, merchantToken]);
 
   return {
     isAbleToTransfer,
