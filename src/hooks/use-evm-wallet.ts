@@ -1,6 +1,6 @@
 import { type PrivyEmbeddedWalletAccount, type PrivyUser, usePrivy, usePrivyClient } from '@privy-io/expo';
 import { useEmbeddedEthereumWallet } from '@privy-io/expo';
-import { fetch } from 'expo/fetch';
+import axios from 'axios';
 import { useCallback, useMemo, useState } from 'react';
 
 import { showToast } from '@/lib';
@@ -81,20 +81,19 @@ export function useEVMWallet() {
    */
   const getWallet = useCallback(async () => {
     const accessToken = await getAccessToken();
-    const response = await fetch('https://api.privy.io/v1/wallets?chain_type=ethereum&limit=1', {
-      method: 'GET',
+    const response = await axios.get('https://api.privy.io/v1/wallets', {
+      params: {
+        chain_type: 'ethereum',
+        limit: 1,
+      },
       headers: {
         'privy-app-id': process.env.EXPO_PUBLIC_PRIVY_APP_ID || '',
         'Content-Type': 'application/json',
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    if (!response.ok) {
-      throw new Error(`Failed to fetch wallet: ${response.statusText}`);
-    }
-    const data = await response.json();
-    setWallet(data?.wallets?.[0] as EVMWallet);
-  }, []);
+    setWallet(response.data?.wallets?.[0] as EVMWallet);
+  }, [getAccessToken]);
 
   const getBalance = useCallback(async (): Promise<EVMBalanceInfo[] | undefined> => {
     setIsBalanceLoading(true);
@@ -117,26 +116,32 @@ export function useEVMWallet() {
         console.log('Wallet ID:', wallet.id);
         console.log('Wallet:', wallet);
 
+        const headers = {
+          'privy-app-id': process.env.EXPO_PUBLIC_PRIVY_APP_ID || '',
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        };
+
         // Fetch ETH balance
-        const ethResp = await fetch(`https://api.privy.io/v1/wallets/${wallet?.id}/balance?asset=eth&chain=base`, {
-          headers: {
-            'privy-app-id': process.env.EXPO_PUBLIC_PRIVY_APP_ID || '',
-            Authorization: `Bearer ${accessToken}`,
-            'Content-Type': 'application/json',
+        const ethResp = await axios.get(`https://api.privy.io/v1/wallets/${wallet?.id}/balance`, {
+          params: {
+            asset: 'eth',
+            chain: 'base',
           },
+          headers,
         });
 
         // Fetch USDC balance
-        const usdcResp = await fetch(`https://api.privy.io/v1/wallets/${wallet?.id}/balance?asset=usdc&chain=base`, {
-          headers: {
-            'privy-app-id': process.env.EXPO_PUBLIC_PRIVY_APP_ID || '',
-            Authorization: `Bearer ${accessToken}`,
-            'Content-Type': 'application/json',
+        const usdcResp = await axios.get(`https://api.privy.io/v1/wallets/${wallet?.id}/balance`, {
+          params: {
+            asset: 'usdc',
+            chain: 'base',
           },
+          headers,
         });
 
-        const ethData = await ethResp.json();
-        const usdcData = await usdcResp.json();
+        const ethData = ethResp.data;
+        const usdcData = usdcResp.data;
 
         console.log('ETH data:', ethData);
         console.log('USDC data:', usdcData);
