@@ -1,23 +1,26 @@
+import { usePrivy } from '@privy-io/expo';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
+import login from '@/app/login';
 import { AuthContextProvider, type GenericWallet } from '@/contexts/auth.context';
 import { setItem, showToast } from '@/lib';
-import { useAuth } from '@/modules/privy/privy-client';
-import { usePrivy } from '@/modules/privy/privy-client';
-import { TOKEN_KEY } from '@/providers/app.provider';
+import { TOKEN_KEY } from '@/lib/constants';
 
 export const PrivyWrapperProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { user, authenticated, ready, login, logout: privyLogout } = useAuth();
-  const { getAccessToken } = usePrivy(); // Get the getAccessToken function
+  const { user, getAccessToken, logout: privyLogout, isReady: ready } = usePrivy(); // Get the getAccessToken function
   const [userWallets, setUserWallets] = useState<GenericWallet[]>([]);
   const [primaryWallet, setPrimaryWallet] = useState<GenericWallet | null>(null);
   const [isAuthLoading, setIsAuthLoading] = useState(false);
   const [accessToken, setAccessToken] = useState<string | undefined>(undefined);
 
+  const authenticated = useMemo(() => {
+    return user && ready && !!user.id;
+  }, [user, ready]);
+
   // Handle wallet information from Privy
   const updateWalletInfo = useCallback(() => {
-    if (user?.linkedAccounts) {
-      const wallets: GenericWallet[] = user.linkedAccounts
+    if (user?.linked_accounts) {
+      const wallets: GenericWallet[] = user.linked_accounts
         .filter((account: any) => account.type === 'wallet')
         .map((wallet: any) => ({
           address: wallet.address,
@@ -128,7 +131,7 @@ export const PrivyWrapperProvider: React.FC<{ children: React.ReactNode }> = ({ 
   const authContextValue = useMemo(
     () => ({
       token: accessToken, // Use the actual Privy access token
-      isAuthenticated: authenticated && ready && !!accessToken,
+      isAuthenticated: !!(authenticated && ready && accessToken),
       isAuthLoading,
       user, // Include Privy user data
       wallets: userWallets,

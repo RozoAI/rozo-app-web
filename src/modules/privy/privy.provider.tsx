@@ -1,6 +1,6 @@
 import { PrivyProvider } from '@privy-io/expo';
 import { PrivyElements } from '@privy-io/expo/ui';
-import { base, baseSepolia } from 'viem/chains';
+import { base } from 'viem/chains';
 
 import { StellarProvider } from './stellar.provider';
 
@@ -11,9 +11,9 @@ export default function PrivyProviderWrapper({ children }: { children: React.Rea
 
   return (
     <PrivyProvider
-      appId={process.env.EXPO_PUBLIC_PRIVY_APP_ID}
-      clientId={process.env.EXPO_PUBLIC_PRIVY_MOBILE_CLIENT_ID}
-      supportedChains={[base, baseSepolia]}
+      appId={'cmeyff6cn00ysl50b04g72k5o'}
+      clientId={'client-WY6PsmwzvcGusMZSKi8hBDr9Q5Bt3hs72PQub4BdGquDz'}
+      supportedChains={[base]}
       config={{
         embedded: {
           ethereum: {

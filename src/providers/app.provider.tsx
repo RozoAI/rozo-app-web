@@ -6,10 +6,10 @@ import { PageLoader } from '@/components/loader/loader';
 import { type GenericWallet, useAuth } from '@/contexts/auth.context';
 import { useSelectedLanguage } from '@/hooks/use-selected-language';
 import { getItem, removeItem, setItem, showToast } from '@/lib';
+import { MERCHANT_KEY, TOKEN_KEY } from '@/lib/constants';
 import { currencies, type CurrencyConfig } from '@/lib/currencies';
 import { AppError } from '@/lib/error';
 import { defaultToken, type Token, tokens } from '@/lib/tokens';
-// eslint-disable-next-line import/no-cycle
 import { useCreateProfile, useGetProfile } from '@/resources/api';
 import { type MerchantProfile } from '@/resources/schema/merchant';
 
@@ -49,9 +49,6 @@ export const AppContext = createContext<IContextProps>({
 interface IProviderProps {
   children: React.ReactNode;
 }
-
-export const TOKEN_KEY = '_auth_token';
-export const MERCHANT_KEY = '_merchant_profile';
 
 export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
   const { refetch: fetchProfile, data: profileData, error: profileError } = useGetProfile();
@@ -270,7 +267,11 @@ export const AppProvider: React.FC<IProviderProps> = ({ children }) => {
     ]
   );
 
-  return <AppContext.Provider value={contextPayload}>{isLoading ? <PageLoader /> : children}</AppContext.Provider>;
+  return (
+    <AppContext.Provider value={contextPayload}>
+      {isLoading ? <PageLoader merchant={merchant} /> : children}
+    </AppContext.Provider>
+  );
 };
 
 export const useApp = () => useContext(AppContext);

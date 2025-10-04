@@ -2,9 +2,8 @@ import axios from 'axios';
 import axiosRetry from 'axios-retry';
 
 import { storage } from '@/lib';
+import { TOKEN_KEY } from '@/lib/constants';
 import { AppError } from '@/lib/error';
-// eslint-disable-next-line import/no-cycle
-import { TOKEN_KEY } from '@/providers/app.provider';
 
 export const client = axios.create({
   timeout: 20 * 1000,

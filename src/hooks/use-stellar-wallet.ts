@@ -1,26 +1,39 @@
-import { type WalletWithMetadata } from '@privy-io/react-auth';
+import { type PrivyEmbeddedWalletAccount, type PrivyUser, usePrivy, usePrivyClient } from '@privy-io/expo';
+import { useCreateWallet } from '@privy-io/expo/extended-chains';
 import { useRouter } from 'expo-router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { showToast } from '@/lib';
-import { useExtendedChainWallet, usePrivy, useUser } from '@/modules/privy/privy-client';
 import { useStellar } from '@/modules/privy/stellar.provider';
 
 export function useStellarWallet() {
-  const { user, refreshUser } = useUser();
-  const { ready, authenticated, logout } = usePrivy();
   const router = useRouter();
-  const { createWallet } = useExtendedChainWallet();
+  const { user: privyUser, isReady: ready, logout } = usePrivy();
+  const { createWallet } = useCreateWallet();
   const { setPublicKey, publicKey, account } = useStellar();
-  const [isCreating, setIsCreating] = useState(false);
+  const client = usePrivyClient();
 
-  const stellarEmbeddedWallets = useMemo<WalletWithMetadata[]>(
+  const [isCreating, setIsCreating] = useState(false);
+  const [user, setUser] = useState<PrivyUser | null>(privyUser);
+
+  const stellarEmbeddedWallets = useMemo<PrivyEmbeddedWalletAccount[]>(
     () =>
-      (user?.linkedAccounts.filter(
-        (account) => account.type === 'wallet' && account.walletClientType === 'privy' && account.chainType === 'stellar'
-      ) as WalletWithMetadata[]) ?? [],
+      (user?.linked_accounts.filter(
+        (account) => account.type === 'wallet' && account.wallet_client_type === 'privy' && account.chain_type === 'stellar'
+      ) as PrivyEmbeddedWalletAccount[]) ?? [],
     [user]
   );
+
+  const authenticated = useMemo(() => {
+    return user && ready && !!user.id;
+  }, [user, ready]);
+
+  const refreshUser = useCallback(async () => {
+    const fetchedUser = await client.user.get();
+    if (fetchedUser) {
+      setUser(fetchedUser.user);
+    }
+  }, [client]);
 
   const handleCreateWallet = useCallback(async () => {
     setIsCreating(true);
@@ -47,7 +60,10 @@ export function useStellarWallet() {
     }
   }, [ready, authenticated, router]);
 
-  // Auto-create wallet if needed
+  /**
+   * Auto-create wallet if needed
+   * @TODO: ENABLE THIS WHEN WE ENABLE STELLAR WALLET CREATION
+   */
   useEffect(() => {
     if (ready && authenticated && user && stellarEmbeddedWallets.length === 0 && !isCreating) {
       // handleCreateWallet();

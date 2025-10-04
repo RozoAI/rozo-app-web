@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { authMode } from '@/app/_layout';
+import { authMode } from '@/lib/constants';
 import { getTokenBalance, type TokenBalanceResult } from '@/modules/dynamic/token-operations';
 import { useApp } from '@/providers/app.provider';
 
@@ -20,7 +20,7 @@ export function useWalletBalance(): UseWalletBalanceResult {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const { getBalance } = useEVMWallet();
+  const { getBalance, usdcBalance } = useEVMWallet();
 
   const fetchBalance = useCallback(async () => {
     if (!primaryWallet || !merchantToken) {
@@ -37,17 +37,14 @@ export function useWalletBalance(): UseWalletBalanceResult {
           const balance = await getTokenBalance(primaryWallet, merchantToken);
           setBalance(balance);
         } else {
-          const balances = await getBalance();
-          if (balances) {
-            const balance = balances.find((balance) => balance.asset === 'usdc');
-            if (balance) {
-              setBalance({
-                balance: balance.display_values.usdc ?? '0',
-                formattedBalance: balance.display_values.usdc ?? '0',
-                token: merchantToken,
-                balanceRaw: BigInt(balance.raw_value),
-              });
-            }
+          await getBalance();
+          if (usdcBalance) {
+            setBalance({
+              balance: usdcBalance.display_values.usdc ?? '0',
+              formattedBalance: usdcBalance.display_values.usdc ?? '0',
+              token: merchantToken,
+              balanceRaw: BigInt(usdcBalance.raw_value),
+            });
           }
         }
       }

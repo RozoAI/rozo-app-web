@@ -1,8 +1,9 @@
-import { type WalletWithMetadata } from '@privy-io/react-auth';
+import { type PrivyEmbeddedWalletAccount, type PrivyUser, usePrivy, usePrivyClient } from '@privy-io/expo';
+import { useEmbeddedEthereumWallet } from '@privy-io/expo';
 import { fetch } from 'expo/fetch';
 import { useCallback, useMemo, useState } from 'react';
 
-import { useCreateWallet, usePrivy, useUser } from '@/modules/privy/privy-client';
+import { showToast } from '@/lib';
 
 export type EVMBalanceInfo = {
   chain: string;
@@ -15,22 +16,43 @@ export type EVMBalanceInfo = {
   };
 };
 
+export type EVMWallet = {
+  id: string;
+  address: string;
+  chain_type: string;
+  authorization_threshold: number;
+  owner_id: string | null;
+  additional_signers: string[];
+  created_at: number;
+};
+
 export function useEVMWallet() {
-  const { createWallet } = useCreateWallet();
-  const { user, refreshUser } = useUser();
-  const { getAccessToken } = usePrivy();
+  const { user: privyUser, getAccessToken } = usePrivy();
+  const { wallets, create: createWallet } = useEmbeddedEthereumWallet();
+
+  const client = usePrivyClient();
 
   const [isCreating, setIsCreating] = useState(false);
   const [isBalanceLoading, setIsBalanceLoading] = useState(false);
   const [balances, setBalances] = useState<EVMBalanceInfo[]>([]);
+  const [user, setUser] = useState<PrivyUser | null>(privyUser);
+  const [wallet, setWallet] = useState<EVMWallet | null>(null);
 
-  const evmEmbeddedWallets = useMemo<WalletWithMetadata[]>(
+  const evmEmbeddedWallets = useMemo<PrivyEmbeddedWalletAccount[]>(
     () =>
-      (user?.linkedAccounts.filter(
-        (account) => account.type === 'wallet' && account.walletClientType === 'privy' && account.chainType === 'ethereum'
-      ) as WalletWithMetadata[]) ?? [],
+      (user?.linked_accounts ?? []).filter(
+        (account): account is PrivyEmbeddedWalletAccount =>
+          account.type === 'wallet' && account.wallet_client_type === 'privy' && account.chain_type === 'ethereum'
+      ),
     [user]
   );
+
+  const refreshUser = useCallback(async () => {
+    const fetchedUser = await client.user.get();
+    if (fetchedUser) {
+      setUser(fetchedUser.user);
+    }
+  }, [client]);
 
   const handleCreateWallet = useCallback(async () => {
     // Only create wallet if user doesn't have an embedded wallet
@@ -40,7 +62,9 @@ export function useEVMWallet() {
 
     setIsCreating(true);
     try {
-      await createWallet();
+      await createWallet({
+        createAdditional: true,
+      });
       await refreshUser();
     } catch (error) {
       console.error('Error creating wallet:', error);
@@ -49,25 +73,63 @@ export function useEVMWallet() {
     }
   }, [createWallet, refreshUser, evmEmbeddedWallets.length]);
 
+  /**
+   * Fetches the first Ethereum wallet from Privy API using app credentials.
+   * @param appId Privy App ID
+   * @param appSecret Privy App Secret
+   * @returns The first Ethereum wallet object or undefined
+   */
+  const getWallet = useCallback(async () => {
+    const accessToken = await getAccessToken();
+    const response = await fetch('https://api.privy.io/v1/wallets?chain_type=ethereum&limit=1', {
+      method: 'GET',
+      headers: {
+        'privy-app-id': process.env.EXPO_PUBLIC_PRIVY_APP_ID || '',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to fetch wallet: ${response.statusText}`);
+    }
+    const data = await response.json();
+    setWallet(data?.wallets?.[0] as EVMWallet);
+  }, []);
+
   const getBalance = useCallback(async (): Promise<EVMBalanceInfo[] | undefined> => {
     setIsBalanceLoading(true);
     try {
-      if (user?.wallet?.chainType === 'ethereum') {
+      if (wallets.find((wallet) => wallet.chainType === 'ethereum') && wallet) {
         const accessToken = await getAccessToken();
+        showToast({
+          type: 'info',
+          message: accessToken ?? '',
+        });
+
+        setTimeout(() => {
+          showToast({
+            type: 'info',
+            message: wallet.id ?? '',
+          });
+        }, 1000);
+
+        console.log('Access token:', accessToken);
+        console.log('Wallet ID:', wallet.id);
+        console.log('Wallet:', wallet);
 
         // Fetch ETH balance
-        const ethResp = await fetch(`https://api.privy.io/v1/wallets/${user.wallet.id}/balance?asset=eth&chain=base`, {
+        const ethResp = await fetch(`https://api.privy.io/v1/wallets/${wallet?.id}/balance?asset=eth&chain=base`, {
           headers: {
-            'privy-app-id': 'cmeyff6cn00ysl50b04g72k5o',
+            'privy-app-id': process.env.EXPO_PUBLIC_PRIVY_APP_ID || '',
             Authorization: `Bearer ${accessToken}`,
             'Content-Type': 'application/json',
           },
         });
 
         // Fetch USDC balance
-        const usdcResp = await fetch(`https://api.privy.io/v1/wallets/${user.wallet.id}/balance?asset=usdc&chain=base`, {
+        const usdcResp = await fetch(`https://api.privy.io/v1/wallets/${wallet?.id}/balance?asset=usdc&chain=base`, {
           headers: {
-            'privy-app-id': 'cmeyff6cn00ysl50b04g72k5o',
+            'privy-app-id': process.env.EXPO_PUBLIC_PRIVY_APP_ID || '',
             Authorization: `Bearer ${accessToken}`,
             'Content-Type': 'application/json',
           },
@@ -89,7 +151,7 @@ export function useEVMWallet() {
     } finally {
       setIsBalanceLoading(false);
     }
-  }, [user]);
+  }, [wallets, wallet, getAccessToken]);
 
   const ethBalance = useMemo(() => {
     return balances.find((balance) => balance.asset === 'eth') as EVMBalanceInfo | undefined;
@@ -104,7 +166,9 @@ export function useEVMWallet() {
     isBalanceLoading,
     hasEvmWallet: evmEmbeddedWallets.length > 0 && !!evmEmbeddedWallets[0].address,
     wallets: evmEmbeddedWallets,
+    wallet,
     handleCreateWallet,
+    getWallet,
     getBalance,
     balances,
     ethBalance,

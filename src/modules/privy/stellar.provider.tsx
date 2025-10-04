@@ -1,4 +1,5 @@
-import { Asset, BASE_FEE, Horizon, Networks, Operation, TransactionBuilder } from '@stellar/stellar-sdk';
+import { Asset, BASE_FEE, Networks, Operation, TransactionBuilder } from '@stellar/stellar-sdk';
+import axios from 'axios';
 import type { ReactNode } from 'react';
 import { createContext, useContext, useEffect, useState } from 'react';
 
@@ -6,11 +7,43 @@ import { StellarConfig } from '@/lib/stellar/config';
 
 type StellarContextProvider = { children: ReactNode; stellarRpcUrl?: string };
 
+// Custom types to avoid Horizon.Server dependency
+type StellarAccount = {
+  account_id: string;
+  balances: {
+    asset_type: string;
+    asset_code?: string;
+    asset_issuer?: string;
+    balance: string;
+  }[];
+  sequence: string;
+  // Add required properties for Stellar SDK Account interface
+  accountId: () => string;
+  sequenceNumber: () => string;
+  incrementSequenceNumber: () => void;
+};
+
+type StellarServer = {
+  loadAccount: (publicKey: string) => Promise<StellarAccount>;
+  fetchBaseFee: () => Promise<number>;
+  strictSendPaths: (
+    sourceAsset: Asset,
+    sourceAmount: string,
+    destinationAssets: Asset[]
+  ) => {
+    call: () => Promise<{
+      records: {
+        destination_amount: string;
+      }[];
+    }>;
+  };
+};
+
 type StellarContextProviderValue = {
-  server: Horizon.Server | undefined;
+  server: StellarServer | undefined;
   publicKey: string | undefined;
   setPublicKey: (publicKey: string) => void;
-  account: Horizon.AccountResponse | undefined;
+  account: StellarAccount | undefined;
   isConnected: boolean;
   disconnect: () => void;
   convertXlmToUsdc: (amount: string) => Promise<string>;
@@ -32,11 +65,67 @@ const initialContext = {
 
 export const StellarContext = createContext<StellarContextProviderValue>(initialContext);
 
+// Custom Stellar server implementation using axios
+class CustomStellarServer implements StellarServer {
+  private baseURL: string;
+
+  constructor(baseURL: string) {
+    this.baseURL = baseURL;
+  }
+
+  async loadAccount(publicKey: string): Promise<StellarAccount> {
+    const response = await axios.get(`${this.baseURL}/accounts/${publicKey}`);
+    const data = response.data;
+
+    // Transform the response to match our StellarAccount interface
+    return {
+      ...data,
+      accountId: () => data.account_id,
+      sequenceNumber: () => data.sequence,
+      incrementSequenceNumber: () => {
+        // Mock implementation - in real usage, this would increment the sequence
+        data.sequence = (parseInt(data.sequence) + 1).toString();
+      },
+    };
+  }
+
+  async fetchBaseFee(): Promise<number> {
+    const response = await axios.get(`${this.baseURL}/fee_stats`);
+    return parseInt(response.data.last_ledger_base_fee) || 100;
+  }
+
+  strictSendPaths(sourceAsset: Asset, sourceAmount: string, destinationAssets: Asset[]) {
+    return {
+      call: async () => {
+        const sourceAssetParam = sourceAsset.isNative() ? 'native' : `${sourceAsset.code}:${sourceAsset.issuer}`;
+
+        const destinationAssetsParam = destinationAssets
+          .map((asset) => (asset.isNative() ? 'native' : `${asset.code}:${asset.issuer}`))
+          .join(',');
+
+        const response = await axios.get(`${this.baseURL}/paths/strict-send`, {
+          params: {
+            source_asset_type: sourceAsset.isNative() ? 'native' : 'credit_alphanum4',
+            source_asset_code: sourceAsset.isNative() ? undefined : sourceAsset.code,
+            source_asset_issuer: sourceAsset.isNative() ? undefined : sourceAsset.issuer,
+            source_amount: sourceAmount,
+            destination_assets: destinationAssetsParam,
+          },
+        });
+
+        return {
+          records: response.data._embedded.records || [],
+        };
+      },
+    };
+  }
+}
+
 export const StellarProvider = ({ children, stellarRpcUrl }: StellarContextProvider) => {
   const [publicKey, setPublicKey] = useState<string | undefined>(undefined);
-  const [accountInfo, setAccountInfo] = useState<Horizon.AccountResponse | undefined>(undefined);
+  const [accountInfo, setAccountInfo] = useState<StellarAccount | undefined>(undefined);
 
-  const server = new Horizon.Server(stellarRpcUrl ?? StellarConfig.NETWORK.rpcUrl);
+  const server = new CustomStellarServer(stellarRpcUrl ?? StellarConfig.NETWORK.rpcUrl);
 
   const getAccountInfo = async (publicKey: string) => {
     try {

@@ -4,7 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { Button, ButtonIcon } from '@/components/ui/button';
 import { Heading } from '@/components/ui/heading';
 import { HStack } from '@/components/ui/hstack';
+import { Spinner } from '@/components/ui/spinner';
 import { Text } from '@/components/ui/text';
+import { View } from '@/components/ui/view';
 import { VStack } from '@/components/ui/vstack';
 import { getShortId } from '@/lib';
 import { type TokenBalanceResult } from '@/modules/dynamic/token-operations';
@@ -20,7 +22,6 @@ export function BalanceInfo({
   refetch: () => void;
 }) {
   const { t } = useTranslation();
-  // const { balance, isLoading, refetch } = useWalletBalance();
   const { primaryWallet } = useApp();
 
   return (
@@ -35,15 +36,21 @@ export function BalanceInfo({
         </Button>
       </HStack>
 
-      <HStack className="items-end" space="sm">
-        <Heading size="4xl" className={`font-bold text-primary-600 ${isLoading ? 'animate-pulse' : ''}`}>
-          {balance?.formattedBalance ?? '0.00'}
-        </Heading>
+      <View>
+        {isLoading ? (
+          <Spinner size="small" color="grey" />
+        ) : (
+          <HStack space="sm" className="items-end">
+            <Heading size="4xl" className={`font-bold text-primary-600`}>
+              {balance?.formattedBalance ?? '0.00'}
+            </Heading>
 
-        <Text size="lg" className={`font-medium text-typography-500 ${isLoading ? 'animate-pulse' : ''}`}>
-          {balance?.token.label ?? 'USD'}
-        </Text>
-      </HStack>
+            <Text size="lg" className={`font-medium text-typography-500`}>
+              {balance?.token.label ?? 'USD'}
+            </Text>
+          </HStack>
+        )}
+      </View>
 
       {primaryWallet && (
         <Text className="text-typography-400" size="sm">

@@ -17,11 +17,12 @@ import { GluestackUIProvider } from '@/components/gluestack-ui-provider';
 import { ConnectionStatus } from '@/components/ui/connection-status';
 import { WebFontsLoader } from '@/components/web-fonts-loader';
 import { loadSelectedTheme } from '@/hooks/use-selected-theme';
+import { authMode } from '@/lib/constants';
 import { darkTheme, defaultTheme } from '@/lib/theme';
 import { configureDynamicDeepLinks } from '@/modules/dynamic/dynamic-linking';
 import { DynamicWrapperProvider } from '@/modules/dynamic/dynamic-wrapper.provider';
 import i18n from '@/modules/i18n';
-import PrivyProviderWrapper from '@/modules/privy/privy.provider.web';
+import PrivyProviderWrapper from '@/modules/privy/privy.provider';
 import { PrivyWrapperProvider } from '@/modules/privy/privy-wrapper.provider';
 import { AppProvider } from '@/providers/app.provider';
 import { POSToggleProvider } from '@/providers/pos-toggle.provider';
@@ -29,7 +30,6 @@ import { QueryProvider } from '@/providers/query.provider';
 
 export { ErrorBoundary } from 'expo-router';
 
-export const authMode: 'privy' | 'dynamic' | string = process.env.EXPO_PUBLIC_AUTH_MODE === 'dynamic' ? 'dynamic' : 'privy';
 export const unstable_settings = {
   initialRouteName: authMode === 'dynamic' ? '(main)' : '(app)',
 };

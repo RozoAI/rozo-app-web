@@ -1,4 +1,25 @@
-import { Asset, type Horizon, Memo, Networks, Operation, TransactionBuilder } from '@stellar/stellar-sdk';
+import { Asset, Memo, Networks, Operation, TransactionBuilder } from '@stellar/stellar-sdk';
+
+// Custom types to avoid Horizon.Server dependency
+type StellarAccount = {
+  account_id: string;
+  balances: {
+    asset_type: string;
+    asset_code?: string;
+    asset_issuer?: string;
+    balance: string;
+  }[];
+  sequence: string;
+  // Add required properties for Stellar SDK Account interface
+  accountId: () => string;
+  sequenceNumber: () => string;
+  incrementSequenceNumber: () => void;
+};
+
+type StellarServer = {
+  loadAccount: (publicKey: string) => Promise<StellarAccount>;
+  fetchBaseFee: () => Promise<number>;
+};
 
 export const StellarPayNow = async ({
   account,
@@ -7,7 +28,7 @@ export const StellarPayNow = async ({
   order,
   server,
 }: {
-  account: Horizon.AccountResponse;
+  account: StellarAccount;
   publicKey: string;
   token: {
     key: string;
@@ -18,7 +39,7 @@ export const StellarPayNow = async ({
     pay_amount: number;
     salt?: string;
   };
-  server: Horizon.Server;
+  server: StellarServer;
 }): Promise<string> => {
   try {
     if (account && publicKey) {
@@ -28,12 +49,12 @@ export const StellarPayNow = async ({
       const asset =
         !token?.key || token?.key === 'XLM' ? Asset.native() : new Asset(token?.key.replace('_XLM', ''), token?.address);
 
-      const sourceAccount = await server?.loadAccount(publicKey);
+      const sourceAccount = await server.loadAccount(publicKey);
       if (!sourceAccount) {
         throw new Error('Source account not found');
       }
 
-      const baseFee = await server?.fetchBaseFee();
+      const baseFee = await server.fetchBaseFee();
 
       const transaction = new TransactionBuilder(sourceAccount, {
         fee: String(baseFee),

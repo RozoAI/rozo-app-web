@@ -1,3 +1,5 @@
+import { usePrivy } from '@privy-io/expo';
+import { useLogin } from '@privy-io/expo/ui';
 import { Stack, useRouter } from 'expo-router';
 import * as React from 'react';
 import { useEffect } from 'react';
@@ -14,10 +16,9 @@ import { ActionSheetLanguageSwitcher } from '@/features/settings/select-language
 import { useEVMWallet } from '@/hooks/use-evm-wallet';
 import { useSelectedLanguage } from '@/hooks/use-selected-language';
 import { useSelectedTheme } from '@/hooks/use-selected-theme';
-import { useAuth, useLogin } from '@/modules/privy/privy-client';
+import { showToast } from '@/lib';
+import { authMode } from '@/lib/constants';
 import { useApp } from '@/providers/app.provider';
-
-import { authMode } from './_layout';
 
 /**
  * Login screen component with Dynamic authentication
@@ -30,18 +31,10 @@ export default function LoginScreen() {
   const { t } = useTranslation();
 
   // Privy
-  const { ready } = useAuth();
+  const { isReady: ready } = usePrivy();
 
   const { hasEvmWallet, handleCreateWallet, isCreating } = useEVMWallet();
-  const { login } = useLogin({
-    onComplete: async () => {
-      if (!hasEvmWallet) {
-        await handleCreateWallet();
-      }
-
-      router.replace('/');
-    },
-  });
+  const { login } = useLogin();
 
   // Redirect to home if user is authenticated
   useEffect(() => {
@@ -50,16 +43,27 @@ export default function LoginScreen() {
     }
   }, [isAuthenticated, router]);
 
-  const handleSignIn = () => {
-    if (authMode === 'dynamic') {
-      showAuthModal();
-    } else {
-      login({ loginMethods: ['email'] });
+  const handleSignIn = async () => {
+    try {
+      if (authMode === 'dynamic') {
+        showAuthModal();
+      } else {
+        const result = await login({ loginMethods: ['email'], appearance: { logo: 'https://rozo.app/logo.png' } });
+        if (result) {
+          if (!hasEvmWallet) {
+            await handleCreateWallet();
+          }
+
+          router.replace('/');
+        }
+      }
+    } catch (error) {
+      showToast({ type: 'danger', message: (error as Error).message });
     }
   };
 
   if (authMode === 'privy' && (isCreating || !ready)) {
-    return <PageLoader />;
+    return <PageLoader merchant={undefined} />;
   }
 
   return (

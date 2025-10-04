@@ -5,11 +5,14 @@ import LogoSvg from '@/components/svg/logo';
 import LogoWhiteSvg from '@/components/svg/logo-white';
 import { Spinner } from '@/components/ui/spinner';
 import { useSelectedTheme } from '@/hooks/use-selected-theme';
-import { useApp } from '@/providers/app.provider';
+import { type MerchantProfile } from '@/resources/schema/merchant';
 
-export function PageLoader() {
+type PageLoaderProps = {
+  merchant?: MerchantProfile;
+};
+
+export function PageLoader({ merchant }: PageLoaderProps) {
   const { selectedTheme } = useSelectedTheme();
-  const { merchant } = useApp();
 
   return (
     <View className="flex-1 items-center justify-center">

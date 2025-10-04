@@ -12,7 +12,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   name: process.env.EXPO_PUBLIC_APP_NAME ?? 'Rozo POS',
   description: `${process.env.EXPO_PUBLIC_APP_NAME ?? 'Rozo POS'}`,
-  owner: 'rozo-dev',
+  owner: 'akbarsaputrait',
   scheme: 'rozopos', // Custom URL scheme for deep linking
   slug: 'rozo-pos',
   version,
@@ -109,23 +109,23 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     'expo-router',
     'expo-secure-store',
     ['react-native-edge-to-edge'],
-    'expo-build-properties',
-    // 'expo-application',
-    // [
-    //   'expo-build-properties',
-    //   {
-    //     ios: {
-    //       deploymentTarget: '17.5',
-    //     },
-    //     android: {
-    //       compileSdkVersion: 35,
-    //     },
-    //   },
-    // ],
+    [
+      'expo-build-properties',
+      {
+        ios: {
+          deploymentTarget: '17.5',
+        },
+        android: {
+          compileSdkVersion: 35,
+          targetSdkVersion: 35,
+          minSdkVersion: 24,
+        },
+      },
+    ],
   ],
   extra: {
     eas: {
-      projectId: '',
+      projectId: 'ceaf4dad-0c2c-4da5-a03a-16b5908b4595',
     },
   },
 });
