@@ -104,6 +104,30 @@
     "title": "个人资料",
     "updateError": "更新个人资料失败"
   },
+  "reports": {
+    "avgOrder": "平均订单价值",
+    "currencyBreakdown": "货币明细",
+    "dailyOrderCount": "每日订单数量",
+    "dailyRevenueUSD": "每日收入（美元）",
+    "dateRange": {
+      "last30days": "最近30天",
+      "last7days": "最近7天",
+      "lastMonth": "上个月",
+      "thisMonth": "本月",
+      "today": "今天"
+    },
+    "description": "跟踪您的业务表现",
+    "errorLoading": "加载报告数据失败",
+    "noDataDescription": "所选日期范围内未找到订单",
+    "noDataTitle": "无可用数据",
+    "orderVolume": "订单量",
+    "revenueByDisplayCurrency": "按显示货币的收入",
+    "revenueTrend": "收入趋势",
+    "selectDateRange": "选择日期范围",
+    "title": "报告",
+    "totalOrders": "总订单数",
+    "totalRevenue": "总收入"
+  },
   "settings": {
     "about": "关于",
     "account": {

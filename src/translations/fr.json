@@ -104,6 +104,30 @@
     "title": "Profil",
     "updateError": "Échec de la mise à jour du profil"
   },
+  "reports": {
+    "avgOrder": "Valeur moyenne de la commande",
+    "currencyBreakdown": "Répartition par devise",
+    "dailyOrderCount": "Nombre de commandes quotidiennes",
+    "dailyRevenueUSD": "Revenus quotidiens en USD",
+    "dateRange": {
+      "last30days": "30 derniers jours",
+      "last7days": "7 derniers jours",
+      "lastMonth": "Mois dernier",
+      "thisMonth": "Ce mois-ci",
+      "today": "Aujourd'hui"
+    },
+    "description": "Suivez les performances de votre entreprise",
+    "errorLoading": "Échec du chargement des données du rapport",
+    "noDataDescription": "Aucune commande trouvée pour la plage de dates sélectionnée",
+    "noDataTitle": "Aucune donnée disponible",
+    "orderVolume": "Volume de commandes",
+    "revenueByDisplayCurrency": "Revenus par devise d'affichage",
+    "revenueTrend": "Tendance des revenus",
+    "selectDateRange": "Sélectionner la plage de dates",
+    "title": "Rapports",
+    "totalOrders": "Total des commandes",
+    "totalRevenue": "Revenus totaux"
+  },
   "settings": {
     "about": "À propos",
     "account": {

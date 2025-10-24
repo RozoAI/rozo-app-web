@@ -104,6 +104,30 @@
     "title": "Profile",
     "updateError": "Failed to update profile"
   },
+  "reports": {
+    "avgOrder": "Avg. Order Value",
+    "currencyBreakdown": "Currency Breakdown",
+    "dailyOrderCount": "Daily order count",
+    "dailyRevenueUSD": "Daily revenue in USD",
+    "dateRange": {
+      "last30days": "Last 30 Days",
+      "last7days": "Last 7 Days",
+      "lastMonth": "Last Month",
+      "thisMonth": "This Month",
+      "today": "Today"
+    },
+    "description": "Track your business performance",
+    "errorLoading": "Failed to load reports data",
+    "noDataDescription": "No orders found for the selected date range",
+    "noDataTitle": "No data available",
+    "orderVolume": "Order Volume",
+    "revenueByDisplayCurrency": "Revenue by display currency",
+    "revenueTrend": "Revenue Trend",
+    "selectDateRange": "Select Date Range",
+    "title": "Reports",
+    "totalOrders": "Total Orders",
+    "totalRevenue": "Total Revenue"
+  },
   "settings": {
     "about": "About",
     "account": {

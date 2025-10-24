@@ -104,6 +104,30 @@
     "title": "Профиль",
     "updateError": "Не удалось обновить профиль"
   },
+  "reports": {
+    "avgOrder": "Средняя стоимость заказа",
+    "currencyBreakdown": "Разбивка по валютам",
+    "dailyOrderCount": "Ежедневное количество заказов",
+    "dailyRevenueUSD": "Ежедневная выручка в USD",
+    "dateRange": {
+      "last30days": "Последние 30 дней",
+      "last7days": "Последние 7 дней",
+      "lastMonth": "Прошлый месяц",
+      "thisMonth": "Этот месяц",
+      "today": "Сегодня"
+    },
+    "description": "Отслеживайте эффективность вашего бизнеса",
+    "errorLoading": "Не удалось загрузить данные отчета",
+    "noDataDescription": "Заказы не найдены для выбранного диапазона дат",
+    "noDataTitle": "Нет доступных данных",
+    "orderVolume": "Объем заказов",
+    "revenueByDisplayCurrency": "Выручка по отображаемой валюте",
+    "revenueTrend": "Тренд выручки",
+    "selectDateRange": "Выбрать диапазон дат",
+    "title": "Отчеты",
+    "totalOrders": "Всего заказов",
+    "totalRevenue": "Общая выручка"
+  },
   "settings": {
     "about": "О нас",
     "account": {

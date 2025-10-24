@@ -104,6 +104,30 @@
     "title": "प्रोफ़ाइल",
     "updateError": "प्रोफ़ाइल अपडेट करने में विफल"
   },
+  "reports": {
+    "avgOrder": "औसत ऑर्डर मूल्य",
+    "currencyBreakdown": "मुद्रा विवरण",
+    "dailyOrderCount": "दैनिक ऑर्डर संख्या",
+    "dailyRevenueUSD": "दैनिक राजस्व (USD)",
+    "dateRange": {
+      "last30days": "पिछले 30 दिन",
+      "last7days": "पिछले 7 दिन",
+      "lastMonth": "पिछला महीना",
+      "thisMonth": "यह महीना",
+      "today": "आज"
+    },
+    "description": "अपने व्यवसाय के प्रदर्शन को ट्रैक करें",
+    "errorLoading": "रिपोर्ट डेटा लोड करने में विफल",
+    "noDataDescription": "चयनित तिथि सीमा के लिए कोई ऑर्डर नहीं मिला",
+    "noDataTitle": "कोई डेटा उपलब्ध नहीं",
+    "orderVolume": "ऑर्डर मात्रा",
+    "revenueByDisplayCurrency": "प्रदर्शन मुद्रा द्वारा राजस्व",
+    "revenueTrend": "राजस्व प्रवृत्ति",
+    "selectDateRange": "तिथि सीमा चुनें",
+    "title": "रिपोर्ट",
+    "totalOrders": "कुल ऑर्डर",
+    "totalRevenue": "कुल राजस्व"
+  },
   "settings": {
     "about": "के बारे में",
     "account": {
