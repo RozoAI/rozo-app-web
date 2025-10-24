@@ -1,6 +1,13 @@
 /* eslint-disable react/no-unstable-nested-components */
 import { Redirect, Tabs } from 'expo-router';
-import { CircleDollarSignIcon, Coins, Settings2Icon, ShoppingBagIcon, ShoppingCartIcon } from 'lucide-react-native';
+import {
+  BarChart3,
+  CircleDollarSignIcon,
+  Coins,
+  Settings2Icon,
+  ShoppingBagIcon,
+  ShoppingCartIcon,
+} from 'lucide-react-native';
 import { useColorScheme } from 'nativewind';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -89,6 +96,15 @@ export default function TabLayout() {
             title: t('order.title'),
             tabBarIcon: ({ color }: any) => <Icon as={ShoppingBagIcon} size="md" color={color} />,
             tabBarButtonTestID: 'orders-tab',
+          }}
+        />
+
+        <Tabs.Screen
+          name="reports"
+          options={{
+            title: t('reports.title'),
+            tabBarIcon: ({ color }: any) => <Icon as={BarChart3} size="md" color={color} />,
+            tabBarButtonTestID: 'reports-tab',
           }}
         />
 

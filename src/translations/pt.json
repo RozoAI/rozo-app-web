@@ -104,6 +104,30 @@
     "title": "Perfil",
     "updateError": "Falha ao atualizar perfil"
   },
+  "reports": {
+    "avgOrder": "Valor Médio do Pedido",
+    "currencyBreakdown": "Detalhamento por Moeda",
+    "dailyOrderCount": "Contagem diária de pedidos",
+    "dailyRevenueUSD": "Receita diária em USD",
+    "dateRange": {
+      "last30days": "Últimos 30 Dias",
+      "last7days": "Últimos 7 Dias",
+      "lastMonth": "Mês Passado",
+      "thisMonth": "Este Mês",
+      "today": "Hoje"
+    },
+    "description": "Acompanhe o desempenho do seu negócio",
+    "errorLoading": "Falha ao carregar dados do relatório",
+    "noDataDescription": "Nenhum pedido encontrado para o intervalo de datas selecionado",
+    "noDataTitle": "Nenhum dado disponível",
+    "orderVolume": "Volume de Pedidos",
+    "revenueByDisplayCurrency": "Receita por moeda de exibição",
+    "revenueTrend": "Tendência de Receita",
+    "selectDateRange": "Selecionar Intervalo de Datas",
+    "title": "Relatórios",
+    "totalOrders": "Total de Pedidos",
+    "totalRevenue": "Receita Total"
+  },
   "settings": {
     "about": "Sobre",
     "account": {

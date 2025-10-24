@@ -104,6 +104,30 @@
     "title": "Perfil",
     "updateError": "Error al actualizar el perfil"
   },
+  "reports": {
+    "avgOrder": "Valor promedio del pedido",
+    "currencyBreakdown": "Desglose por moneda",
+    "dailyOrderCount": "Recuento diario de pedidos",
+    "dailyRevenueUSD": "Ingresos diarios en USD",
+    "dateRange": {
+      "last30days": "Últimos 30 días",
+      "last7days": "Últimos 7 días",
+      "lastMonth": "Mes pasado",
+      "thisMonth": "Este mes",
+      "today": "Hoy"
+    },
+    "description": "Realice un seguimiento del rendimiento de su negocio",
+    "errorLoading": "Error al cargar los datos del informe",
+    "noDataDescription": "No se encontraron pedidos para el rango de fechas seleccionado",
+    "noDataTitle": "No hay datos disponibles",
+    "orderVolume": "Volumen de pedidos",
+    "revenueByDisplayCurrency": "Ingresos por moneda de visualización",
+    "revenueTrend": "Tendencia de ingresos",
+    "selectDateRange": "Seleccionar rango de fechas",
+    "title": "Informes",
+    "totalOrders": "Total de pedidos",
+    "totalRevenue": "Ingresos totales"
+  },
   "settings": {
     "about": "Acerca de",
     "account": {

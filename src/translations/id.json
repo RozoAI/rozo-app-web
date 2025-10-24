@@ -104,6 +104,30 @@
     "title": "Profil",
     "updateError": "Gagal memperbarui profil"
   },
+  "reports": {
+    "avgOrder": "Nilai Pesanan Rata-rata",
+    "currencyBreakdown": "Rincian Mata Uang",
+    "dailyOrderCount": "Jumlah pesanan harian",
+    "dailyRevenueUSD": "Pendapatan harian dalam USD",
+    "dateRange": {
+      "last30days": "30 Hari Terakhir",
+      "last7days": "7 Hari Terakhir",
+      "lastMonth": "Bulan Lalu",
+      "thisMonth": "Bulan Ini",
+      "today": "Hari Ini"
+    },
+    "description": "Lacak kinerja bisnis Anda",
+    "errorLoading": "Gagal memuat data laporan",
+    "noDataDescription": "Tidak ada pesanan ditemukan untuk rentang tanggal yang dipilih",
+    "noDataTitle": "Tidak ada data tersedia",
+    "orderVolume": "Volume Pesanan",
+    "revenueByDisplayCurrency": "Pendapatan berdasarkan mata uang tampilan",
+    "revenueTrend": "Tren Pendapatan",
+    "selectDateRange": "Pilih Rentang Tanggal",
+    "title": "Laporan",
+    "totalOrders": "Total Pesanan",
+    "totalRevenue": "Total Pendapatan"
+  },
   "settings": {
     "about": "Tentang",
     "account": {

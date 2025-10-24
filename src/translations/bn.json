@@ -104,6 +104,30 @@
     "title": "প্রোফাইল",
     "updateError": "প্রোফাইল আপডেট করতে ব্যর্থ হয়েছে"
   },
+  "reports": {
+    "avgOrder": "গড় অর্ডার মূল্য",
+    "currencyBreakdown": "মুদ্রা বিভাজন",
+    "dailyOrderCount": "দৈনিক অর্ডার সংখ্যা",
+    "dailyRevenueUSD": "দৈনিক রাজস্ব USD-তে",
+    "dateRange": {
+      "last30days": "শেষ ৩০ দিন",
+      "last7days": "শেষ ৭ দিন",
+      "lastMonth": "গত মাস",
+      "thisMonth": "এই মাস",
+      "today": "আজ"
+    },
+    "description": "আপনার ব্যবসায়ের কর্মক্ষমতা ট্র্যাক করুন",
+    "errorLoading": "রিপোর্ট ডেটা লোড করতে ব্যর্থ",
+    "noDataDescription": "নির্বাচিত তারিখ সীমার জন্য কোনো অর্ডার পাওয়া যায়নি",
+    "noDataTitle": "কোনো ডেটা উপলব্ধ নেই",
+    "orderVolume": "অর্ডার ভলিউম",
+    "revenueByDisplayCurrency": "প্রদর্শন মুদ্রা অনুযায়ী রাজস্ব",
+    "revenueTrend": "রাজস্ব প্রবণতা",
+    "selectDateRange": "তারিখ সীমা নির্বাচন করুন",
+    "title": "রিপোর্ট",
+    "totalOrders": "মোট অর্ডার",
+    "totalRevenue": "মোট রাজস্ব"
+  },
   "settings": {
     "about": "সম্পর্কে",
     "account": {
